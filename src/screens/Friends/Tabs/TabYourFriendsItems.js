@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from 'react-native';
-import {images, colors, icons, fontSizes} from '../../constants';
+import {images, colors, icons, fontSizes} from '../../../constants';
 
 function _getColorFromStatus(status) {
   if (status.toLowerCase().trim() == 'online') {
@@ -14,7 +14,7 @@ function _getColorFromStatus(status) {
   } else return colors.Offline;
 }
 
-function FriendItems(props) {
+function TabYourFriendsItems(props) {
   let {name, imageUrl, status} = props.friend;
   const {onPress} = props;
   
@@ -33,6 +33,10 @@ function FriendItems(props) {
           uri: imageUrl,
         }}
       />
+      {/* <Image
+        style={styles.avatarBorder}
+        source={images.avatarBorder}
+      /> */}
         <Text
           style={{
             color: 'black',
@@ -43,7 +47,7 @@ function FriendItems(props) {
     </TouchableOpacity>
   );
 }
-export default FriendItems;
+export default TabYourFriendsItems;
 
 
 const styles = StyleSheet.create({
@@ -64,4 +68,11 @@ const styles = StyleSheet.create({
     borderWidth:2,
     marginRight: 15,
   },
+  avatarBorder: {
+    width: 110,
+    height: 110,
+    resizeMode: 'stretch',
+    position: 'absolute',
+    top: '5%',
+  }
 });

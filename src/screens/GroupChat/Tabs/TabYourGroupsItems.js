@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from "react";
 import { Text, View, Image, TouchableOpacity, StyleSheet } from "react-native";
-import { images, colors, icons, fontSizes } from "../../constants";
+import { images, colors, icons, fontSizes } from "../../../constants";
 
 const generateColor = () => {
   const randomColor = Math.floor(Math.random() * 16777215)
@@ -9,7 +9,7 @@ const generateColor = () => {
   return `#${randomColor}`;
 };
 
-function GroupChatItems(props) {
+function TabYourGroupsItems(props) {
   let { name, imageUrl, newestMessage, status } = props.group;
   const { onPress } = props;
 
@@ -38,7 +38,7 @@ function GroupChatItems(props) {
     </TouchableOpacity>
   );
 }
-export default GroupChatItems;
+export default TabYourGroupsItems;
 
 const styles = StyleSheet.create({
   container: {
@@ -51,7 +51,8 @@ const styles = StyleSheet.create({
     borderRadius: 10,
     borderColor: colors.inactive,
     borderWidth:1,
-    backgroundColor: colors.transparentWhite,
+    elevation: 5,
+    backgroundColor: colors.ShadowedItems,
   },
   avatarImage: {
     width: 65,
