@@ -13,10 +13,8 @@ import {
   CreatePost,
   CreateNotification,
   ShowPost,
+  ShowProfile,
   ResetPasswordInSetting,
-  ShowProfileFriend,
-  ShowProfileRequest,
-  ShowProfileStranger,
 } from '../screens';
 import UITab from './UITab';
 
@@ -47,9 +45,7 @@ function App(props) {
         <Stack.Screen name="CreateNotification" component={CreateNotification} />
         
         <Stack.Screen name="ShowPost" component={ShowPost} />
-        <Stack.Screen name="ShowProfileFriend" component={ShowProfileFriend} />
-        <Stack.Screen name="ShowProfileRequest" component={ShowProfileRequest} />
-        <Stack.Screen name="ShowProfileStranger" component={ShowProfileStranger} />
+        <Stack.Screen name="ShowProfile" component={ShowProfile} />
       </Stack.Navigator>
     </NavigationContainer>
   );
