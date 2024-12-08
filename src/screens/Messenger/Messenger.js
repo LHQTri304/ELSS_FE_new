@@ -36,6 +36,7 @@ function Messenger(props) {
     const fetchData = async () => {
       try {
         const response = await axios.get(API_BASE_URL + "/api/v1/messageUser/loadMessageforUser?myUserName=" + myUsername + "&toUserName=" + friendUsername);
+        console.log(response.data);
         setChatHistory(response.data);
       } catch (error) {
         console.error('Error fetching data:', error);
@@ -52,11 +53,6 @@ function Messenger(props) {
       return () => clearInterval(intervalId); // Xóa interval khi component bị unmount hoặc dependencies thay đổi
     }, [props.userName]);
 
-  function LoadUserInformation()
-  {
-    navigate("ShowProfileFriend", { friendUsername: friendUsername })
-  }
-
   return (
     <View style={styles.container}>
       <UIHeader
@@ -67,7 +63,6 @@ function Messenger(props) {
           goBack();
         }}
         onPressRightIcon={null}
-        onPressTitle={() => navigate("ShowProfileFriend", { friendUsername: friendUsername })}
       />
 
       <SafeAreaView style={styles.displayView}>

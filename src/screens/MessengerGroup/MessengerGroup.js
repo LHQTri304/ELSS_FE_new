@@ -16,10 +16,6 @@ import TabNotification from "./Tabs/TabNotification";
 import { images, colors, fontSizes } from "../../constants";
 import { UIHeader } from "../../components";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
-import axios from "axios";
-import { API_BASE_URL } from "../../../DomainAPI";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-
 
 const Tab = createMaterialTopTabNavigator();
 
@@ -64,30 +60,15 @@ const ScreenOptions = ({ route }) => ({
 
 function MessengerGroup(props) {
   //I forget what's' this
-  const { imageGroup, nameGroup, groupID } = props.route.params.group;
+  const { imageUrl, name } = props.route.params.user;
 
   //navigation
   const { navigate, goBack } = props.navigation;
-  const [id, setID] = useState("")
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-        alert(groupID)
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        setError('Error fetching data');
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [props.userName]);
 
   return (
     <View style={styles.container}>
       <UIHeader
-        title={nameGroup}
+        title={name}
         leftIconName={images.backIcon}
         rightIconName={null}
         onPressLeftIcon={() => {
@@ -101,9 +82,9 @@ function MessengerGroup(props) {
           initialRouteName="TabMessenger"
           screenOptions={ScreenOptions}
         >
-          <Tab.Screen name="TabMessenger" component={TabMessenger} initialParams={groupID}/>
-          <Tab.Screen name="TabDiscussion" component={TabDiscussion} initialParams={groupID}/>
-          <Tab.Screen name="TabNotification" component={TabNotification} initialParams={groupID}/>
+          <Tab.Screen name="TabMessenger" component={TabMessenger} />
+          <Tab.Screen name="TabDiscussion" component={TabDiscussion} />
+          <Tab.Screen name="TabNotification" component={TabNotification} />
         </Tab.Navigator>
       </View>
     </View>

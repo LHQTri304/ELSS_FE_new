@@ -10,9 +10,6 @@ import {
 } from "react-native";
 import { images, colors, icons, fontSizes } from "../../../constants";
 import { UIHeader, CommonButton } from "../../../components";
-import axios from "axios";
-import { API_BASE_URL } from "../../../../DomainAPI";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 function GroupOption(props) {
   const { text } = props;
@@ -56,51 +53,13 @@ const generateColor = () => {
 };
 
 const ShowProfileFriend = (props) => {
-  let { friendUsername } = props.route.params;
+  let { name, imageUrl } = props.route.params.user;
 
   //navigation
   const { navigate, goBack } = props.navigation;
 
-  const [fulName, setFulName] = useState("")
-  const [phoneNumber, setPhoneNumber] = useState("")
-  const [gender, setGender] = useState("")
-  const [email, setEmail] = useState("")
-  const [yearOfBirth, setYearOfBirth] = useState("")
-  const [image, setImage] = useState(null)
-
-
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-
-        const response = await axios.get(API_BASE_URL + "/api/v1/user/GetUser?userName=" + friendUsername);
-
-        setFulName(response.data.information.fulName);
-        setEmail(response.data.email);
-        setPhoneNumber(response.data.information.phoneNumber);
-        setImage(response.data.information.image)
-        setYearOfBirth(response.data.information.yearOfBirth)
-        setGender(response.data.information.gender)
-                
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        setError('Error fetching data');
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [props.userName]);
-
-
   //handle button here  
-  const DeleteFriend = async () => {
-
-    const response = await axios.delete(API_BASE_URL + "/api/v1/friendship/deleteFriend?sentUserName=" + friendUsername + "&receivedUserName=" + await AsyncStorage.getItem('username'))
-    
-
-  }
+  const handleButton = async () => {}
 
   return (
     <View style={styles.container}>
@@ -108,20 +67,20 @@ const ShowProfileFriend = (props) => {
         <View /* the top color */ style={styles.colorView} />
         <View style={styles.mainView}>
           <View /* Profile picture */ style={styles.profileView}>
-            <Image source={{ uri: image }} style={styles.profileImage} />
-            <Text style={styles.profileUsername}>{fulName}</Text>
+            <Image source={{ uri: imageUrl }} style={styles.profileImage} />
+            <Text style={styles.profileUsername}>{name}</Text>
           </View>
 
           <GroupOption text={"Thông tin tài khoản"} />
 
-          <EachOptionViewOnly icon={images.phoneIcon} text={"Phone number: " + phoneNumber} />
-          <EachOptionViewOnly icon={images.emailIcon} text={"Email: " + email} />
-          <EachOptionViewOnly icon={images.personIcon} text={"Gender: " + gender} />
-          <EachOptionViewOnly icon={images.documentBlackIcon} text={"Year Of Birth: " + yearOfBirth} />
+          <EachOptionViewOnly icon={images.phoneIcon} text={"phoneNumber"} />
+          <EachOptionViewOnly icon={images.emailIcon} text={"email"} />
+          <EachOptionViewOnly icon={images.personIcon} text={"gender"} />
+          <EachOptionViewOnly icon={images.documentBlackIcon} text={"yearOfBirth"} />
 
           <CommonButton
-            onPress={DeleteFriend}
-            title={"Huỷ kết bạn".toUpperCase()}
+            onPress={handleButton}
+            title={"tên button".toUpperCase()}
           />
         </View>
       </ScrollView>

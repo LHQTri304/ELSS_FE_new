@@ -35,11 +35,10 @@ function GroupChat(props) {
 
   //use for search bar (textInput)
   const [searchText, setSearchText] = useState("");
+  const [username, setUsername] = useState("")
 
   //navigation to/back
   const { navigate, goBack } = props.navigation;
-
-  const [username, setUsername] = useState("")
 
   useEffect(() => {
     const fetchData = async () => {

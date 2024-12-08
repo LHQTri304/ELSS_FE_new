@@ -10,9 +10,6 @@ import {
 } from "react-native";
 import { images, colors, icons, fontSizes } from "../../../constants";
 import { UIHeader, CommonButton } from "../../../components";
-import axios from "axios";
-import AsyncStorage from "@react-native-async-storage/async-storage";
-import { API_BASE_URL } from "../../../../DomainAPI";
 
 function GroupOption(props) {
   const { text } = props;
@@ -56,29 +53,13 @@ const generateColor = () => {
 };
 
 const ShowProfileRequest = (props) => {
-  let { userName, image, fulName, phoneNumber, yearOfBirth, gender, email } = props.route.params;
+  let { name, imageUrl } = props.route.params.user;
 
   //navigation
   const { navigate, goBack } = props.navigation;
 
   //handle button here  
-  const handleAcceptButton = async () => {
-
-    const response = await axios.post(API_BASE_URL + "/api/v1/friendship/acceptInvitation?sentUserName=" + userName + "&myUserName=" + await AsyncStorage.getItem('username'));
-
-    console.log(response.status)
-
-  }
-
-  const handleRevokeButton = async () => {
-
-    const response = await axios.post(API_BASE_URL + "/api/v1/friendship/refuseInvitation?sentUserName=" + userName + "&myUserName=" + await AsyncStorage.getItem('username'));
-
-    console.log(response.status)
-
-  }
-
-  const [buttonName, setButtonName] = useState("Add Friend")
+  const handleButton = async () => {}
 
   return (
     <View style={styles.container}>
@@ -86,24 +67,20 @@ const ShowProfileRequest = (props) => {
         <View /* the top color */ style={styles.colorView} />
         <View style={styles.mainView}>
           <View /* Profile picture */ style={styles.profileView}>
-            <Image source={{ uri: image }} style={styles.profileImage} />
-            <Text style={styles.profileUsername}>{fulName}</Text>
+            <Image source={{ uri: imageUrl }} style={styles.profileImage} />
+            <Text style={styles.profileUsername}>{name}</Text>
           </View>
 
           <GroupOption text={"Thông tin tài khoản"} />
 
-          <EachOptionViewOnly icon={images.phoneIcon} text={"Phone number: " + phoneNumber} />
-          <EachOptionViewOnly icon={images.emailIcon} text={"Email: " + email} />
-          <EachOptionViewOnly icon={images.personIcon} text={"Gender: " + gender} />
-          <EachOptionViewOnly icon={images.documentBlackIcon} text={"Year Of Birth: " + yearOfBirth} />
+          <EachOptionViewOnly icon={images.phoneIcon} text={"phoneNumber"} />
+          <EachOptionViewOnly icon={images.emailIcon} text={"email"} />
+          <EachOptionViewOnly icon={images.personIcon} text={"gender"} />
+          <EachOptionViewOnly icon={images.documentBlackIcon} text={"yearOfBirth"} />
 
           <CommonButton
-            onPress={handleAcceptButton}
-            title={"Xác nhận".toUpperCase()}
-          />
-          <CommonButton
-            onPress={handleRevokeButton}
-            title={"Từ chối".toUpperCase()}
+            onPress={handleButton}
+            title={"tên button".toUpperCase()}
           />
         </View>
       </ScrollView>

@@ -169,7 +169,7 @@ function Settings(props) {
   const { navigate, goBack, push } = props.navigation;
 
   return (
-    <View style={styles.container}>
+    <SafeAreaView style={styles.container}>
       <UIHeader
         title={"Thiết lập"}
       />
@@ -217,7 +217,7 @@ function Settings(props) {
           onPress={Logout}
         />
       </ScrollView>
-    </View>
+    </SafeAreaView>
   );
 }
 export default Settings;
