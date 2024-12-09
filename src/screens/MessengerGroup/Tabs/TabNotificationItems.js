@@ -12,20 +12,15 @@ import {
 import { images, colors, icons, fontSizes } from "../../../constants";
 
 function TabNotificationItems(props) {
-  let { title, content, timeSent } = props.notification;
+  let { title, content } = props.notification;
   const { onPress } = props;
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
-      <Image style={styles.img} source={images.personCircleIcon} />
-      <View style={styles.textView}>
-        <Text style={styles.titleText} numberOfLines={1}>
-          {title}
-        </Text>
-        <Text style={styles.contentText} numberOfLines={2}>
-          {content}
-        </Text>
-      </View>
-      <Text style={styles.timeText}>{timeSent}</Text>
+        <Image style={styles.img} source={images.personCircleIcon} />
+        <View style={styles.textView}>
+          <Text style={styles.titleText} numberOfLines={1}>{title}</Text>
+          <Text style={styles.contentText} numberOfLines={2}>{content}</Text>
+        </View>
     </TouchableOpacity>
   );
 }
@@ -34,13 +29,13 @@ export default TabNotificationItems;
 const styles = StyleSheet.create({
   container: {
     height: 63,
-    marginBottom: 15,
+    marginBottom:15,
     flexDirection: "row",
   },
   img: {
     width: 33,
     height: 33,
-    resizeMode: "stretch",
+    resizeMode: 'stretch',
     marginTop: 11,
     marginHorizontal: 10,
     tintColor: colors.active,
@@ -52,22 +47,11 @@ const styles = StyleSheet.create({
   titleText: {
     color: colors.active,
     fontSize: fontSizes.h6,
-    fontWeight: "400",
+    fontWeight: '400',
   },
   contentText: {
     color: "black",
     fontSize: fontSizes.h7,
-    fontWeight: "300",
-  },
-  timeText: {
-    width: 70,
-    padding: 10,
-    paddingLeft: 0,
-    color: "black",
-    fontSize: fontSizes.h8,
-    fontWeight: "500",
-    alignSelf: "center",
-    textAlign: "right",
-    color: colors.inactive,
+    fontWeight: '300',
   },
 });

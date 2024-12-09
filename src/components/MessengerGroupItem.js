@@ -5,8 +5,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import axios from "axios";
 import { API_BASE_URL } from "../../DomainAPI";
 
-function MessengerItems(props) {
-  let { content, dateSent, id, status } = props.item;
+function MessengerGroupItems(props) {
+  let { content, dateSent, id } = props.item;
 
   const [image, setImage] = useState(null);
 
@@ -20,11 +20,15 @@ function MessengerItems(props) {
       try {
 
         setUsername(await AsyncStorage.getItem('username'));
-        const response = await axios.get(API_BASE_URL + "/api/v1/messageUser/getSentUser?messID=" + id);
+        const response = await axios.get(API_BASE_URL + "/api/v1/messagegroup/getSentUserInGroup?messID=" + id);
         setResponse(response.data);
         setImage(response.data.information.image);
         setSentUsername(response.data.userName);
-                
+           
+        // alert("id message: " + id)
+        // alert("username: " + username)
+        // alert("sentUsername: " + sentUsername)
+
       } catch (error) {
         console.error('Error fetching data:', error);
         setError('Error fetching data');
@@ -65,7 +69,7 @@ function MessengerItems(props) {
     </View>
   );
 }
-export default MessengerItems;
+export default MessengerGroupItems;
 
 const styles = StyleSheet.create({
   container: {

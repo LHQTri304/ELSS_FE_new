@@ -20,7 +20,6 @@ import CreatePost from "./EssentialScreens/CreatePost";
 import CreateNotification from "./EssentialScreens/CreateNotification";
 
 import ShowPost from "./EssentialScreens/ShowPost";
-import ShowNotification from "./EssentialScreens/ShowNotification";
 
 import ShowProfileFriend from "./EssentialScreens/ShowProfiles/ShowProfileFriend";
 import ShowProfileRequest from "./EssentialScreens/ShowProfiles/ShowProfileRequest";
@@ -42,7 +41,6 @@ export {
   CreatePost,
   CreateNotification,
   ShowPost,
-  ShowNotification,
   ResetPasswordInSetting,
   ShowProfileFriend,
   ShowProfileRequest,

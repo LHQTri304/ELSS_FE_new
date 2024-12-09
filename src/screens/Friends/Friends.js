@@ -7,8 +7,6 @@ import {
   StyleSheet,
 } from "react-native";
 import TabYourFriends from "./Tabs/TabYourFriends";
-import TabFriendRequests from "./Tabs/TabFriendRequests";
-import TabSentRequests from "./Tabs/TabSentRequests";
 import TabSuggestions from "./Tabs/TabSuggestions";
 import { images, colors, fontSizes } from "../../constants";
 import { UIHeader } from "../../components";
@@ -25,7 +23,7 @@ const ScreenOptions = ({ route }) => ({
 });
 
 const tabBarLabelStyles = {
-  fontSize: fontSizes.h8*0.82,
+  fontSize: fontSizes.h6,
 };
 
 function Friends(props) {
@@ -43,22 +41,6 @@ function Friends(props) {
             component={TabYourFriends}
             options={{
               tabBarLabel: "Đã kết bạn",
-              tabBarLabelStyle: tabBarLabelStyles,
-            }}
-          />
-          <Tab.Screen
-            name="TabFriendRequests"
-            component={TabFriendRequests}
-            options={{
-              tabBarLabel: "Lời mời kết bạn",
-              tabBarLabelStyle: tabBarLabelStyles,
-            }}
-          />
-          <Tab.Screen
-            name="TabSentRequests"
-            component={TabSentRequests}
-            options={{
-              tabBarLabel: "Lời mời đã gửi",
               tabBarLabelStyle: tabBarLabelStyles,
             }}
           />
