@@ -168,7 +168,7 @@ export default Registration;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.PrimaryContainer,
+    backgroundColor: colors.mainBackground,
     flex: 1,
   },
   partitionTop: {
