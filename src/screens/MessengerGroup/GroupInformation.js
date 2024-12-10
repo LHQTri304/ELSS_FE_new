@@ -55,10 +55,9 @@ function EachOptionNavigate(props) {
   );
 }
 
-function Settings(props) {
+function GroupInfo(props) {
 
-  const [profile, setProfile] = useState(null);
-  const [fulname, setFulName] = useState(null)
+  const [numberOfMembers, setNumberOfMembers] = useState(null);
   const [email, setEmail] = useState(null)
   const [phoneNumber, setPhoneNumber] = useState(null)
   const [image, setImage] = useState(null)
@@ -69,23 +68,29 @@ function Settings(props) {
   const [data, setData] = useState(null);
 
 
+  const [group, setGroup] = useState('');
+
+  const [leader, setleader] = useState('');
+
+  const [dateCreated, setDateCreated] = useState('');
+
+
+  let date;
+
   useEffect(() => {
     const fetchData = async () => {
       try {
-
-        const username = await AsyncStorage.getItem('username');
-        setUsername(username);
-
-        const response = await axios.get(API_BASE_URL + "/api/v1/user/GetUser?userName=" + username);
-
-        setFulName(response.data.information.fulName);
-        setEmail(response.data.email);
-        setPhoneNumber("0"+response.data.information.phoneNumber);
+       
+        const response = await axios.get(API_BASE_URL + "/api/v1/groupStudying/findGroupbyId?groupID=" + await AsyncStorage.getItem('groupID'))
+        setGroup(response.data);
+        setleader("Trưởng nhóm:  " + response.data.leaderOfGroup.fulName)
+        setUsername(response.data.leaderOfGroup.userName)
+        setNumberOfMembers(response.data.numberOfMembers)
+        setImage(response.data.image)
         
-        const responseAvatar = await axios.get(API_BASE_URL + "/api/v1/information/getAvatar?userName=" + username)
-        
-        setImage(responseAvatar.data);
-                
+        date = new Date(response.data.dateCreated);
+        setDateCreated("Ngày tạo nhóm:  " + date.getDate() + "/" + date.getMonth() + "/" + date.getFullYear())
+
       } catch (error) {
         console.error('Error fetching data:', error);
         setError('Error fetching data');
@@ -105,11 +110,34 @@ function Settings(props) {
     })();
   }, []);
 
-  const Logout = async () => {
+  const LeaveGroup = async () => {
     try {
 
-      await AsyncStorage.removeItem('username');
-      navigate("Login")
+      if (username == await AsyncStorage.getItem('username'))
+      {
+        if (numberOfMembers > 1)
+        {
+            alert('Vui lòng đổi nhóm trưởng trước khi rời nhóm')
+        }
+        else
+        {
+            const response = await axios.delete(API_BASE_URL + "/api/v1/groupStudying/deleteGroup?userName=" + username + "&groupID=" + group.groupID)
+            if (response.status == 200)
+            {
+                //await AsyncStorage.removeItem('groupID');
+                navigate("UITab" , {tabName: "GroupChat"})
+            }
+        }
+      }
+      else
+      {
+        const response = await axios.delete(API_BASE_URL + "/api/v1/groupStudying/deleteGroup?userName=" + await AsyncStorage.getItem('username') + "&groupID=" + group.groupID)
+        if (response.status == 200)
+        {
+            //await AsyncStorage.removeItem('groupID');
+            navigate("UITab" , {tabName: "GroupChat"})
+        }
+      }
 
     } catch (error) {
 
@@ -122,48 +150,90 @@ function Settings(props) {
 
   const selectImage = async () => {
 
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      allowsEditing: true,
-      aspect: [4, 3],
-      quality: 1,
-    });
-
-    if (!result.cancelled) {
-      
-      setImage(result.uri);
-
-      try {
-
-        const username = await AsyncStorage.getItem('username');
-        
-        var imagePath = result.uri.toString()
-
-        const formData = new FormData();
-        formData.append('image', imagePath);
-        formData.append('userName', username);
-  
-        const response = await axios.post(API_BASE_URL + '/api/v1/information/changeAvatar', formData, {
-          headers: {
-            'Content-Type': 'multipart/form-data',
-          },
+    if (username == await AsyncStorage.getItem('username'))
+    {
+        let result = await ImagePicker.launchImageLibraryAsync({
+        mediaTypes: ImagePicker.MediaTypeOptions.All,
+        allowsEditing: true,
+        aspect: [4, 3],
+        quality: 1,
         });
-        
-        if (response.status == 200)
-        {
-          console.log(imagePath)
-        }
 
-      } catch (error) {
-        console.error('Error uploading image:', error);
-      }
+        if (!result.cancelled) {
+        
+        setImage(result.uri);
+
+        try {
+
+            const groupID = await AsyncStorage.getItem('groupID');
+            
+            var imagePath = result.uri.toString()
+
+            const formData = new FormData();
+            formData.append('file', imagePath);
+            formData.append('groupID', groupID);
+    
+            const response = await axios.put(API_BASE_URL + '/api/v1/groupStudying/changeAvatarGroup', formData, {
+            headers: {
+                'Content-Type': 'multipart/form-data',
+            },
+            });
+            
+            if (response.status == 200)
+            {
+            console.log(imagePath)
+            }
+
+        } catch (error) {
+            console.error('Error uploading image:', error);
+        }
+        }
+    }
+    else
+    {
+        alert('Bạn không phải trưởng nhóm.')
     }
 
   };
 
 
 
-  
+  const ChangeInformationGroup = async () => {
+
+    if (username == await AsyncStorage.getItem('username'))
+    {
+        navigate("GroupInformationDetail", {group: group})
+    }
+    else
+    {
+        alert('Bạn không phải trưởng nhóm.')
+    }
+  }
+
+  const MembersInGroup = async () => {
+
+    if (username == await AsyncStorage.getItem('username'))
+    {
+        navigate('MembersInGroup');
+    }
+    else
+    {
+        alert('Bạn không phải trưởng nhóm.')
+    }
+  }
+
+  const AddMembers = async () => {
+
+    if (username == await AsyncStorage.getItem('username'))
+    {
+        navigate('AddMember')
+    }
+    else
+    {
+        alert('Bạn không phải trưởng nhóm.')
+    }
+    
+  }
   
   //function of navigation to/back
   const { navigate, goBack, push } = props.navigation;
@@ -180,7 +250,7 @@ function Settings(props) {
             source={{ uri: image }}
             style={styles.profileImage}
           />
-          <Text style={styles.profileUsername}>{fulname}</Text>
+          <Text style={styles.profileUsername}>{group.nameGroup}</Text>
           <TouchableOpacity
               onPress={selectImage}
               style={styles.button}
@@ -190,37 +260,43 @@ function Settings(props) {
         </View>
 
               
-        <GroupOption text={"Thông tin tài khoản"} styles={{marginTop: 20}}/>
+        <GroupOption text={"Thông tin nhóm"} styles={{marginTop: 20}}/>
 
         <EachOptionViewOnly
           icon={images.phoneIcon}
-          text={phoneNumber}
+          text={leader}
         />
-        <EachOptionViewOnly icon={images.emailIcon} text={email} />
+        <EachOptionViewOnly icon={images.emailIcon} text={dateCreated} />
 
         <GroupOption text={"Tùy chỉnh tài khoản"} />
 
         <EachOptionNavigate
           icon={images.personIcon}
-          text={"Đổi thông tin cá nhân"}
-          onPress={() => navigate("SettingProfile")}
+          text={"Đổi thông tin nhóm"}
+          onPress={ChangeInformationGroup}
         />
 
         <EachOptionNavigate
           icon={images.keyIcon}
-          text={"Đổi mật khẩu"}
-          onPress={() => navigate('ResetPasswordInSetting')}
+          text={"Thêm thành viên"}
+          onPress={AddMembers}
+        />
+
+        <EachOptionNavigate
+          icon={images.keyIcon}
+          text={"Danh sách thành viên"}
+          onPress={MembersInGroup}
         />
         <EachOptionNavigate
           icon={images.exportIcon}
-          text={"Đăng xuất"}
-          onPress={Logout}
+          text={"Rời nhóm"}
+          onPress={LeaveGroup}
         />
       </ScrollView>
     </View>
   );
 }
-export default Settings;
+export default GroupInfo;
 
 const styles = StyleSheet.create({
   container: {

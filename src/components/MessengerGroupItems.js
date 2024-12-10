@@ -94,7 +94,7 @@ const styles = StyleSheet.create({
     fontSize: fontSizes.h6,
     paddingVertical: 7,
     paddingHorizontal: 7,
-    backgroundColor: colors.SecondaryContainer,
+    backgroundColor: colors.message,
     borderRadius: 10,
   },
   leftView: {

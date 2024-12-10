@@ -15,74 +15,34 @@ import { CommonButton } from "../../components";
 import AsyncStorage from '@react-native-async-storage/async-storage';
 import { API_BASE_URL } from "../../../DomainAPI";
 import axios from "axios";
+import GroupInfo from "./GroupInformation";
 
-function Settings(props) {
+function CreateGroup(props) {
   
-  const [newUsername, setNewUsername] = useState("");
-  const [newPhoneNumber, setNewPhoneNumber] = useState("");
-  const [newEmail, setNewEmail] = useState("");
-  const [newDateOfBirth, setNewDateOfBirth] = useState("");
-  const [gender, setGender] = useState("");
-
+  const [newGroupName, setNewGroupName] = useState("");
+  const [newPassword, setNewPassword] = useState("");
 
   //function of navigation to/back
   const { navigate, goBack, push } = props.navigation;
 
-  const handleSettings = async () => {
-    
-    const username = await AsyncStorage.getItem('username');
+  const handleCreateGroup = async () => {
 
-    const response = await axios.get(API_BASE_URL + "/api/v1/user/GetUser?userName=" + username);
-
-    let updateInformation = {
-      infoID: response.data.information.infoID,
-      fulName: newUsername,
-      phoneNumber: newPhoneNumber,
-      yearOfBirth: newDateOfBirth,
-      gender: gender,
-    }
-
-    const responseUpdate = await axios.post(API_BASE_URL + "/api/v1/information/updateInformation", updateInformation);
-
-    if (responseUpdate.status == 200)
+    if (newGroupName.length > 8)
     {
-      navigate("UITab", {tabName: "Settings"});
+        const response = await axios.post(API_BASE_URL + "/api/v1/groupStudying/createGroup?userName=" + await AsyncStorage.getItem('username') + "&nameGroup=" + newGroupName + "&passWord=" + newPassword)
+        
+        if (response.status == 200)
+        {
+            alert('Tạo nhóm thành công, vui lòng vào nhóm mới để thêm thành viên');
+            navigate('GroupChat');
+        }
     }
     else
     {
-      alert("Error!");
+        alert('Nhập tối thiểu 9 ký tự cho tên nhóm')
     }
 
-  };
-
-  const handleCancel = async () => {
-    navigate("Settings");
-  };
-
-  useEffect(() => {
-    const fetchData = async () => {
-      try {
-
-        const username = await AsyncStorage.getItem('username');
-
-        const response = await axios.get(API_BASE_URL + "/api/v1/user/GetUser?userName=" + username);
-
-        setNewUsername(response.data.information.fulName);
-        setNewEmail(response.data.email)
-        setNewPhoneNumber(response.data.information.phoneNumber.toString())
-        setNewDateOfBirth(response.data.information.yearOfBirth.toString())
-        setGender(response.data.information.gender);
-        
-                
-      } catch (error) {
-        console.error('Error fetching data:', error);
-        setError('Error fetching data');
-        setLoading(false);
-      }
-    };
-
-    fetchData();
-  }, [props.userName]);
+  }
 
   return (
     <View style={styles.container}>
@@ -109,13 +69,13 @@ function Settings(props) {
                   style={styles.textInputImageNoTitle}
                 />
                 <View>
-                  <Text>Họ và tên:</Text>
+                  <Text>Tên nhóm:</Text>
                   <TextInput
                     style={styles.textInputTypingArea}
                     inputMode="text"
-                    onChangeText={p => setNewUsername(p)}
-                    value={newUsername}
-                    placeholder="Nhập tên người dùng mới"
+                    onChangeText={p => setNewGroupName(p)}
+                    value={newGroupName}
+                    placeholder="Nhập tên nhóm mới"
                     placeholderTextColor={colors.noImportantText}
                   />
                 </View>
@@ -126,68 +86,33 @@ function Settings(props) {
                   style={styles.textInputImage}
                 />
                 <View>
-                  <Text>Số điện thoại:</Text>
-                  <TextInput
-                    style={styles.textInputTypingArea}
-                    inputMode="numeric"
-                    onChangeText={p => setNewPhoneNumber(p)}
-                    value={newPhoneNumber}
-                    placeholder="Nhập số điện thoại mới"
-                    placeholderTextColor={colors.noImportantText}
-                  />
-                </View>
-              </View>
-              <View /* new email */ style={styles.textInputView}>
-                <Image
-                  source={images.sendingEmailIcon}
-                  style={styles.textInputImage}
-                />
-                <View>
-                  <Text>Gender:</Text>
+                  <Text>Mật khẩu gia nhập nhóm:</Text>
                   <TextInput
                     style={styles.textInputTypingArea}
                     inputMode="text"
-                    onChangeText={p => setGender(p)}
-                    value={gender}
-                    placeholder="Giới tính"
-                    placeholderTextColor={colors.noImportantText}
-                  />
-                </View>
-              </View>
-
-              <View style={styles.textInputView}>
-                <Image
-                  source={images.sendingEmailIcon}
-                  style={styles.textInputImage}
-                />
-                <View>
-                  <Text>Year of Birth:</Text>
-                  <TextInput
-                    style={styles.textInputTypingArea}
-                    inputMode="numeric"
-                    onChangeText={p => setNewDateOfBirth(p)}
-                    value={newDateOfBirth}
-                    placeholder="Năm sinh"
+                    onChangeText={p => setNewPassword(p)}
+                    value={newPassword}
+                    placeholder="Nhập mật khẩu mới"
                     placeholderTextColor={colors.noImportantText}
                   />
                 </View>
               </View>
 
               <CommonButton
-                onPress={handleSettings}
+                onPress={handleCreateGroup}
                 title={"Lưu thay đổi".toUpperCase()}
               />
             </View>
           </View>
 
-          <Image source={images.decorStuff01} style={styles.decorStuffBottomLeft} />
-          <Image source={images.decorStuff02} style={styles.decorStuffBottomRight} />
+              <Image source={images.decorStuff01} style={styles.decorStuffBottomLeft} />
+              <Image source={images.decorStuff02} style={styles.decorStuffBottomRight} />
         </View>
       </ScrollView>
     </View>
   );
 }
-export default Settings;
+export default CreateGroup;
 
 const styles = StyleSheet.create({
   container: {

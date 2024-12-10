@@ -34,7 +34,7 @@ const Login = (props) => {
 
         if (response.data == username) {
           await AsyncStorage.setItem("username", username);
-          push("UITab");
+          push("UITab", {tabName: "Settings"});
         } else {
           alert("Username or password aren't correct");
         }
@@ -79,7 +79,7 @@ const Login = (props) => {
                   setUsername(text);
                 }}
                 placeholder="Username"
-                placeholderTextColor={colors.PrimaryBackground}
+                placeholderTextColor={colors.placeholderTextColor}
               />
               <View style={styles.blackLine} />
             </View>
@@ -96,7 +96,7 @@ const Login = (props) => {
                   setPassword(text);
                 }}
                 placeholder="Password"
-                placeholderTextColor={colors.PrimaryBackground}
+                placeholderTextColor={colors.placeholderTextColor}
               />
               <View style={styles.blackLine} />
             </View>
@@ -134,7 +134,7 @@ export default Login;
 
 const styles = StyleSheet.create({
   container: {
-    backgroundColor: colors.PrimaryContainer,
+    backgroundColor: colors.mainBackground,
     flex: 1,
   },
   partitionTop: {
@@ -182,7 +182,7 @@ const styles = StyleSheet.create({
     height: 30,
     marginRight: 10,
     marginLeft: 10,
-    tintColor: colors.PrimaryBackground,
+    tintColor: colors.blueIcon,
   },
   textInputTypingArea: {
     width: 300,
@@ -201,7 +201,7 @@ const styles = StyleSheet.create({
     padding: 1,
     fontSize: fontSizes.h6,
     fontWeight: "bold",
-    color: colors.PrimaryBackground,
+    color: "blue",
   },
   forgetPassword: {
     marginHorizontal: 5,

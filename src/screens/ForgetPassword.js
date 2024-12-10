@@ -33,7 +33,6 @@ const ForgetPassword = (props) => {
   return (
     <View style={styles.container}>
       <Image source={images.decorStuff01} style={styles.decorStuffTop} />
-      <Image source={images.decorStuff02} style={styles.decorStuffBottom} />
 
       <View style={styles.partitionMiddle}>
         <View style={styles.forgetPasswordView}>
@@ -64,6 +63,8 @@ const ForgetPassword = (props) => {
           />
         </View>
       </View>
+
+      <Image source={images.decorStuff02} style={styles.decorStuffBottom} />
     </View>
   );
 };
@@ -85,7 +86,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   forgetPasswordText: {
-    color: colors.PrimaryOnContainerAndFixed,
+    color: colors.titleScreen,
     fontSize: fontSizes.h1,
     fontWeight: "bold",
     alignSelf: "center",
@@ -95,7 +96,7 @@ const styles = StyleSheet.create({
     height: 350,
     padding: 15,
     backgroundColor: colors.transparentWhite,
-    borderColor: colors.PrimaryOnContainerAndFixed,
+    borderColor: colors.borderedView,
     borderWidth: 2,
     borderRadius: 50,
     alignSelf: "center",
@@ -113,7 +114,7 @@ const styles = StyleSheet.create({
     height: 55,
     marginRight: 10,
     marginTop: 25,
-    tintColor: colors.PrimaryBackground,
+    tintColor: colors.blueIcon,
   },
   textInputTypingArea: {
     width: 250,
