@@ -75,9 +75,6 @@ function TabFriendRequests(props) {
 
       <ScrollView>
         {invitation
-          .filter((eachInvitation) =>
-            eachInvitation.information.fulName.toLowerCase().includes(searchText.toLowerCase())
-          ) 
           .map((eachInvitation) => (
             <TabFriendRequestsItems
               invitation={eachInvitation}

@@ -22,16 +22,10 @@ import CreateNotification from "./EssentialScreens/CreateNotification";
 import ShowPost from "./EssentialScreens/ShowPost";
 import ShowNotification from "./EssentialScreens/ShowNotification";
 
-import MemberToChangeRole from "./MessengerGroup/MemberToChangeRole";
-import ShowDocument from "./EssentialScreens/ShowDocument";
 import ShowProfileFriend from "./EssentialScreens/ShowProfiles/ShowProfileFriend";
 import ShowProfileRequest from "./EssentialScreens/ShowProfiles/ShowProfileRequest";
 import ShowProfileStranger from "./EssentialScreens/ShowProfiles/ShowProfileStranger";
 import ShowProfileSentInvitation from "./EssentialScreens/ShowProfiles/ShowProfileSentInvitation";
-import GroupInfo from "./MessengerGroup/GroupInformation";
-import GroupInformationDetail from "./MessengerGroup/GroupInformationDetail";
-import ShowProfileMember from "./EssentialScreens/ShowProfiles/ShowProfileMember";
-import MembersInGroup from "./MessengerGroup/MembersInGroup";
 
 import TabDiscussionFiltered from "./MessengerGroup/Tabs/TabDiscussionFiltered";
 
@@ -55,13 +49,7 @@ export {
   ResetPasswordInSetting,
   ShowProfileFriend,
   ShowProfileRequest,
-  ShowProfileMember,
   ShowProfileStranger,
   ShowProfileSentInvitation,
   TabDiscussionFiltered,
-  ShowDocument,
-  GroupInfo,
-  GroupInformationDetail,
-  MembersInGroup,
-  MemberToChangeRole,
 };

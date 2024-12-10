@@ -11,6 +11,8 @@ import {
 } from "react-native";
 
 import { images, colors, icons, fontSizes } from "../../../constants";
+//import { openDoc, isDoc, filePath } from 'react-native-doc-viewer';
+
 
 function TabDocumentItem(props) {
   let { header, type, dateUploaded, documentID } = props.doc;
