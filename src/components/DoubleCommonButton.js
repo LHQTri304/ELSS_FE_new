@@ -23,7 +23,7 @@ function DoubleCommonButton(props) {
             padding: 11,
             fontSize: fontSizeTitleLeft,
             fontWeight: "bold",
-            color: colors.PrimaryObjects,
+            color: colors.CommonButtonText,
           }}
         >
           {titleLeft}
@@ -36,7 +36,7 @@ function DoubleCommonButton(props) {
             padding: 11,
             fontSize: fontSizeTitleRight,
             fontWeight: "bold",
-            color: colors.PrimaryObjects,
+            color: colors.CommonButtonText,
           }}
         >
           {titleRight}
@@ -59,11 +59,11 @@ const styles = StyleSheet.create({
     width: '45%',
     paddingHorizontal: 5,
 
-    borderColor: colors.PrimaryOnContainerAndFixed,
+    borderColor: colors.CommonButtonBorder,
     borderWidth: 1,
     borderRadius: 30,
 
-    backgroundColor: colors.PrimaryBackground,
+    backgroundColor: colors.CommonButton,
 
     justifyContent: "center",
     alignItems: "center",

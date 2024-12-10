@@ -20,7 +20,7 @@ function CommonButton(props) {
           padding: 11,
           fontSize: fontSizeTitle,
           fontWeight: "bold",
-          color: colors.PrimaryObjects,
+          color: colors.CommonButtonText,
         }}
       >
         {title}
@@ -38,11 +38,11 @@ const styles = StyleSheet.create({
     marginTop: 20,
     marginBottom: 5,
 
-    borderColor: colors.PrimaryOnContainerAndFixed,
+    borderColor: colors.CommonButtonBorder,
     borderWidth: 1,
     borderRadius: 30,
 
-    backgroundColor: colors.PrimaryBackground,
+    backgroundColor: colors.CommonButton,
 
     justifyContent: "center",
     alignItems: "center",
