@@ -19,8 +19,6 @@ function TabDiscussionItems(props) {
   let { userName } = props.topic.userCreated;
   let { fulName } = props.topic.userCreated.information;
 
-  //alert(fulName);
-
   const { onPress } = props;
 
   const _getIcon = () => {
@@ -90,7 +88,7 @@ const styles = StyleSheet.create({
     height: 30,
     margin: 5,
     resizeMode: "stretch",
-    tintColor: colors.postIcon,
+    tintColor: colors.PrimaryBackground,
   },
   text: {
     marginTop: 5,

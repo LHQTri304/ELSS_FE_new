@@ -19,7 +19,6 @@ import {
   ShowProfileRequest,
   ShowProfileStranger,
   ShowProfileSentInvitation,
-  TabDiscussionFiltered,
 } from '../screens';
 import UITab from './UITab';
 
@@ -29,7 +28,7 @@ function App(props) {
   return (
     <NavigationContainer>
       <Stack.Navigator
-        initialRouteName="Login"
+        initialRouteName="UITab"
         screenOptions={{
           headerShown: false,
         }}>
@@ -55,8 +54,6 @@ function App(props) {
         <Stack.Screen name="ShowProfileRequest" component={ShowProfileRequest} />
         <Stack.Screen name="ShowProfileStranger" component={ShowProfileStranger} />
         <Stack.Screen name="ShowProfileSentInvitation" component={ShowProfileSentInvitation} />
-
-        <Stack.Screen name="TabDiscussionFiltered" component={TabDiscussionFiltered} />
       </Stack.Navigator>
     </NavigationContainer>
   );
