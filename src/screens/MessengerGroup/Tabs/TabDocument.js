@@ -34,6 +34,7 @@ function TabDocument(props) {
   
         const response = await axios.get(API_BASE_URL + "/api/v1/document/getAllDocumentOfGroup?groupID=" + await AsyncStorage.getItem('groupID'));
   
+        console.log(response.data);
         setNotifications(response.data);
     };
   
@@ -82,9 +83,9 @@ function TabDocument(props) {
           .map((eachNotification) => (
             <TabDocumentItem
               doc={eachNotification}
-              key={eachNotification.documentID}
+              key={eachNotification.notifycationID}
               onPress={() => {
-                navigate("ShowDocument", { notification: eachNotification });
+                navigate("ShowNotification", { notification: eachNotification });
               }}
             />
           ))}

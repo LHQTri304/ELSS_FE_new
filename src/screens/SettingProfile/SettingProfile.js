@@ -46,7 +46,7 @@ function Settings(props) {
 
     if (responseUpdate.status == 200)
     {
-      navigate("UITab", {tabName: "Settings"});
+      push("UITab");
     }
     else
     {

@@ -53,7 +53,6 @@ function TabSuggestions(props) {
   
     // Hủy timeout nếu có sự kiện thay đổi trong khoảng 2 giây
     return () => clearTimeout(timeoutId);
-    
   }, [searchText,]);
 
   return (

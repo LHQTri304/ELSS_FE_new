@@ -11,7 +11,6 @@ import {
 } from "react-native";
 
 import { images, colors, icons, fontSizes } from "../../../constants";
-
 //import { openDoc, isDoc, filePath } from 'react-native-doc-viewer';
 
 
@@ -29,7 +28,7 @@ function TabDocumentItem(props) {
           {header}
         </Text>
         <Text style={styles.contentText} numberOfLines={2}>
-          {type.toString()}
+          {type.toString().toUp}
         </Text>
       </View>
       <Text style={styles.timeText}>{date.getHours()}:{date.getMinutes()} {date.getDate()}/{date.getMonth() + 1}</Text>
