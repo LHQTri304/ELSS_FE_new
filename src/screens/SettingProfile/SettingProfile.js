@@ -46,7 +46,7 @@ function Settings(props) {
 
     if (responseUpdate.status == 200)
     {
-      navigate("UITab", {tabName: "Settings"});
+      push("UITab");
     }
     else
     {
@@ -208,7 +208,7 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   yourInformationText: {
-    color: colors.titleScreen,
+    color: colors.PrimaryOnContainerAndFixed,
     fontSize: fontSizes.h2*0.9,
     fontWeight: "bold",
     alignSelf: "center",
@@ -219,7 +219,7 @@ const styles = StyleSheet.create({
     padding: 15,
     marginBottom: "50%",
     backgroundColor: colors.transparentWhite,
-    borderColor: colors.borderedView,
+    borderColor: colors.PrimaryOnContainerAndFixed,
     borderWidth: 2,
     borderRadius: 50,
     alignSelf: "center",
@@ -236,14 +236,14 @@ const styles = StyleSheet.create({
     width: 45,
     height: 45,
     marginRight: 10,
-    tintColor: colors.blueIcon,
+    tintColor: colors.PrimaryBackground,
   },
   textInputImage: {
     width: 55,
     height: 55,
     marginRight: 10,
     marginTop: 25,
-    tintColor: colors.blueIcon,
+    tintColor: colors.PrimaryBackground,
   },
   textInputTypingArea: {
     width: 250,

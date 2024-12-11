@@ -13,7 +13,7 @@ import TabNotificationItems from "./TabNotificationItems";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_BASE_URL } from "../../../../DomainAPI";
-import TabDocumentItem from "./TabDocumentItem";
+//import TabDocumentItem from "./TabDocumentItem";
 
 
 function TabDocument(props) {
@@ -34,6 +34,7 @@ function TabDocument(props) {
   
         const response = await axios.get(API_BASE_URL + "/api/v1/document/getAllDocumentOfGroup?groupID=" + await AsyncStorage.getItem('groupID'));
   
+        console.log(response.data);
         setNotifications(response.data);
     };
   
@@ -49,8 +50,8 @@ function TabDocument(props) {
 
   return (
     <View style={styles.container}>
-    <View style={styles.searchBarAndButtonView}>
-        <View /* Search bar */ style={styles.searchBarView}>
+{/*     <View style={styles.searchBarAndButtonView}>
+        <View /* Search bar style={styles.searchBarView}>
           <Image source={images.searchIcon} style={styles.searchBarImage} />
           <TextInput
             autoCorrect={false}
@@ -82,13 +83,13 @@ function TabDocument(props) {
           .map((eachNotification) => (
             <TabDocumentItem
               doc={eachNotification}
-              key={eachNotification.documentID}
+              key={eachNotification.notifycationID}
               onPress={() => {
-                navigate("ShowDocument", { notification: eachNotification });
+                navigate("ShowNotification", { notification: eachNotification });
               }}
             />
           ))}
-      </ScrollView>
+      </ScrollView> */}
     </View>
   );
 }
