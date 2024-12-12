@@ -84,7 +84,7 @@ function AllNotification(props) {
               group={eachNotification}
               key={eachNotification.notifycationID}
               onPress={() => {
-                navigate("ShowNotificationOfUser", { notification: eachNotification });
+                navigate("ShowNotification", { notification: eachNotification });
               }}
             />
           ))}

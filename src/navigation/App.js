@@ -30,7 +30,6 @@ import {
   AddMember,
   Comment,
   Reply,
-  ShowNotificationOfUser,
 } from '../screens';
 import UITab from './UITab';
 
@@ -67,7 +66,6 @@ function App(props) {
         <Stack.Screen name="ShowProfileMember" component={ShowProfileMember} />
         <Stack.Screen name="ShowProfileRequest" component={ShowProfileRequest} />
         <Stack.Screen name="ShowProfileStranger" component={ShowProfileStranger} />
-        <Stack.Screen name="ShowNotificationOfUser" component={ShowNotificationOfUser} />
         <Stack.Screen name="ShowProfileSentInvitation" component={ShowProfileSentInvitation} />
         <Stack.Screen name="GroupInfo" component={GroupInfo} />
         <Stack.Screen name="GroupInformationDetail" component={GroupInformationDetail} />

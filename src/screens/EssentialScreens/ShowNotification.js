@@ -7,7 +7,6 @@ import {
   TextInput,
   ScrollView,
   StyleSheet,
-  Alert,
 } from "react-native";
 import { images, colors, icons, fontSizes } from "../../constants";
 import { UIHeader } from "../../components";
@@ -54,15 +53,10 @@ const ShowNotification = (props) => {
   
   const [groupName, setGroupName] = useState("");
   const [item, setItem] = useState("");
-  const [group, setGroup] = useState("");
-  const [userName, setUsername] = useState("")
 
   useEffect(() => {
     const fetchData = async () => {
       try {
-
-        setUsername(await AsyncStorage.getItem('username'))
-
         const response = await axios.get(
           API_BASE_URL +
             "/api/v1/groupStudying/getNameGroupByNotificationID?notificationID=" +
@@ -77,9 +71,6 @@ const ShowNotification = (props) => {
         );
 
         setItem(responseItem.data)
-
-        const responseGroup = await axios.get(API_BASE_URL + "/api/v1/groupStudying/findGroupbyId?groupID=" + await AsyncStorage.getItem('groupID'))
-        setGroup(responseGroup.data)
 
       } catch (error) {
         console.error("Error fetching data:", error);
@@ -96,86 +87,40 @@ const ShowNotification = (props) => {
 
   const LoadItem = async () => {
 
-    try
+    if (item.documentID == -1)
     {
-      if (item.documentID == -1)
+
+      const response = await axios.get(API_BASE_URL + "/api/v1/blog/getBlogById?blogID=" + item.blogID)
+
+      if (response.status == 200)
       {
-
-        const response = await axios.get(API_BASE_URL + "/api/v1/blog/getBlogById?blogID=" + item.blogID)
-
-        if (response.status == 200)
-        {
-          navigate('ShowPost', {topic: response.data})
-        }
-        else
-        {
-          alert('Đã có lỗi xảy ra, vui lòng xem trong nhóm')
-        }
-
-      }
-      else if (item.blogID == -1)
-      {
-
-        const response = await axios.get(API_BASE_URL + "/api/v1/document/getDocumentById?documentID=" + item.documentID)
-
-        if (response.status == 200)
-        {
-          navigate('ShowDocument', {notification: response.data})
-        }
-        else
-        {
-          alert('Đã có lỗi xảy ra, vui lòng xem trong nhóm')
-        }
+        navigate('ShowPost', {topic: response.data})
       }
       else
       {
-
+        alert('Đã có lỗi xảy ra, vui lòng xem trong nhóm')
       }
+
     }
-    catch (error)
+    else if (item.blogID == -1)
     {
-      alert('Nội dung này đã bị xoá')
-    }
 
-  }
+      const response = await axios.get(API_BASE_URL + "/api/v1/document/getDocumentById?documentID=" + item.documentID)
 
-  const deleleNotification = () => {
-
-    if (userName != group.leaderOfGroup.userName)
-    {
-      alert('Bạn không phải nhóm trưởng')
+      if (response.status == 200)
+      {
+        navigate('ShowDocument', {notification: response.data})
+      }
+      else
+      {
+        alert('Đã có lỗi xảy ra, vui lòng xem trong nhóm')
+      }
     }
     else
     {
-      Alert.alert(
-        'Xác nhận xoá',
-        'Bạn có chắc chắn muốn xoá?',
-        [
-          {
-            text: 'Huỷ',
-            style: 'cancel',
-          },
-          {
-            text: 'Xoá',
-            style: 'destructive',
-            onPress: async () => {
 
-              const response = await axios.delete(API_BASE_URL + "/api/v1/notifycation/deleteNotifycationForAllMembers?userName=" + await AsyncStorage.getItem('username') + "&notifycationID=" + notifycationID + "&groupID=" + await AsyncStorage.getItem('groupID'))
-
-              if (response.status == 200)
-              {
-                goBack();
-              }
-              else
-              {
-                alert('Kiểm tra lại mạng, xoá không thành công')
-              }
-            },
-          },
-        ],
-        { cancelable: false }
-      );
     }
+
   }
 
   return (
@@ -183,17 +128,17 @@ const ShowNotification = (props) => {
       <UIHeader
         title={"Thông báo"}
         leftIconName={images.backIcon}
-        rightIconName={images.cancelIcon}
+        rightIconName={null}
         onPressLeftIcon={() => {
           goBack();
         }}
-        onPressRightIcon={() => deleleNotification()}
+        onPressRightIcon={null}
         mainStyle={{
           paddingBottom: 20,
         }}
       />
 
-      <ScrollView style={{ marginTop: 20 }}>
+      <ScrollView style={styles.mainView}>
         <SubjectBox icon={images.groupIcon} title="Nhóm" content={groupName} />
 
         <SubjectBox
@@ -216,6 +161,7 @@ const ShowNotification = (props) => {
           content={item.content}
           OnPressContent={() => {LoadItem()}}
         />
+        <Image source={images.blankImageLoading} style={styles.image} />
       </ScrollView>
     </View>
   );
@@ -226,6 +172,9 @@ const styles = StyleSheet.create({
   container: {
     flex: 1,
     backgroundColor: colors.backgroundWhite,
+  },
+  mainView: {
+    marginTop: 20,
   },
   icon: {
     width: 25,
@@ -266,5 +215,15 @@ const styles = StyleSheet.create({
     marginTop: 5,
     color: "black",
     fontSize: fontSizes.h6,
+  },
+  image: {
+    width: 350,
+    height: 350,
+    resizeMode: "cover",
+    margin: 15,
+    borderRadius: 5,
+    borderColor: "white",
+    borderWidth: 5,
+    alignSelf: "center",
   },
 });
