@@ -2,6 +2,8 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_BASE_URL } from "../DomainAPI";
 
+import { images } from "../../constants";
+
 export const groupStudying_getAllGroupofUser = async () => {
   const response = await axios.get(
     `${API_BASE_URL}/api/v1/groupStudying/getAllGroupofUser`,
@@ -71,12 +73,16 @@ export const groupStudying_findGroupbyName = async (nameGroup) => {
 export const groupStudying_createGroup = async (
   nameGroup,
   passWord,
-  image,
   topics
 ) => {
+  var form = new FormData();
+  form.append("nameGroup", nameGroup);
+  form.append("passWord", passWord);
+  form.append("image", images.blankAvatarForNewGroup);
+  form.append("topics", topics);
   const response = await axios.post(
     `${API_BASE_URL}/api/v1/groupStudying/createGroup`,
-    { nameGroup: nameGroup, passWord: passWord, image: image, topics: topics },
+    form,
     {
       headers: {
         "Content-Type": "multipart/form-data",
@@ -84,7 +90,7 @@ export const groupStudying_createGroup = async (
       },
     }
   );
-  return response.data;
+  return response;
 };
 
 export const groupStudying_deleteGroup = async (groupID) => {
@@ -92,11 +98,12 @@ export const groupStudying_deleteGroup = async (groupID) => {
     `${API_BASE_URL}/api/v1/groupStudying/deleteGroup?groupID=${groupID}`,
     {
       headers: {
-        "Content-Type": "multipart/form-data",
+        "Content-Type": "application/json",
         Authorization: "Bearer " + (await AsyncStorage.getItem("username")),
       },
     }
   );
+  return response;
 };
 
 export const groupStudying_getUserAddInGroup = async (groupID) => {
@@ -167,20 +174,37 @@ export const groupStudying_deleteUser = async (userName, groupID) => {
   );
 };
 
-export const groupStudying_changeAvatarGroup = async (image, groupID) => {
+export const groupStudying_changeAvatarGroup = async (uri, groupID) => {
   const formData = new FormData();
-  formData.append("image", image);
-
-  const response = await axios.put(
-    `${API_BASE_URL}/api/v1/groupStudying/changeAvatarGroup?groupID=${groupID}`,
-    formData,
-    {
-      headers: {
-        "Content-Type": "multipart/form-data",
-        Authorization: "Bearer " + (await AsyncStorage.getItem("username")),
-      },
+  formData.append("image", {
+    uri,
+    name: "image.jpg",
+    type: "image/jpg",
+  });
+  formData.append("groupID", groupID);
+  try {
+    const response = await axios.put(
+      `${API_BASE_URL}/api/v1/groupStudying/changeAvatarGroup`,
+      formData,
+      {
+        headers: {
+          "Content-Type": "multipart/form-data",
+          Authorization: "Bearer " + (await AsyncStorage.getItem("username")),
+        },
+      }
+    );
+    if (response.status == 200) {
+      //const imageURL = response.data._parts[0].uri;
+      //console.log("URL hình ảnh:", imageURL);
+      console.log(response.data);
+      alert("Đổi thành công");
+      // Tiếp tục xử lý URL của ảnh ở đây
+    } else {
+      console.log("Lỗi khi tải lên ảnh");
     }
-  );
+  } catch (error) {
+    console.log("Lỗi:", error);
+  }
 };
 
 export const groupStudying_changeLeaderofGroup = async (

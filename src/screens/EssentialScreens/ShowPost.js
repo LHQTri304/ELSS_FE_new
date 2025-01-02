@@ -9,7 +9,7 @@ import {
   StyleSheet,
   Alert,
 } from "react-native";
-import { images, colors, icons, fontSizes } from "../../constants";
+import { images, icons, colors, fontSizes } from "../../constants";
 import { UIHeader, SubjectBox, ContentBox } from "../../components";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -38,6 +38,10 @@ const ShowPost = (props) => {
   let { userName } = props.route.params.topic.userCreated;
   let { fulName } = props.route.params.topic.userCreated.information;
 
+  //console.log(image)
+
+  const parts = image.length > 0 ? image[0].toString().split("-")[0] : null;
+
   //navigation
   const { navigate, goBack, push } = props.navigation;
 
@@ -58,7 +62,6 @@ const ShowPost = (props) => {
           },
         }
       );
-
       setUsername(extractToken.data);
 
       const responseGroup = await axios.get(
@@ -89,7 +92,7 @@ const ShowPost = (props) => {
 
       setLikeStatus(checkLike.data === true);
     };
-    
+
     if (shouldReload) {
       // Perform actions to reload the screen
       setShouldReload(false); // Reset the flag
@@ -149,12 +152,13 @@ const ShowPost = (props) => {
 
   //Xu li like
   const handleLike = async () => {
-    alert(`id: ${blogID}`)
-    /* var form = new FormData();
-    form.append("blogID", blogID); */
+    //alert(`id: ${blogID}`)
+    var form = new FormData();
+    form.append("blogID", blogID);
 
     const likeBlog = await axios.post(
-      API_BASE_URL + "/api/v1/blog/likeBlog?blogID=2",
+      API_BASE_URL + "/api/v1/blog/likeBlog",
+      form,
       {
         headers: {
           Authorization: "Bearer " + (await AsyncStorage.getItem("username")),
@@ -232,7 +236,7 @@ const ShowPost = (props) => {
 
         <TouchableOpacity onPress={ShowPicture}>
           <Image
-            source={{ uri: image != null ? image : null }}
+            source={{ uri: parts }}
             style={styles.image}
           />
         </TouchableOpacity>

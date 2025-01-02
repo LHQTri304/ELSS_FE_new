@@ -4,6 +4,7 @@ import {
   View,
   Image,
   TouchableOpacity,
+  FlatList,
   ScrollView,
   StyleSheet,
 } from "react-native";
@@ -20,54 +21,85 @@ import {
   profile_getUser,
   profile_getAvatar,
   profile_uploadImage,
+  user_getUser,
+  information_getAllFavoriteTopics,
 } from "../../api";
 
-function UserProfile(props) {
+export default function UserProfile(props) {
   const [username, setUsername] = useState(null);
   const [fulname, setFulName] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [phoneNumber, setPhoneNumber] = useState(null);
   const [image, setImage] = useState(null);
+
+  const [phoneNumber, setPhoneNumber] = useState(null);
+  const [email, setEmail] = useState(null);
+  const [description, setDescription] = useState(null);
+  const [yearOfBirth, setYearOfBirth] = useState(null);
+  const [gender, setGender] = useState(null);
+
+  const [topics, setTopics] = useState([]);
 
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(null);
 
-  const setEverything = (username, fulname, email, phoneNumber) => {
+  const setEverything = (
+    username,
+    fulname,
+    email,
+    phoneNumber,
+    description,
+    yearOfBirth,
+    gender,
+    topics
+  ) => {
     setUsername(username);
     setFulName(fulname);
+    setTopics(topics);
 
-    if (email == null) {
-      setEmail("Chưa cập nhật");
-    } else {
-      setEmail(email);
-    }
+    description == null
+      ? setDescription("Chưa cập nhật")
+      : setDescription(description);
 
-    if (phoneNumber == 0) {
-      setPhoneNumber("Chưa cập nhật");
-    } else {
-      setPhoneNumber("0" + phoneNumber);
-    }
+    phoneNumber == 0
+      ? setPhoneNumber("Chưa cập nhật")
+      : setPhoneNumber("0" + phoneNumber);
+
+    email == null ? setEmail("Chưa cập nhật") : setEmail(email);
+
+    yearOfBirth <= 1900
+      ? setYearOfBirth("Chưa cập nhật")
+      : setYearOfBirth(yearOfBirth);
+
+    gender == null ? setGender("Chưa cập nhật") : setGender(gender);
   };
 
   useEffect(() => {
     const fetchData = async () => {
       try {
         const username = await AsyncStorage.getItem("username");
-        //console.log(username);
-        const responseUser = await profile_getUser(username);
+        const responseUser = await user_getUser();
+        const responseFavTopics = await information_getAllFavoriteTopics(
+          responseUser.information.infoID
+        );
+
+        let topicNames = responseFavTopics.map((item) => item.topicName);
+        //console.log(topicNames);
 
         setEverything(
           username,
-          responseUser.data.information.fulName,
-          responseUser.data.email,
-          responseUser.data.information.phoneNumber
+          responseUser.information.fulName,
+          responseUser.email,
+          responseUser.information.phoneNumber,
+          responseUser.information.description,
+          responseUser.information.yearOfBirth,
+          responseUser.information.gender,
+          topicNames
         );
 
         const responseAvatar = await profile_getAvatar(username);
         if (responseAvatar.data != null) {
           setImage(responseAvatar.data.toString());
         }
-        console.log(image);
+        //console.log(image);
       } catch (error) {
         console.error("Error fetching data:", error);
         setError("Error fetching data");
@@ -76,7 +108,10 @@ function UserProfile(props) {
     };
 
     fetchData();
-  }, [props.userName]);
+
+    const intervalId = setInterval(fetchData, 3000);
+    return () => clearInterval(intervalId);
+  }, [props.userName, loading]);
 
   useEffect(() => {
     (async () => {
@@ -129,14 +164,36 @@ function UserProfile(props) {
       <UIHeader title={"Hồ sơ"} />
 
       <ScrollView>
-        <View /* Profile picture */ style={styles.profileView}>
-          <TouchableOpacity onPress={ShowPicture}>
-            <Image source={{ uri: image }} style={styles.profileImage} />
-          </TouchableOpacity>
-          <Text style={styles.profileUsername}>{fulname}</Text>
-          <TouchableOpacity onPress={selectImage} style={styles.button}>
-            <Text style={styles.buttonText}>Thay đổi ảnh</Text>
-          </TouchableOpacity>
+        <View>
+          <View style={styles.profileView}>
+            <View>
+              <TouchableOpacity onPress={ShowPicture}>
+                <Image source={{ uri: image }} style={styles.profileImage} />
+              </TouchableOpacity>
+              <TouchableOpacity onPress={selectImage} style={styles.button}>
+                <Text style={styles.buttonText}>Thay đổi ảnh</Text>
+              </TouchableOpacity>
+            </View>
+            <View>
+              <Text style={styles.profileUsername}>{fulname}</Text>
+              <Text style={styles.profileDescription} numberOfLines={4}>
+                {description}
+              </Text>
+            </View>
+          </View>
+
+          <RowSectionTitle
+            text={"Chủ đề yêu thích"}
+            styles={{ marginTop: 20 }}
+          />
+
+          <ScrollView contentContainerStyle={styles.topics_container}>
+            {topics.map((topicName, index) => (
+              <View style={styles.eachTopicBox} key={index}>
+                <Text style={styles.eachTopicBoxText}>{topicName}</Text>
+              </View>
+            ))}
+          </ScrollView>
         </View>
 
         <RowSectionTitle
@@ -146,6 +203,8 @@ function UserProfile(props) {
 
         <RowSectionDisplay icon={icons.phoneIcon} text={phoneNumber} />
         <RowSectionDisplay icon={icons.emailIcon} text={email} />
+        <RowSectionDisplay icon={icons.birthdayCakeIcon} text={yearOfBirth} />
+        <RowSectionDisplay icon={icons.genderEqualityIcon} text={gender} />
 
         <RowSectionTitle text={"Tùy chỉnh tài khoản"} />
 
@@ -169,7 +228,6 @@ function UserProfile(props) {
     </View>
   );
 }
-export default UserProfile;
 
 const styles = StyleSheet.create({
   container: {
@@ -177,34 +235,63 @@ const styles = StyleSheet.create({
     backgroundColor: colors.backgroundWhite,
   },
   profileView: {
-    height: 200,
+    marginLeft: "5%",
+    marginVertical: 15,
     alignItems: "center",
+    flexDirection: "row",
   },
   profileImage: {
     width: 100,
     height: 100,
     resizeMode: "cover",
-    margin: 15,
+    marginHorizontal: 15,
+    marginVertical: 5,
     borderRadius: 90,
-    borderColor: "white",
-    borderWidth: 5,
+    borderColor: colors.PrimaryBackground,
+    borderWidth: 2,
   },
   profileUsername: {
     color: "black",
-    fontSize: fontSizes.h6,
+    fontSize: fontSizes.h5,
+    fontWeight: "900",
+  },
+  profileDescription: {
+    height: 70,
+    maxWidth: 220,
+    color: "gray",
+    fontSize: fontSizes.h7,
   },
   button: {
     backgroundColor: colors.PrimaryBackground,
-    padding: 10,
+    padding: 3,
     borderRadius: 10,
-    marginBottom: 10,
-    marginTop: 10,
-    width: 150,
-    height: 40,
+    width: 90,
     alignItems: "center",
+    alignSelf: "center",
   },
   buttonText: {
     color: "white",
+    fontSize: fontSizes.h8,
+  },
+  //
+  topics_container: {
+    flexDirection: "row",
+    flexWrap: "wrap",
+    justifyContent: "space-around",
+  },
+  eachTopicBox: {
+    paddingVertical: 5,
+    paddingHorizontal: 10,
+    marginBottom: 5,
+    marginHorizontal: 3,
+    borderRadius: 12,
+    borderWidth: 1,
+    borderColor: colors.GrayContainer,
+    backgroundColor: colors.GrayObjects,
+  },
+  eachTopicBoxText: {
+    color: colors.GrayOnContainerAndFixed,
+    textAlign: "center",
     fontSize: fontSizes.h7,
   },
 });

@@ -8,7 +8,7 @@ import {
   TextInput,
   ScrollView,
 } from "react-native";
-import { images, colors, fontSizes } from "../../constants";
+import { images, icons, colors, fontSizes } from "../../constants";
 import { UIHeader } from "../../components";
 import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 import axios from "axios";
@@ -57,7 +57,7 @@ function MemberToChangeRole(props) {
   return (
     <View style={styles.container}>
       <UIHeader title={"Thành viên"} 
-        leftIconName={images.backIcon}
+        leftIconName={icons.backIcon}
         onPressLeftIcon={() => {
           goBack();
         }}
@@ -74,7 +74,7 @@ function MemberToChangeRole(props) {
           placeholder="Tìm kiếm..."
           placeholderTextColor={colors.inactive}
         />
-        <Image source={images.searchIcon} style={styles.searchBarImage} />
+        <Image source={icons.searchIcon} style={styles.searchBarImage} />
       </View>
 
       <View style={styles.blackLine} />

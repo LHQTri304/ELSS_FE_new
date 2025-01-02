@@ -9,8 +9,8 @@ import {
   StyleSheet,
 } from "react-native";
 import CommentItems from "./CommentItems";
-import { images, colors, icons, fontSizes } from "../../constants";
-import { UIHeader, EnterMessageCommentBar } from "../../components";
+import { images, icons, colors, fontSizes } from "../../constants";
+import { UIHeader, EnterMessageCommentBar, EnterMessageBar } from "../../components";
 import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_BASE_URL } from "../../api/DomainAPI";
@@ -56,7 +56,7 @@ const Comment = (props) => {
     <View style={styles.container}>
       <UIHeader
         title={"Bình luận trên bài đăng"}
-        leftIconName={images.backIcon}
+        leftIconName={icons.backIcon}
         rightIconName={null}
         onPressLeftIcon={() => {
           goBack();
@@ -78,7 +78,8 @@ const Comment = (props) => {
       </ScrollView>
 
       
-      <EnterMessageCommentBar blogID={blogID}/>
+      {/* <EnterMessageCommentBar blogID={blogID}/> */}
+      <EnterMessageBar blogID={blogID} actionType={'comment'}/>
     </View>
   );
 };

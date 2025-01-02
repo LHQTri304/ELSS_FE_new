@@ -6,7 +6,7 @@ import {
   TouchableOpacity,
   StyleSheet,
 } from "react-native";
-import { images, colors, icons, fontSizes } from "../../../constants";
+import { images, icons, colors, fontSizes } from "../../../constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { friend_checkNewMessage } from "../../../api";
 
@@ -32,7 +32,7 @@ function TabYourFriendsItems(props) {
   const ToMessage = async () => {
     try {
       setIsNewNotification(false);
-      onPress(await AsyncStorage.getItem("username"), userName);
+      onPress(await AsyncStorage.getItem("username"), userName, setIsNewNotification());
     } catch (exception) {
       console.error(exception.message);
     }

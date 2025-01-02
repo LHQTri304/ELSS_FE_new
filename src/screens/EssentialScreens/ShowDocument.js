@@ -9,7 +9,7 @@ import {
   StyleSheet,
   Alert,
 } from "react-native";
-import { images, colors, icons, fontSizes } from "../../constants";
+import { images, icons, colors, fontSizes } from "../../constants";
 import { UIHeader } from "../../components";
 import axios from "axios";
 import { API_BASE_URL } from "../../api/DomainAPI";
@@ -114,8 +114,8 @@ const ShowDocument = (props) => {
     <View style={styles.container}>
       <UIHeader
         title={'Nội dung file'}
-        rightIconName={images.trashCanIcon}
-        leftIconName={images.backIcon}
+        rightIconName={icons.trashCanIcon}
+        leftIconName={icons.backIcon}
         onPressLeftIcon={() => {
           goBack();
         }}

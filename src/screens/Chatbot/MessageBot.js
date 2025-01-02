@@ -10,7 +10,7 @@ import {
   ScrollView,
   StyleSheet,
 } from "react-native";
-import { images, colors, fontSizes } from "../../constants";
+import { images, icons, colors, fontSizes } from "../../constants";
 import { UIHeader, EnterMessageBar, MessengerItems } from "../../components";
 import { API_BASE_URL } from "../../api/DomainAPI";
 import axios from "axios";
@@ -51,12 +51,6 @@ function MessageBot(props) {
   
     useEffect(() => {
       fetchData(); // Gọi lần đầu tiên khi component được render
-  
-      const intervalId = setInterval(() => {
-        fetchData(); // Gọi lại sau mỗi 2 giây
-      }, 1000);
-  
-      return () => clearInterval(intervalId); // Xóa interval khi component bị unmount hoặc dependencies thay đổi
     }, [props.userName]);
 
   function LoadUserInformation()
@@ -73,13 +67,6 @@ function MessageBot(props) {
     <View style={styles.container}>
       <UIHeader
         title="Hỏi đáp"
-        leftIconName={null}
-        rightIconName={null}
-        onPressLeftIcon={() => {
-          
-        }}
-        onPressRightIcon={null}
-        onPressTitle={null}
       />
 
       <SafeAreaView style={styles.displayView}>

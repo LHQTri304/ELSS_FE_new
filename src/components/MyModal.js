@@ -3,7 +3,7 @@ import { View, Text, TouchableOpacity, Modal, StyleSheet } from "react-native";
 import { images, icons, colors, fontSizes } from "../constants";
 import Icon from "./MyIcon";
 
-// PHẢI CÓ dòng này khi dùng: 
+// PHẢI CÓ dòng này khi dùng:
 //    const [modalVisible, setModalVisible] = useState(false);
 /*
 <WhiteSlideBottomUp
@@ -13,10 +13,16 @@ import Icon from "./MyIcon";
   setModalVisible={setModalVisible}
 />
 */
-export function WhiteSlideBottomUp({ modalVisible, setModalVisible, title, renderContent }) {
+export function WhiteSlideBottomUp({
+  modalVisible,
+  setModalVisible,
+  title,
+  renderContent,
+  style = null,
+}) {
   return (
     <>
-      <Modal
+      {/* <Modal
         animationType="fade"
         transparent={true}
         visible={modalVisible}
@@ -27,7 +33,7 @@ export function WhiteSlideBottomUp({ modalVisible, setModalVisible, title, rende
         <View
           style={styles.fadeModalView}
         />
-      </Modal>
+      </Modal> */}
       <Modal
         animationType="slide"
         transparent={true}
@@ -36,7 +42,7 @@ export function WhiteSlideBottomUp({ modalVisible, setModalVisible, title, rende
           setModalVisible(!modalVisible);
         }}
       >
-        <View style={styles.slideModalView}>
+        <View style={[styles.slideModalView, style]}>
           <View style={styles.headerView}>
             <Text style={styles.title}>{title}</Text>
             <TouchableOpacity onPress={() => setModalVisible(!modalVisible)}>
@@ -47,9 +53,7 @@ export function WhiteSlideBottomUp({ modalVisible, setModalVisible, title, rende
               />
             </TouchableOpacity>
           </View>
-          <View style={styles.contentView}>
-            {renderContent()}
-          </View>
+          <View style={styles.contentView}>{renderContent()}</View>
         </View>
       </Modal>
     </>
@@ -58,7 +62,11 @@ export function WhiteSlideBottomUp({ modalVisible, setModalVisible, title, rende
 
 const styles = StyleSheet.create({
   fadeModalView: {
-    flex: 1,
+    top: 0,
+    bottom: 0,
+    left: 0,
+    right: 0,
+        position: 'absolute',
     backgroundColor: "rgba(0, 0, 0, 0.33)",
   },
   slideModalView: {
@@ -72,8 +80,8 @@ const styles = StyleSheet.create({
     alignSelf: "center",
   },
   headerView: {
-    width: '98%',
-    height: '9%',
+    width: "98%",
+    height: "9%",
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
@@ -87,11 +95,12 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   contentView: {
+    flex: 1,
     width: "90%",
-    marginTop: '5%',
+    marginTop: "5%",
     marginHorizontal: "10%",
     borderRadius: 20,
-    paddingHorizontal: 35,
+    //paddingHorizontal: 35,
     alignItems: "center",
   },
 });

@@ -71,6 +71,45 @@ export const blog_getBlogById = async (blogID) => {
   return response;
 };
 
+export const blog_getAllBlogBySubject = async (groupID, subjectID) => {
+  const response = await axios.get(
+    `${API_BASE_URL}/api/v1/blog/getAllBlogBySubject?groupID=${groupID}&subjectID=${subjectID}`,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: "Bearer " + (await AsyncStorage.getItem("username")),
+      },
+    }
+  );
+  return response;
+};
+
+export const blog_getAllCommentInBlog = async (blogID) => {
+  const response = await axios.get(
+    `${API_BASE_URL}/api/v1/blog/getAllCommentInBlog?blogID=${blogID}`,
+    {
+      headers: {
+        "Content-Type": "multipart/form-data",
+        Authorization: "Bearer " + (await AsyncStorage.getItem("username")),
+      },
+    }
+  );
+  return response;
+};
+
+export const blog_getAllReplyInComment = async (commentID) => {
+  const response = await axios.get(
+    `${API_BASE_URL}/api/v1/blog/getAllReplyInComment?commentID=${commentID}`,
+    {
+      headers: {
+        "Content-Type": "application/json",
+        Authorization: "Bearer " + (await AsyncStorage.getItem("username")),
+      },
+    }
+  );
+  return response.data;
+};
+
 export const blog_createNewSubject = async (groupID, nameSubject) => {
   const response = await axios.post(
     `${API_BASE_URL}/api/v1/blog/createNewSubject?groupID=${groupID}&nameSubject=${nameSubject}`,
@@ -230,14 +269,38 @@ export const blog_sureToDeleteSubject = async (subjectID, groupID) => {
   );
   return response;
 };
-export const blog_commentBlog = async (blogID, content, userNames, files) => {
+
+const generateRandomString = (length) => {
+  const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+  let result = '';
+  for (let i = 0; i < length; i++) {
+    result += characters.charAt(Math.floor(Math.random() * characters.length));
+  }
+  return result;
+};
+
+export const blog_commentBlog = async (blogID, content, userName, uriList) => {
+  // const imageList = uriList.map((uri) => {
+  //   return {
+  //     uri,
+  //     name: "image.jpg",
+  //     type: "image/jpg",
+  //   };
+  // });
   const formData = new FormData();
+  uriList.forEach((uri) => {
+    formData.append("files", {
+      uri,
+      name: generateRandomString(10) + ".jpg",
+      type: "image/jpg",
+    });
+  });
+  formData.append('blogID', blogID)
   formData.append("content", content);
-  userNames.forEach((username) => formData.append("userNames", username));
-  files.forEach((file) => formData.append("files", file));
+  formData.append("userNames", userName);
 
   const response = await axios.post(
-    `${API_BASE_URL}/api/v1/blog/commentBlog?blogID=${blogID}`,
+    `${API_BASE_URL}/api/v1/blog/commentBlog`,
     formData,
     {
       headers: {
@@ -279,16 +342,31 @@ export const blog_deleteComment = async (commentID) => {
 export const blog_replyComment = async (
   commentID,
   content,
-  userNames,
-  files
+  userName,
+  uriList
 ) => {
+  // const imageList = uriList.map((uri) => {
+  //   return {
+  //     uri,
+  //     name: "image.jpg",
+  //     type: "image/jpg",
+  //   };
+  // });
   const formData = new FormData();
+  uriList.forEach((uri) => {
+    formData.append("files", {
+      uri,
+      name: generateRandomString(10) + ".jpg",
+      type: "image/jpg",
+    });
+  });
+  formData.append("commentID", commentID);
   formData.append("content", content);
-  userNames.forEach((username) => formData.append("userNames", username));
-  files.forEach((file) => formData.append("files", file));
+  formData.append("userNames", userName);
+  //formData.append("files", imageList);
 
   const response = await axios.post(
-    `${API_BASE_URL}/api/v1/blog/replyComment?commentID=${commentID}`,
+    `${API_BASE_URL}/api/v1/blog/replyComment`,
     formData,
     {
       headers: {

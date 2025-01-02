@@ -9,7 +9,7 @@ import {
   StyleSheet,
   Alert,
 } from "react-native";
-import { images, colors, icons, fontSizes } from "../../constants";
+import { images, icons, colors, fontSizes } from "../../constants";
 import { UIHeader } from "../../components";
 import axios from "axios";
 import { API_BASE_URL } from "../../api/DomainAPI";
@@ -20,7 +20,7 @@ import { FloatingAction } from "react-native-floating-action";
 const floatingActions = [
   {
     text: "Xóa thông báo",
-    icon: images.trashCanIcon,
+    icon: icons.trashCanIcon,
     name: "bt_delete",
     position: 2,
   },
@@ -133,10 +133,13 @@ const ShowNotification = (props) => {
   const { navigate, goBack } = props.navigation;
 
   const LoadItem = async () => {
+    alert("As")
     try {
       if (item.documentID == -1) {
+        var form = new FormData();
+        form.append("blogID", item.blogID);
         const response = await axios.get(
-          API_BASE_URL + "/api/v1/blog/getBlogById?blogID=" + item.blogID, {
+          API_BASE_URL + "/api/v1/blog/getBlogById", form, {
             headers: {
               'Content-Type': 'multipart/form-data',
               'Authorization': 'Bearer ' + await AsyncStorage.getItem('username'),
@@ -150,26 +153,29 @@ const ShowNotification = (props) => {
           alert("Đã có lỗi xảy ra, vui lòng xem trong nhóm");
         }
       } else if (item.blogID == -1) {
-        const response = await axios.get(
-          API_BASE_URL +
-            "/api/v1/document/getDocumentById?documentID=" +
-            item.documentID, {
-              headers: {
-                'Content-Type': 'multipart/form-data',
-                'Authorization': 'Bearer ' + await AsyncStorage.getItem('username'),
-              },
-            }
-        );
+          var form = new FormData();
+          form.append("documentID", item.documentID);
+          const response = await axios.get(
+            API_BASE_URL +
+              "/api/v1/document/getDocumentById", form, {
+                headers: {
+                  'Content-Type': 'multipart/form-data',
+                  'Authorization': 'Bearer ' + await AsyncStorage.getItem('username'),
+                },
+              }
+          );
 
-        if (response.status == 200) {
-          navigate("ShowDocument", { notification: response.data });
-        } else {
-          alert("Đã có lỗi xảy ra, vui lòng xem trong nhóm");
-        }
+          console.log(response.data)
+          if (response.status == 200) {
+            navigate("ShowDocument", { notification: response.data });
+          } else {
+            alert("Đã có lỗi xảy ra, vui lòng xem trong nhóm");
+          }
       } else {
+
       }
     } catch (error) {
-      alert("Nội dung này đã bị xoá");
+      alert("Nội dung này đã bị xoá !!");
     }
   };
 
@@ -232,7 +238,7 @@ const ShowNotification = (props) => {
     <View style={styles.container}>
       <UIHeader
         title={"Thông báo"}
-        leftIconName={images.backIcon}
+        leftIconName={icons.backIcon}
         rightIconName={null}
         onPressLeftIcon={() => {
           goBack();
@@ -244,28 +250,28 @@ const ShowNotification = (props) => {
       />
 
       <ScrollView style={styles.mainView}>
-        <SubjectBox icon={images.groupIcon} title="Nhóm" content={groupName} />
+        <SubjectBox icon={icons.groupIcon} title="Nhóm" content={groupName} />
 
         <SubjectBox
-          icon={images.clockIcon}
+          icon={icons.clockIcon}
           title="Thời gian gửi"
           content={sendingTime}
         />
 
         <SubjectBox
-          icon={images.menuIcon}
+          icon={icons.menuIcon}
           title="Loại thông báo"
           content={item.notifycationType == "user" ? "Trưởng nhóm" : "Hệ thống"}
         />
 
         <SubjectBox
-          icon={images.priceTagIcon}
+          icon={icons.priceTagIcon}
           title="Tiêu đề"
           content={item.header}
         />
 
         <ContentBox
-          icon={images.documentBlackIcon}
+          icon={icons.documentBlackIcon}
           title="Nội dung"
           content={item.content}
           OnPressContent={() => {

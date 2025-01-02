@@ -8,7 +8,7 @@ import {
   ScrollView,
   StyleSheet,
 } from "react-native";
-import { images, colors, icons, fontSizes } from "../../constants";
+import { images, icons, colors, fontSizes } from "../../constants";
 import { UIHeader } from "../../components";
 import { API_BASE_URL } from "../../api/DomainAPI";
 import axios from "axios";
@@ -20,10 +20,11 @@ const CreatePost = (props) => {
   const [blankContent, setBlankContent] = useState(true);
   const [contentText, setContentText] = useState("");
 
-  const [filePath, setFilePath] = useState("icons.blankImageLoading")
+  const [filePath, setFilePath] = useState(images.blankImageLoading)
 
 
   let { subjectID } = props.route.params;
+  const [assets, setAssets] = useState([]);
   
   //Add/change image
   const handleImage = async () => {
@@ -62,7 +63,17 @@ const CreatePost = (props) => {
       
       try {
 
+        //setFilePath(result.assets[0].uri);
         setFilePath(result.assets[0].uri);
+        //console.log(result.assets[0])
+
+        for (let i = 0; i < result.assets.length; i++)
+        {
+          //assets.push(result.assets[i].uri);
+          //setAssets([...assets, result.assets[i]])
+          setAssets(result.assets)
+          console.log(result.assets)
+        }
 
         const username = await AsyncStorage.getItem('username');
 
@@ -81,28 +92,56 @@ const CreatePost = (props) => {
       return;
     }
 
-    let blog = {
-      content: contentText,
-    };
+    // let blog = {
+    //   content: contentText,
+    // };
+
+    var formData = new FormData()
+    formData.append('groupID', await AsyncStorage.getItem('groupID'))
+    formData.append('userNames', [])
+    formData.append('subjectID', subjectID)
+    formData.append('content', contentText)
 
     const response = await axios.post(
       API_BASE_URL +
-        "/api/v1/blog/createNewBlog?groupID=" +
-        (await AsyncStorage.getItem("groupID")) +
-        "&userName=" +
-        (await AsyncStorage.getItem("username")) +
-        "&subjectID=" +
-        subjectID,
-      blog, {
+        "/api/v1/blog/createNewBlog",
+        formData, {
         headers: {
-          'Content-Type': 'application/json',
+          'Content-Type': 'multipart/form-data',
           'Authorization': 'Bearer ' + await AsyncStorage.getItem('username'),
         }}
     );
 
     if (filePath != "icons.blankImageLoading")
     {
-      uploadImage(filePath, response.data)
+      for (let i = 0; i < assets.length; i++)
+      {
+        let url = assets[i].uri;
+        console.log(assets)
+        console.log(assets[i].uri)
+        console.log(assets[i].type)
+        console.log(assets[i].fileName)
+
+        formData = new FormData()
+        formData.append('blogID', response.data)
+        formData.append("file", {
+          url,
+          name: assets[i].fileName,
+          type: assets[i].type,
+        });
+
+        uploadImage(assets[i].uri, response.data)
+
+        // const uploadImage = await axios.post(
+        //   API_BASE_URL +
+        //     "/api/v1/blog/uploadImage",
+        //     formData, {
+        //     headers: {
+        //       'Content-Type': 'multipart/form-data',
+        //       'Authorization': 'Bearer ' + await AsyncStorage.getItem('username'),
+        //     }}
+        // );    
+      }
     }
 
     // const formData = new FormData();
