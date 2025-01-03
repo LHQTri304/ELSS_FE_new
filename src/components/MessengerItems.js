@@ -5,7 +5,8 @@ import AsyncStorage from "@react-native-async-storage/async-storage";
 import { messenger_getSentUser, messenger_checkSender } from "../api";
 
 function MessengerItems(props) {
-  let { content, dateSent, id, files, status } = props.item;
+  let { content, dateSent, id, status } = props.item;
+  const files = props.files
 
   const date = new Date(dateSent);
   const timeSent = `${date.getHours()}:${date.getMinutes()} ${date.getDate()}/${
@@ -21,16 +22,19 @@ function MessengerItems(props) {
   const [path, setPath] = useState(null);
 
   const MAXWidth = 245;
-  const [imageWidth, setImageWidth] = useState(0);
-  const [imageHeight, setImageHeight] = useState(0);
+  const [imageWidth, setImageWidth] = useState(500);
+  const [imageHeight, setImageHeight] = useState(500);
 
-  const getImageSize = (uri) => {
+  /* const getImageSize = (uri) => {
     Image.getSize(uri, (width, height) => {
       const temp = width > MAXWidth ? width / MAXWidth : 1;
       setImageWidth(width);
       setImageHeight(height / temp);
     });
-  };
+  }; */
+
+  files.length > 0?   console.log(files[1].url) : console.log('null')
+  //console.log(fakeData)
 
   useEffect(() => {
     const fetchData = async () => {
@@ -47,8 +51,10 @@ function MessengerItems(props) {
         props.item.content
           ? setIsImage(false)
           : (setIsImage(true),
-            setImage(props.item.files[0].url),
-            getImageSize(props.item.files[0].url));
+          console.log(props.item)
+            //setImage(props.item.files[0].url)//,
+            //getImageSize(props.item.files[0].url)
+          );
       } catch (error) {
         console.error("Error fetching data:", error);
       }
@@ -70,18 +76,21 @@ function MessengerItems(props) {
           <Text style={styles.timeText}>{timeSent}</Text>
         </View>
         <View style={styles.leftView}>
-          {isImage ? (
-            <Image
-              style={[
-                styles.image,
-                {
-                  width: imageWidth,
-                  height: imageHeight,
-                  maxWidth: MAXWidth,
-                },
-              ]}
-              source={{ uri: image }}
-            />
+          {files.length > 0 ? (
+            files.map((file) => (
+              <Image
+                style={[
+                  styles.image,
+                  {
+                    width: 50,
+                    height: 50,
+                    //width: file.width,
+                    //height: file.height,
+                  },
+                ]}
+                source={{ uri: file.url }}
+              />
+            ))
           ) : (
             <Text style={styles.message}>{content}</Text>
           )}
@@ -95,18 +104,21 @@ function MessengerItems(props) {
           <Text style={styles.timeText}>{timeSent}</Text>
         </View>
         <View style={styles.rightView}>
-          {isImage ? (
-            <Image
-              style={[
-                styles.image,
-                {
-                  width: imageWidth,
-                  height: imageHeight,
-                  maxWidth: MAXWidth,
-                },
-              ]}
-              source={{ uri: image }}
-            />
+          {files.length > 0 ? (
+            files.map((file) => (
+              <Image
+                style={[
+                  styles.image,
+                  {
+                    width: 50,
+                    height: 50,
+                    //width: file.width,
+                    //height: file.height,
+                  },
+                ]}
+                source={{ uri: file.url }}
+              />
+            ))
           ) : (
             <Text style={styles.message}>{content}</Text>
           )}

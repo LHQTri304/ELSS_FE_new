@@ -2,36 +2,34 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_BASE_URL } from "../DomainAPI";
 
-export const messagegroup_sendMessage = async (messContent, groupID, files) => {
-  const formData = new FormData();
-  formData.append('messContent', messContent);
-  formData.append('groupID', groupID);
-  files.forEach(file => {
-    formData.append('files', file);
-  });
+export const messagegroup_sendMessage = async (typedText) => {
+  var form = new FormData();
+  form.append("messContent", typedText);
+  form.append("groupID", await AsyncStorage.getItem("groupID"));
+
   const response = await axios.post(
-    `${API_BASE_URL}/api/v1/messagegroup/sendMessage`,
-    formData,
+    API_BASE_URL + "/api/v1/messagegroup/sendMessage",
+    form,
     {
       headers: {
-        'Content-Type': 'multipart/form-data',
-        Authorization: 'Bearer ' + (await AsyncStorage.getItem('username')),
+        "Content-Type": "multipart/form-data",
+        Authorization: "Bearer " + (await AsyncStorage.getItem("username")),
       },
     }
   );
-  return response.data;
+  return response;
 };
 
-export const messagegroup_uploadImage = async (uri, name, type, messID) => {
+export const messagegroup_uploadImage = async (uri, name, type, width, height, messID) => {
   // console.log(uri)
   // console.log(name)
   // console.log(type)
   // console.log(messID)
 
-  // alert("uri: " + uri)
-  // alert("name: " + name)
-  // alert("type: " + type)
-  // alert("messID: " + messID)
+  //  alert("uri: " + uri)
+  //  alert("name: " + name)
+  //  alert("type: " + type)
+  //  alert("messID: " + messID)
 
 
   const formData = new FormData();
@@ -41,6 +39,8 @@ export const messagegroup_uploadImage = async (uri, name, type, messID) => {
     type: type,
   });
   formData.append("messID", messID);
+  formData.append("width", width)
+  formData.append("height", height)
   
   //alert("2")
 
@@ -55,7 +55,7 @@ export const messagegroup_uploadImage = async (uri, name, type, messID) => {
     }
   );
 
-  //alert("response status: " + response.status)
+  alert("response status: " + response.status)
 
   return response.data;
 };
