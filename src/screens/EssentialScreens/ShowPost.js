@@ -32,15 +32,15 @@ const floatingActions = [
 ];
 
 const ShowPost = (props) => {
-  let { blogID, content, dateCreated, comments, subject, image } =
+  let { blogID, content, dateCreated, comments, subject, files } =
     props.route.params.topic;
   let { nameSubject, subjectID } = props.route.params;
   let { userName } = props.route.params.topic.userCreated;
   let { fulName } = props.route.params.topic.userCreated.information;
 
-  //console.log(image)
+  //console.log(files.length)
 
-  const parts = image.length > 0 ? image[0].toString().split("-")[0] : null;
+  const parts = files.length > 0 ? files[0].url : null;
 
   //navigation
   const { navigate, goBack, push } = props.navigation;
@@ -186,12 +186,14 @@ const ShowPost = (props) => {
   };
 
   const ShowPicture = () => {
-    if (image == "icons.blankImageLoading") {
+    console.log(parts)
+
+    if (parts == null) {
       alert("Nội dung này không có ảnh");
       return;
     }
 
-    navigate("ShowPicture", { file: image });
+    navigate("ShowPicture", { file: parts[0] });
   };
 
   return (
@@ -235,10 +237,24 @@ const ShowPost = (props) => {
         />
 
         <TouchableOpacity onPress={ShowPicture}>
-          <Image
+          {/* <Image
             source={{ uri: parts }}
             style={styles.image}
-          />
+          /> */}
+          {files.map((eachFile, index) => (
+          <View key={index} style={styles.imgView}>
+            <Image source={{ uri: eachFile.url }} style={[styles.image,/* { width: imageWidth, height: imageHeight, maxWidth: MAXWidth, } */]} />
+            {files.length == 0 ? (
+              <View />
+            ) : (
+              <TouchableOpacity
+                style={styles.redRemoveImg}
+                onPress={() => handleRemoveImageFromList(index)}
+              >
+              </TouchableOpacity>
+            )}
+          </View>
+        ))}
         </TouchableOpacity>
       </ScrollView>
 

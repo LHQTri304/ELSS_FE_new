@@ -14,12 +14,15 @@ import axios from "axios";
 import { API_BASE_URL } from "../../api/DomainAPI";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import * as ImagePicker from 'expo-image-picker';
+import { CommonButton } from "../../components";
 
 const CreateNotification = (props) => {
   const [blankContent, setBlankContent] = useState(true);
   const [titleText, setTitleText] = useState("");
   const [contentText, setContentText] = useState("");
   const [path, setPath] = useState(null)
+  const [images, setimages] = useState([])
+  const [listSelectedImage, setListSelectedImage] = useState([]);
 
   const handleCreatePost = async () => {
     
@@ -35,35 +38,53 @@ const CreateNotification = (props) => {
       return;
     }
 
-    let notification = {
-      header: titleText,
-      content: contentText,
-      //image: path,
-    }
+    var formData = new FormData()
+    formData.append('header', titleText)
+    formData.append('content', contentText)
+    formData.append('groupID', await AsyncStorage.getItem('groupID'))
 
-    const response = await axios.post(API_BASE_URL + "/api/v1/notifycation/create?groupID=" + await AsyncStorage.getItem('groupID'), notification, {
+    // khởi tạo thông báo mà không có hình ảnh
+    const response = await axios.post(API_BASE_URL + "/api/v1/notifycation/createWithoutFiles", formData, {
       headers: {
-        'Content-Type': 'application/json',
+        'Content-Type': 'multipart/form-data',
         'Authorization': 'Bearer ' + await AsyncStorage.getItem('username'),
       },
     })
 
-    if (path != null)
+    if (listSelectedImage.length > 0)
     {
-      uploadImage(path, response.data)
+      for (var i = 0; i < listSelectedImage.length; i++)
+      {
+        const uri = images[i].uri;
+        const name = images[i].fileName;
+        const type = images[i].mimeType;
+
+        uploadImage(uri, name, type, response.data)
+      }
     }
 
+    if (response.status == 200)
+    {
+      alert("Tạo thành công") 
+    }
+    else
+    {
+      alert("không tạo thành công, vui lòng thử lại") 
+    }
 
-    alert("Tạo thành công")
     goBack();
   };
 
-  const uploadImage = async (uri, notificationID) => {
+  const uploadImage = async (uri, name, type, notificationID) => {
+    console.log(uri)
+    console.log(name)
+    console.log(type)
+
     const formData = new FormData();
     formData.append('image', {
-      uri,
-      name: 'image.jpg',
-      type: 'image/jpg',
+      uri: uri,
+      name: name,
+      type: type,
     });
     formData.append('notificationID', notificationID)
   
@@ -83,14 +104,15 @@ const CreateNotification = (props) => {
         },
       });
   
-      if (response.status == 200) {
-        const imageURL = await response.json();
-        console.log('URL của ảnh:', imageURL);
-        //alert('Đổi thành công')
-        // Tiếp tục xử lý URL của ảnh ở đây
-      } else {
-        console.log('Lỗi khi tải lên ảnh');
-      }
+      // if (response.status == 200) {
+      //   const imageURL = await response.json();
+      //   //console.log('URL của ảnh:', imageURL);
+      //   //alert('Đổi thành công')
+      //   // Tiếp tục xử lý URL của ảnh ở đây
+
+      // } else {
+      //   console.log('Lỗi khi tải lên ảnh');
+      // }
     } catch (error) {
       console.log('Lỗi:', error);
     }
@@ -127,6 +149,16 @@ const CreateNotification = (props) => {
       try {
 
         setPath(result.assets[0].uri);
+        await setimages([...images, result.assets[0]]);
+
+        listSelectedImage.length == 0
+          ? setListSelectedImage([result.assets[0]])
+          : setListSelectedImage([...listSelectedImage, result.assets[0]]);
+
+        // for (var i = 0; i < result.assets.length; i++)
+        // {
+        //   await setimages([...images, {uri: result.assets[i].uri, name: result.assets[i].fileName, type: result.assets[i].type}])
+        // }
 
       } catch (error) {
         console.error('Error uploading image:', error);
@@ -135,6 +167,11 @@ const CreateNotification = (props) => {
 
   };
   
+  const handleRemoveImageFromList = async (index) => {
+    const newList = [...listSelectedImage];
+    newList.splice(index, 1);
+    setListSelectedImage(newList);
+  };
 
   return (
     <View style={styles.container}>
@@ -174,10 +211,31 @@ const CreateNotification = (props) => {
           placeholder={"Soạn thông báo"}
           placeholderTextColor={colors.inactive}
         />
-        <TouchableOpacity style={styles.imgClickable} onPress={selectImage}>
-          <Image source={{uri: path}} style={styles.image} />
-        </TouchableOpacity>
       </ScrollView>
+      {listSelectedImage.map((eachImage, index) => (
+          <View key={index} style={styles.imgView}>
+            <Image source={{ uri: eachImage.uri }} style={[styles.image,/* { width: imageWidth, height: imageHeight, maxWidth: MAXWidth, } */]} />
+            {listSelectedImage.length == 0 ? (
+              <View />
+            ) : (
+              <TouchableOpacity
+                style={styles.redRemoveImg}
+                onPress={() => handleRemoveImageFromList(index)}
+              >
+                <Icon
+                  name={icons.cancelCircleIcon}
+                  size={55}
+                  color={colors.RedLightBackground}
+                />
+              </TouchableOpacity>
+            )}
+          </View>
+        ))}
+      <CommonButton
+          onPress={selectImage}
+          title={"+ Thêm ảnh +"}
+          styleContainer={styles.addImgBtn}
+        />
     </View>
   );
 };
@@ -213,5 +271,10 @@ const styles = StyleSheet.create({
   },
   imgClickable: {
     backgroundColor: colors.transparentWhite,
+  },
+  addImgBtn: {
+    marginTop: 0,
+    marginBottom: 30,
+    backgroundColor: colors.GrayBackground,
   },
 });

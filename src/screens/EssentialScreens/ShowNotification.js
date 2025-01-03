@@ -55,8 +55,16 @@ function ContentBox(props) {
 }
 
 const ShowNotification = (props) => {
-  let { header, content, notifycationType, dateSent, notifycationID, image } =
+  let { header, content, notifycationType, dateSent, notifycationID, files } =
     props.route.params.notification;
+
+  console.log(files)
+  var parts = null;
+
+  if (files.length > 0)
+  {
+    parts = files[0].url
+  }
 
   const date = new Date(dateSent);
   const hour = date.getHours();
@@ -133,7 +141,7 @@ const ShowNotification = (props) => {
   const { navigate, goBack } = props.navigation;
 
   const LoadItem = async () => {
-    alert("As")
+    //alert("As")
     try {
       if (item.documentID == -1) {
         var form = new FormData();
@@ -278,15 +286,31 @@ const ShowNotification = (props) => {
             LoadItem();
           }}
         />
-        <TouchableOpacity onPress={ShowPicture}>
+        {/* <TouchableOpacity onPress={ShowPicture}>
           <Image
-            source={{ uri: image != null ? image : null }}
+            source={{ uri: parts != null ? parts[0] : null }}
             style={styles.image}
           />
+        </TouchableOpacity> */}
+        <TouchableOpacity onPress={ShowPicture}>
+          {files.map((eachFile, index) => (
+          <View key={index} style={styles.imgView}>
+            <Image source={{ uri: eachFile.url }} style={[styles.image,/* { width: imageWidth, height: imageHeight, maxWidth: MAXWidth, } */]} />
+            {files.length == 0 ? (
+              <View />
+            ) : (
+              <TouchableOpacity
+                style={styles.redRemoveImg}
+                onPress={() => handleRemoveImageFromList(index)}
+              >
+              </TouchableOpacity>
+            )}
+          </View>
+        ))}
         </TouchableOpacity>
       </ScrollView>
 
-      <FloatingAction
+      {/* <FloatingAction
         actions={floatingActions}
         position="right"
         onPressItem={(name) => {
@@ -296,7 +320,7 @@ const ShowNotification = (props) => {
             deleleNotification()
           );
         }}
-      />
+      /> */}
     </View>
   );
 };
