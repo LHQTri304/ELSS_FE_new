@@ -15,17 +15,18 @@ import { blog_getAllReplyInComment } from "../../api";
 const Reply = (props) => {
   const [replies, setReplies] = useState([]);
 
-  const { commentID, userComment, content, files } =
-    props.route.params.comment;
+  const { commentID, userComment, content, files } = props.route.params.comment;
   const { navigate, goBack } = props.navigation;
 
   const MAXWidth = 245;
   const getWidth = (baseWidth) => {
-    return baseWidth > MAXWidth ? MAXWidth : baseWidth
-  }
+    return baseWidth > MAXWidth ? MAXWidth : baseWidth;
+  };
   const getHeight = (baseWidth, baseHeight) => {
-    return baseWidth > MAXWidth ? baseHeight / (baseWidth / MAXWidth) : baseHeight
-  }
+    return baseWidth > MAXWidth
+      ? baseHeight / (baseWidth / MAXWidth)
+      : baseHeight;
+  };
 
   useEffect(() => {
     fetchData();
@@ -43,9 +44,11 @@ const Reply = (props) => {
       setReplies(responseData);
     } catch (error) {
       console.error("Error fetching data:", error);
-      setError("Error fetching data");
-      setLoading(false);
     }
+  };
+
+  const handleShowPicture = () => {
+    navigate("ShowPicture", { files: files });
   };
 
   return (
@@ -79,15 +82,18 @@ const Reply = (props) => {
             <Text style={styles.contentText}>{content}</Text>
             <View>
               {files.map((eachImage, index) => (
-                <Image
-                  key={index}
-                  source={{ uri: eachImage.url }}
-                  style={[
-                    styles.image,
-                    { width: getWidth(eachImage.width), height: getHeight(eachImage.width, eachImage.height) },
-                    //{ width: 50, height: 50 }
-                  ]}
-                />
+                <TouchableOpacity key={index} onPress={() => handleShowPicture()}>
+                  <Image
+                    source={{ uri: eachImage.url }}
+                    style={[
+                      styles.image,
+                      {
+                        width: getWidth(eachImage.width),
+                        height: getHeight(eachImage.width, eachImage.height),
+                      }
+                    ]}
+                  />
+                </TouchableOpacity>
               ))}
             </View>
           </View>
@@ -147,7 +153,7 @@ const styles = StyleSheet.create({
   image: {
     maxWidth: 245,
     resizeMode: "contain",
-    marginVertical:2,
+    marginVertical: 2,
     borderRadius: 5,
     //borderWidth: 3,
     //borderColor: colors.PrimaryBackground,

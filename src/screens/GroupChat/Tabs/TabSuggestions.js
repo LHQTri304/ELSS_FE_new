@@ -9,7 +9,7 @@ import {
   ScrollView,
   StyleSheet,
 } from "react-native";
-import TabFindByTopicsItems from "./TabFindByTopicsItems";
+import TabSuggestAndFindItems from "./TabSuggestAndFindItems";
 import { images, icons, colors, fontSizes } from "../../../constants";
 import { SearchBarTransparent, RowSectionTitle } from "../../../components";
 import {
@@ -48,8 +48,8 @@ export default function TabSuggestions(props) {
   const findGroupByText = async (text) => {
     if (text.length >= 1) {
       //console.log(text)
-      const response = await groupStudying_findGroupbyName(text);
-      await setGroups(response);
+      //const response = await groupStudying_findGroupbyName(text);
+      await setGroups(await groupStudying_findGroupbyName(text));
       setTitle("Kết quả tìm kiếm: " + text)
     } else {
       //setGroups([]);
@@ -75,7 +75,7 @@ export default function TabSuggestions(props) {
       <FlatList
         data={groups}
         renderItem={({ item }) => (
-          <TabFindByTopicsItems
+          <TabSuggestAndFindItems
             group={item}
             onPress={() => navigate("GroupInfoForViewer", { id: item.groupID })}
           />
