@@ -11,7 +11,6 @@ import GroupInfoForViewer from "./MessengerGroup/GroupInformationForViewer";
 
 import GroupChat from "./GroupChat/GroupChat";
 import MessengerGroup from "./MessengerGroup/MessengerGroup";
-import ChatbotScreen from "./Chatbot/ChatbotScreen";
 
 import Friends from "./Friends/Friends";
 import ShowPicture from "./EssentialScreens/ShowPicture";
@@ -41,13 +40,11 @@ import TabDiscussionFiltered from "./MessengerGroup/Tabs/TabDiscussionFiltered";
 
 import Comment from "./Comments/Comment";
 import Reply from "./Comments/Reply";
-import MessageBot from "./Chatbot/MessageBot";
 
 export {
   Login,
   ShowProfile,
   Registration,
-  ChatbotScreen,
   ForgetPassword,
   Verification,
   ResetPassword,
@@ -77,6 +74,5 @@ export {
   Reply,
   ShowNotificationOfUser,
   EditPost,
-  MessageBot,
   ShowPicture,
 };

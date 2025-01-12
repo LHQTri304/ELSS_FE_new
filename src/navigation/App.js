@@ -3,7 +3,7 @@ import {NavigationContainer} from '@react-navigation/native';
 import {createNativeStackNavigator} from '@react-navigation/native-stack';
 import {
   Login,
-  Registration,
+  /* Registration,
   ForgetPassword,
   Verification,
   ResetPassword,
@@ -32,13 +32,13 @@ import {
   EditPost,
   ShowPicture,
   MessageBot,
-  ShowProfile,
+  ShowProfile, */
 } from '../screens';
 import MainBottomTab from './MainBottomTab';
 
 const Stack = createNativeStackNavigator();
 
-function App(props) {
+export default function App(props) {
   return (
     <NavigationContainer>
       <Stack.Navigator
@@ -47,7 +47,7 @@ function App(props) {
           headerShown: false,
         }}>
         <Stack.Screen name="Login" component={Login} />
-        <Stack.Screen name="Registration" component={Registration} />
+        {/* <Stack.Screen name="Registration" component={Registration} />
         
         <Stack.Screen name="ForgetPassword" component={ForgetPassword} />
         <Stack.Screen name="Verification" component={Verification} />
@@ -83,9 +83,8 @@ function App(props) {
         <Stack.Screen name="TabDiscussionFiltered" component={TabDiscussionFiltered} />
 
         <Stack.Screen name="Comment" component={Comment} />
-        <Stack.Screen name="Reply" component={Reply} />
+        <Stack.Screen name="Reply" component={Reply} /> */}
       </Stack.Navigator>
     </NavigationContainer>
   );
 }
-export default App;

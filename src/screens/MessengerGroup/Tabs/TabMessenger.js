@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+/* import React, { useState, useEffect } from "react";
 import { View, FlatList, StyleSheet } from "react-native";
 import { EnterMessageBar, MessengerItems } from "../../../components";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -75,3 +75,4 @@ export default TabMessenger;
 const styles = StyleSheet.create({
   displayView: { flex: 1 },
 });
+ */

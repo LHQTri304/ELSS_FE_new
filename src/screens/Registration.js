@@ -20,7 +20,6 @@ import {
   user_createAccountData,
   information_initialize,
 } from "../api";
-import CryptoJS from "crypto-js";
 import { RadioButton } from "react-native-paper";
 import { ProgressSteps, ProgressStep } from "react-native-progress-steps";
 import { information_getAllTopics } from "../api";

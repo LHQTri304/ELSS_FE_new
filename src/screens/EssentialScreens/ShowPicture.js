@@ -11,11 +11,6 @@ import {
 } from "react-native";
 import { images, icons, colors, fontSizes } from "../../constants";
 import { UIHeader } from "../../components";
-import axios from "axios";
-import { API_BASE_URL } from "../../api/DomainAPI";
-import { decode } from "base-64";
-import PdfReader from "rn-pdf-reader-js";
-import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ShowPicture = (props) => {
   const { navigate, goBack } = props.navigation;
