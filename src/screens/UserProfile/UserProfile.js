@@ -15,9 +15,9 @@ import {
   RowSectionDisplay,
   RowSectionNavigate,
 } from "../../components";
-import { randomGenerateColor } from "../../utilities";
+//import { randomGenerateColor } from "../../utilities";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-import * as ImagePicker from "expo-image-picker";
+//import * as ImagePicker from "expo-image-picker";
 import {
   profile_getUser,
   profile_getAvatar,
@@ -28,14 +28,14 @@ import {
 
 export default function UserProfile(props) {
   const [username, setUsername] = useState(null);
-  const [fulname, setFulName] = useState(null);
+  const [fulname, setFulName] = useState('Nguyễn Văn A');
   const [image, setImage] = useState(null);
 
-  const [phoneNumber, setPhoneNumber] = useState(null);
-  const [email, setEmail] = useState(null);
-  const [description, setDescription] = useState(null);
-  const [yearOfBirth, setYearOfBirth] = useState(null);
-  const [gender, setGender] = useState(null);
+  const [phoneNumber, setPhoneNumber] = useState('0908850624');
+  const [email, setEmail] = useState('21522704@gm.uit.edu.vn');
+  const [description, setDescription] = useState('Sinh viên năm 4');
+  const [yearOfBirth, setYearOfBirth] = useState('2003');
+  const [gender, setGender] = useState('Nam');
 
   const [topics, setTopics] = useState([]);
 
@@ -70,7 +70,7 @@ export default function UserProfile(props) {
     gender == null ? setGender("Chưa cập nhật") : setGender(gender);
   };
 
-  useEffect(() => {
+  useEffect(() => {/* 
     const fetchData = async () => {
       try {
         const username = await AsyncStorage.getItem("username");
@@ -106,10 +106,10 @@ export default function UserProfile(props) {
     fetchData();
 
     const intervalId = setInterval(fetchData, 3000);
-    return () => clearInterval(intervalId);
+    return () => clearInterval(intervalId); */
   }, [props.userName]);
 
-  useEffect(() => {
+  /* useEffect(() => {
     (async () => {
       const { status } =
         await ImagePicker.requestMediaLibraryPermissionsAsync();
@@ -117,18 +117,18 @@ export default function UserProfile(props) {
         alert("Sorry, we need camera roll permissions to make this work!");
       }
     })();
-  }, []);
+  }, []); */
 
   const Logout = async () => {
     try {
-      await AsyncStorage.removeItem("username");
+      //await AsyncStorage.removeItem("username");
       navigate("Login");
     } catch (error) {
       console.error("Error logging out:", error);
     }
   };
 
-  const selectImage = async () => {
+  const selectImage = async () => {/* 
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
@@ -145,12 +145,12 @@ export default function UserProfile(props) {
       } catch (error) {
         console.error("Error uploading image:", error);
       }
-    }
+    } */
   };
 
-  const ShowPicture = () => {
+  /* const ShowPicture = () => {
     navigate("ShowPicture", { file: image });
-  };
+  }; */
 
   //function of navigation to/back
   const { navigate, goBack } = props.navigation;
@@ -161,37 +161,28 @@ export default function UserProfile(props) {
 
       <ScrollView>
         <View style={styles.profileView}>
-          <View>
-            <TouchableOpacity onPress={ShowPicture}>
-              <Image source={{ uri: image }} style={styles.profileImage} />
-            </TouchableOpacity>
-            <TouchableOpacity onPress={selectImage} style={styles.button}>
-              <Text style={styles.buttonText}>Thay đổi ảnh</Text>
-            </TouchableOpacity>
-          </View>
-          <View>
-            <Text style={styles.profileUsername}>{fulname}</Text>
+        <Image source={images.background} style={styles.profileImage} />
+        <Text style={styles.profileUsername}>{fulname}</Text>
             <Text style={styles.profileDescription} numberOfLines={4}>
               {description}
             </Text>
-          </View>
         </View>
 
-        <RowSectionTitle text={"Chủ đề yêu thích"} styles={{ marginTop: 20 }} />
+        {/* <RowSectionTitle text={"Chủ đề yêu thích"} styles={{ marginTop: 20 }} /> */}
 
-        <View style={styles.topics_container}>
+        {/* <View style={styles.topics_container}>
           {topics.map((topicName, index) => (
             <View
               style={[
                 styles.eachTopicBox,
-                { borderColor: randomGenerateColor() },
+                { borderColor: 'black' },
               ]}
               key={index}
             >
               <Text style={styles.eachTopicBoxText}>{topicName}</Text>
             </View>
           ))}
-        </View>
+        </View> */}
 
         <RowSectionTitle
           text={"Thông tin tài khoản"}
@@ -200,8 +191,6 @@ export default function UserProfile(props) {
 
         <RowSectionDisplay icon={icons.phoneIcon} text={phoneNumber} />
         <RowSectionDisplay icon={icons.emailIcon} text={email} />
-        <RowSectionDisplay icon={icons.birthdayCakeIcon} text={yearOfBirth} />
-        <RowSectionDisplay icon={icons.genderEqualityIcon} text={gender} />
 
         <RowSectionTitle text={"Tùy chỉnh tài khoản"} />
 
@@ -214,7 +203,7 @@ export default function UserProfile(props) {
         <RowSectionNavigate
           icon={icons.keyIcon}
           text={"Đổi mật khẩu"}
-          onPress={() => navigate("ResetPasswordInSetting")}
+          onPress={() => navigate("ResetPasswordInProfile")}
         />
         <RowSectionNavigate
           icon={icons.exportIcon}
@@ -235,7 +224,7 @@ const styles = StyleSheet.create({
     marginLeft: "5%",
     marginVertical: 15,
     alignItems: "center",
-    flexDirection: "row",
+    //flexDirection: "row",
   },
   profileImage: {
     width: 100,

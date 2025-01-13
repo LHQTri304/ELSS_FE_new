@@ -12,6 +12,7 @@ export const TextInputMediumIcon = ({
   onChangeText,
   style,
   value,
+  maxLength,
 }) => (
   <View style={styles.container}>
     <Icon
@@ -28,6 +29,7 @@ export const TextInputMediumIcon = ({
         inputMode={inputMode == null ? "text" : inputMode}
         placeholder={placeholder}
         value={value}
+        maxLength={maxLength}
         placeholderTextColor={colors.noImportantText}
         onChangeText={onChangeText}
       />
@@ -41,6 +43,7 @@ export const TextInputTransparent = ({
   placeholder,
   isPassword,
   onChangeText,
+  value,
   style,
 }) => (
   <View style={styles.container}>
@@ -52,6 +55,7 @@ export const TextInputTransparent = ({
       placeholder={placeholder}
       placeholderTextColor={colors.noImportantText}
       onChangeText={onChangeText}
+      value={value}
     />
   </View>
 );
@@ -64,6 +68,7 @@ const styles = StyleSheet.create({
     alignItems: "center",
   },
   textInputMediumIcon: {
+    color: 'black',
     width: 250,
     height: 55,
     marginTop: 5,
@@ -73,6 +78,7 @@ const styles = StyleSheet.create({
     borderRadius: 20,
   },
   textInputTransparent: {
+    color: 'black',
     flexDirection: "row",
     flex: 1,
     height: 40,

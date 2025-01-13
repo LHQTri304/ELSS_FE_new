@@ -2,6 +2,7 @@
 import { user_login } from "./AuthScreens/user_login";
 import {
   user_register,
+  user_checkInfo,
   user_createAccountData,
 } from "./AuthScreens/user_register";
 import {
@@ -213,6 +214,7 @@ export {
   user_login,
   //
   user_register,
+  user_checkInfo,
   user_createAccountData,
   //
   auth_getRecoveryCode,

@@ -1,78 +1,61 @@
-import Login from "./Login";
-import Registration from "./Registration";
-import ForgetPassword from "./ForgetPassword";
-import Verification from "./Verification";
-import ResetPassword from "./ResetPassword";
+//Auth
+import Login from './Auth/Login';
+import Registration from './Auth/Registration';
+import ForgetPassword from './Auth/ForgetPassword';
+import Verification from './Auth/Verification';
+import ResetPassword from './Auth/ResetPassword';
 
-import UserProfile from "./UserProfile/UserProfile";
-import SettingProfile from "./UserProfile/SettingProfile";
-import ResetPasswordInSetting from "./UserProfile/ResetPasswordInSetting";
-import GroupInfoForViewer from "./MessengerGroup/GroupInformationForViewer";
+//UserProfile
+import UserProfile from './UserProfile/UserProfile';
+import ResetPasswordInProfile from './UserProfile/ResetPasswordInProfile';
+import SettingProfile from './UserProfile/SettingProfile';
 
-import GroupChat from "./GroupChat/GroupChat";
-import MessengerGroup from "./MessengerGroup/MessengerGroup";
+//Friends
+import Friends from './Friends/Friends';
 
-import Friends from "./Friends/Friends";
-import ShowPicture from "./EssentialScreens/ShowPicture";
-import Messenger from "./Messenger/Messenger";
-import ShowProfile from "./EssentialScreens/ShowProfiles/ShowProfile";
+//GroupChat
+import GroupChat from './GroupChat/GroupChat';
 
-import AllNotification from "./AllNotification/AllNotification";
+//AllNotification
+import AllNotification from './AllNotification/AllNotification';
 
-import CreatePost from "./EssentialScreens/CreatePost";
-import CreateNotification from "./EssentialScreens/CreateNotification";
-import EditPost from "./EssentialScreens/EditPost";
+//MessengerGroup
+import MessengerGroup from './MessengerGroup/MessengerGroup';
 
-import ShowPost from "./EssentialScreens/ShowPost";
-import ShowNotification from "./EssentialScreens/ShowNotification";
-import ShowNotificationOfUser from "./AllNotification/ShowNotificationOfUser";
+//ShowPost
+import ShowPost from './EssentialScreens/ShowPost';
+import Comment from './Comments/Comment';
+import Reply from './Comments/Reply';
 
-import ShowDocument from "./EssentialScreens/ShowDocument";
-import ShowProfileFriend from "./EssentialScreens/ShowProfiles/ShowProfileFriend";
-import ShowProfileStranger from "./EssentialScreens/ShowProfiles/ShowProfileStranger";
-import GroupInfo from "./MessengerGroup/GroupInformation";
-import GroupInformationDetail from "./MessengerGroup/GroupInformationDetail";
-import ShowProfileMember from "./EssentialScreens/ShowProfiles/ShowProfileMember";
-import MembersInGroup from "./MessengerGroup/MembersInGroup";
-import AddMember from "./MessengerGroup/AddMember";
- 
-import TabDiscussionFiltered from "./MessengerGroup/Tabs/TabDiscussionFiltered";
-
-import Comment from "./Comments/Comment";
-import Reply from "./Comments/Reply";
+//game
+import GameTab from './games/GameTab';
+import GamePicWord from './games/game/PicWord';
+import GameWordSort from './games/game/WordSort';
 
 export {
   Login,
-  ShowProfile,
   Registration,
   ForgetPassword,
   Verification,
   ResetPassword,
+  //
   UserProfile,
+  ResetPasswordInProfile,
   SettingProfile,
-  GroupChat,
+  //
   Friends,
+  //
+  GroupChat,
+  //
   AllNotification,
-  Messenger,
+  //
   MessengerGroup,
-  CreatePost,
-  CreateNotification,
-  GroupInfoForViewer,
+  //
   ShowPost,
-  ShowNotification,
-  ResetPasswordInSetting,
-  ShowProfileFriend,
-  ShowProfileMember,
-  ShowProfileStranger,
-  TabDiscussionFiltered,
-  ShowDocument,
-  GroupInfo,
-  GroupInformationDetail,
-  MembersInGroup,
-  AddMember,
   Comment,
   Reply,
-  ShowNotificationOfUser,
-  EditPost,
-  ShowPicture,
+  //
+  GameTab,
+  GamePicWord,
+  GameWordSort,
 };

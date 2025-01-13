@@ -1,103 +1,140 @@
-import * as React from "react";
-import { View, Alert } from "react-native";
-import {
-  UserProfile,
-  GroupChat,
-  Friends,
-  AllNotification,
-  ChatbotScreen,
-} from "../screens";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
+import React, { useEffect, useRef } from "react";
+import {
+  SafeAreaView,
+  StyleSheet,
+  Text,
+  TouchableOpacity,
+  View,
+} from "react-native";
 import { images, icons, colors, fontSizes } from "../constants";
 import { Icon } from "../components";
+import {
+  UserProfile,
+  Friends,
+  GroupChat,
+  AllNotification,
+  GameTab,
+} from "../screens";
+
+const TabArr = [
+  {
+    route: "Groups",
+    label: "Nhóm",
+    icon: icons.groupIcon,
+    component: GroupChat,
+  },
+  {
+    route: "Chat",
+    label: "Bạn bè",
+    icon: icons.activeChatMessageIcon,
+    component: Friends,
+  },
+  {
+    route: "Game",
+    label: "Game",
+    icon: icons.review5,
+    component: GameTab,
+  },
+  {
+    route: "AllNotification",
+    label: "Thông Báo",
+    icon: icons.activeBellAlarm,
+    component: AllNotification,
+  },
+  {
+    route: "Account",
+    label: "Hồ Sơ",
+    icon: icons.personIcon,
+    component: UserProfile,
+  },
+];
 
 const Tab = createBottomTabNavigator();
 
-const ScreenOptions = ({ route }) => ({
-  headerShown: false,
-  tabBarActiveTintColor: colors.active,
-  tabBarInactiveTintColor: colors.inactive,
-  tabBarActiveBackgroundColor: colors.backgroundWhite,
-  tabBarInactiveBackgroundColor: colors.backgroundWhite,
-
-  tabBarIcon: ({ focused, color, size }) => {
-    let screenName = route.name;
-    let iconName = icons.personIcon;
-    if (screenName == "GroupChat") {
-      iconName = icons.groupIcon;
-    } else if (screenName == "Friends") {
-      iconName = icons.activeChatMessageIcon;
-    } else if (screenName == "Notifications") {
-      iconName = icons.activeBellAlarm;
-    } else if (screenName == "MessageBot") {
-      iconName = icons.activeFAQIcon;
-    }
-
-    return (
-      <Icon
-        name={iconName}
-        size={focused ? 30 : 20}
-        color={color}
-        style={{ marginTop: "10%" }}
-      />
-    );
-  },
-});
-
-const tabBarLabelStyles = {
-  fontSize: fontSizes.h7,
-  marginTop: "5%",
-  marginBottom: "5%",
-};
-
-export default function MainBottomTab(props) {
-  const { tabName } = props.route.params;
+const TabButton = (props) => {
+  const { item, onPress, accessibilityState } = props;
+  const focused = accessibilityState.selected;
 
   return (
-    <Tab.Navigator
-      initialRouteName={tabName == null ? "UserProfile" : tabName}
-      screenOptions={ScreenOptions}
+    <TouchableOpacity
+      onPress={onPress}
+      activeOpacity={1}
+      style={styles.btnContainer}
     >
-      <Tab.Screen
-        name="Friends"
-        component={Friends}
-        options={{
-          tabBarLabel: "Bạn bè",
-          tabBarLabelStyle: tabBarLabelStyles,
+      <View style={[styles.btn, focused ? styles.btnFocused : null]}>
+        <Icon
+          name={item.icon}
+          size={focused ? 25 : 20}
+          color={
+            focused
+              ? colors.SecondaryContainer
+              : colors.PrimaryOnContainerAndFixed
+          }
+        />
+        {focused ? <View /> : <Text style={styles.label}>{item.label}</Text>}
+      </View>
+    </TouchableOpacity>
+  );
+};
+
+export default function MainBottomTab() {
+  return (
+    <SafeAreaView style={{ flex: 1 }}>
+      <Tab.Navigator
+        screenOptions={{
+          headerShown: false,
+          tabBarStyle: styles.barContainer,
         }}
-      />
-      <Tab.Screen
-        name="GroupChat"
-        component={GroupChat}
-        options={{
-          tabBarLabel: "Nhóm",
-          tabBarLabelStyle: tabBarLabelStyles,
-        }}
-      />
-      <Tab.Screen
-        name="MessageBot"
-        component={ChatbotScreen}
-        options={{
-          tabBarLabel: "Hỏi đáp",
-          tabBarLabelStyle: tabBarLabelStyles,
-        }}
-      />
-      <Tab.Screen
-        name="Notifications"
-        component={AllNotification}
-        options={{
-          tabBarLabel: "Thông báo",
-          tabBarLabelStyle: tabBarLabelStyles,
-        }}
-      />
-      <Tab.Screen
-        name="UserProfile"
-        component={UserProfile}
-        options={{
-          tabBarLabel: "Tài khoản",
-          tabBarLabelStyle: tabBarLabelStyles,
-        }}
-      />
-    </Tab.Navigator>
+      >
+        {TabArr.map((item, index) => {
+          return (
+            <Tab.Screen
+              key={index}
+              name={item.route}
+              component={item.component}
+              options={{
+                tabBarShowLabel: false,
+                tabBarButton: (props) => <TabButton {...props} item={item} />,
+              }}
+            />
+          );
+        })}
+      </Tab.Navigator>
+    </SafeAreaView>
   );
 }
+
+const styles = StyleSheet.create({
+  barContainer: {
+    height: 60,
+    position: "absolute",
+    margin: 8,
+    borderRadius: 16,
+    alignItems: "center",
+    justifyContent: "space-around",
+    backgroundColor: colors.backgroundWhite,
+  },
+  btnContainer: {
+    flex: 1,
+    justifyContent: "center",
+    alignItems: "center",
+  },
+  btn: {
+    width: 55,
+    height: 55,
+    justifyContent: "center",
+    alignItems: "center",
+    borderRadius: 90,
+  },
+  btnFocused: {
+    top: -20,
+    borderColor: colors.backgroundWhite,
+    borderWidth: 8,
+    backgroundColor: colors.PrimaryBackground,
+  },
+  label: {
+    textAlign: "center",
+    fontSize: fontSizes.h8,
+  },
+});

@@ -23,7 +23,7 @@ import {
   blog_replyComment,
   blog_insertImageInReply,
 } from "../api";
-import * as ImagePicker from "expo-image-picker";
+//import * as ImagePicker from "expo-image-picker";
 
 export default EnterMessageBar = (props) => {
   //use for friend-MessageBar
@@ -41,256 +41,9 @@ export default EnterMessageBar = (props) => {
   const [listSelectedImage, setListSelectedImage] = useState([]);
   const [listMembersNotTagged, setListMembersNotTagged] = useState([]);
 
-  useEffect(() => {
-    const fetchData = async () => {
-      const responsesData = await groupStudying_getAllUserInGroup(
-        await AsyncStorage.getItem("groupID")
-      );
-      setListMembersNotTagged(responsesData);
-      setUserNames(responsesData);
-    };
+  const isTagAble = true;
 
-    fetchData();
-  }, [props.userName]);
-
-  useEffect(() => {
-    const fetchData = async () => {
-      console.log(listSelectedImage);
-    };
-
-    fetchData();
-  }, [listSelectedImage]);
-
-  const isSendAble = () => {
-    return !(typedText.length === 0 && listSelectedImage.length === 0);
-  };
-
-  const refreshAll = () => {
-    setTypedText("");
-    setListTaggedUsernames([]);
-    setListMembersNotTagged(userNames);
-    setListSelectedImage([]);
-  };
-
-  //*************** */
-  // message handler
-  //*************** */
-  const handleSendMessage_Friend = async () => {
-    if (!isSendAble()) {
-      alert("Hãy nhập tin nhắn");
-      return;
-    }
-    const response = await messageuser_sendMessageForUser(
-      typedText,
-      friendUsername
-    );
-    if (response.status == 200) {
-      if (listSelectedImage.length > 0) {
-        for (let i = 0; i < listSelectedImage.length; i++) {
-          let img = listSelectedImage[i];
-          console.log(img);
-          try {
-            await messageuser_uploadImage(
-              img.uri,
-              img.fileName,
-              img.type,
-              img.width,
-              img.height,
-              response.data
-            );
-            //uploadImage(img.uri, img.fileName, img.mimeType, responseData);
-          } catch (error) {
-            console.log("Lỗi:", error);
-          }
-        }
-      }
-      const messagePayload = { groupID: friendID };
-      stompClient.send(
-        "/app/sendMessForUser",
-        {},
-        JSON.stringify(messagePayload)
-      );
-    }
-    refreshAll();
-  };
-
-  const handleSendMessage_Group = async () => {
-    if (!isSendAble()) {
-      alert("Hãy nhập tin nhắn");
-      return;
-    }
-    const response = await messagegroup_sendMessage(typedText);
-    if (response.status == 200) {
-      console.log(listSelectedImage.length);
-      if (listSelectedImage.length > 0) {
-        for (let i = 0; i < listSelectedImage.length; i++) {
-          let img = listSelectedImage[i];
-          try {
-            await messagegroup_uploadImage(
-              img.uri,
-              img.fileName,
-              img.type,
-              img.width,
-              img.height,
-              response.data
-            );
-            //uploadImage(img.uri, img.fileName, img.mimeType, responseData);
-          } catch (error) {
-            console.log("Lỗi:", error);
-          }
-        }
-      }
-      const messagePayload = {
-        groupID: parseInt(await AsyncStorage.getItem("groupID")),
-      };
-      stompClient.send("/app/sendMess", {}, JSON.stringify(messagePayload));
-      //console.log("sent");
-    }
-    refreshAll();
-  };
-
-  const handleSendMessage_Comment = async () => {
-    if (!isSendAble()) {
-      alert("Hãy nhập bình luận hoặc chọn ảnh");
-      return;
-    }
-    const tags = [];
-    for (let i = 0; i < listTaggedUsernames.length; i++) {
-      tags.push(listTaggedUsernames[i].userName);
-    }
-    const response = await blog_commentBlog(blogID, typedText, tags);
-    if (listSelectedImage.length > 0) {
-      for (let i = 0; i < listSelectedImage.length; i++) {
-        let img = listSelectedImage[i];
-        try {
-          blog_insertImageInComment(
-            img.uri,
-            img.fileName,
-            img.mimeType,
-            img.width,
-            img.height,
-            response.data
-          );
-          //uploadImage(img.uri, img.fileName, img.mimeType, responseData);
-        } catch (error) {
-          console.log("Lỗi:", error);
-        }
-      }
-    }
-    if (response.status != 200) {
-      alert("Lỗi mạng, không thể phản hồi bình luận");
-    }
-    refreshAll();
-  };
-
-  const handleSendMessage_Reply = async () => {
-    if (!isSendAble()) {
-      alert("Hãy nhập phản hồi hoặc chọn ảnh");
-      return;
-    }
-    const tags = [];
-    for (let i = 0; i < listTaggedUsernames.length; i++) {
-      tags.push(listTaggedUsernames[i].userName);
-    }
-    const response = await blog_replyComment(commentID, typedText, tags);
-    console.log(listSelectedImage.length);
-    if (listSelectedImage.length > 0) {
-      for (let i = 0; i < listSelectedImage.length; i++) {
-        let img = listSelectedImage[i];
-        try {
-          blog_insertImageInReply(
-            img.uri,
-            img.fileName,
-            img.mimeType,
-            img.width,
-            img.height,
-            response.data
-          );
-          //uploadImage(img.uri, img.fileName, img.mimeType, responseData);
-        } catch (error) {
-          console.log("Lỗi:", error);
-        }
-      }
-    }
-    if (response.status != 200) {
-      alert("Lỗi mạng, không thể phản hồi bình luận");
-    }
-    refreshAll();
-  };
-
-  const handleSendMessage_Chatbot = async () => {
-    if (!isSendAble()) {
-      alert("Hãy nhập tin nhắn");
-      return;
-    }
-    //thêm API tại đây
-    refreshAll();
-  };
-
-  //final handleVerification
-  const handleSendMessage = async () => {
-    if (actionType === 0 || actionType === "friend") {
-      handleSendMessage_Friend();
-    } else if (actionType === 1 || actionType === "group") {
-      handleSendMessage_Group();
-    } else if (actionType === 2 || actionType === "comment") {
-      handleSendMessage_Comment();
-    } else if (actionType === 3 || actionType === "reply") {
-      handleSendMessage_Reply();
-    } else if (actionType === 4 || actionType === "chatbot") {
-      handleSendMessage_Chatbot();
-    }
-  };
-
-  //*************** */
-  //image picker
-  //*************** */
-  const handleSelectImages = async () => {
-    let result = await ImagePicker.launchImageLibraryAsync({
-      mediaTypes: ImagePicker.MediaTypeOptions.All,
-      quality: 1,
-      allowsEditing: true,
-    });
-
-    if (!result.canceled) {
-      console.log(result.assets[0])
-      listSelectedImage.length == 0
-        ? setListSelectedImage([result.assets[0]])
-        : setListSelectedImage([...listSelectedImage, result.assets[0]]);
-    }
-  };
-
-  const handleUploadImages = async () => {
-    handleSelectImages();
-  };
-
-  //*************** */
-  //  tag members
-  //*************** */
-  const [modalVisible, setModalVisible] = useState(false);
-  const [listTaggedUsernames, setListTaggedUsernames] = useState([]);
-
-  const isTagAble =
-    actionType === 2 ||
-    actionType === "comment" ||
-    actionType === 3 ||
-    actionType === "reply";
-
-  const handleAddTag = async (newName, index) => {
-    setListTaggedUsernames([...listTaggedUsernames, newName]);
-    const newList = [...listMembersNotTagged];
-    newList.splice(index, 1);
-    setListMembersNotTagged(newList);
-  };
-
-  const handleRemoveTagFromList = async (nameUntag, index) => {
-    setListMembersNotTagged([...listMembersNotTagged, nameUntag]);
-    const newList = [...listTaggedUsernames];
-    newList.splice(index, 1);
-    setListTaggedUsernames(newList);
-  };
-
-  const renderContentAddTag = () => {
+  /* const renderContentAddTag = () => {
     return (
       <View>
         {listMembersNotTagged.map((eachName, index) => (
@@ -317,11 +70,11 @@ export default EnterMessageBar = (props) => {
 
   const handleTagMembers = async () => {
     isTagAble ? setModalVisible(true) : alert("Chức năng không khả dụng");
-  };
+  }; */
 
   return (
     <View style={styles.container}>
-      {isTagAble ? (
+      {/* {isTagAble ? (
         <View>
           <WhiteSlideBottomUp
             title={"Gắn thẻ thành viên"}
@@ -385,10 +138,10 @@ export default EnterMessageBar = (props) => {
           ))}
           <View style={styles.blankEndImgBar} />
         </ScrollView>
-      )}
+      )} */}
       <View style={styles.mainBar}>
         <View style={styles.tools_container}>
-          <TouchableOpacity onPress={handleUploadImages}>
+          <TouchableOpacity /* onPress={handleUploadImages} */>
             <Icon
               name={icons.priceTagIcon}
               size={25}
@@ -396,7 +149,7 @@ export default EnterMessageBar = (props) => {
             />
           </TouchableOpacity>
           {isTagAble ? (
-            <TouchableOpacity onPress={handleTagMembers}>
+            <TouchableOpacity /* onPress={handleTagMembers} */>
               <Icon
                 name={icons.atSignIcon}
                 size={25}
@@ -417,7 +170,7 @@ export default EnterMessageBar = (props) => {
           placeholder="Nhắn tin"
           placeholderTextColor={colors.placeholder}
         />
-        <TouchableOpacity onPress={handleSendMessage}>
+        <TouchableOpacity /* onPress={handleSendMessage} */>
           <Icon
             name={icons.sendMessageCursorIcon}
             size={25}
@@ -435,6 +188,10 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     backgroundColor: colors.transparentWhite,
+    //
+    borderColor: colors.PrimaryBackground,
+    borderWidth: 1,
+    borderRadius: 30,
   },
   imgBar: {
     paddingTop: 5,

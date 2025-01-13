@@ -2,7 +2,7 @@ import React, { useState, useEffect } from "react";
 import { Text, View, Image, TouchableOpacity, Alert, StyleSheet } from "react-native";
 import { images, icons, colors, fontSizes } from "../../../constants";
 import { Icon } from "../../../components";
-import { randomGenerateColor } from "../../../utilities";
+//import { randomGenerateColor } from "../../../utilities";
 import { group_checkNewMessage } from "../../../api";
 import { group_getLastMessageOfGroup } from "../../../api/GroupChatScreens/group_tab_yourGroups";
 
@@ -14,11 +14,11 @@ export default function TabYourGroupsItems(props) {
   const [newestMessage, setNewestMessage] = useState(null)
 
   const checkNewNotification = async () => {
-    const response = await group_checkNewMessage(groupID);
+    /* const response = await group_checkNewMessage(groupID);
     setIsNewNotification(response.data === true);
 
     const responseNewestMessage = await group_getLastMessageOfGroup(groupID);
-    setNewestMessage(responseNewestMessage.data);
+    setNewestMessage(responseNewestMessage.data); */
   };
 
   useEffect(() => {
@@ -65,16 +65,16 @@ export default function TabYourGroupsItems(props) {
   //   );
   // };
 
-  return (
+  /* return (
     <TouchableOpacity onPress={handlePress} style={[styles.container,isNewNotification ? styles.newNotificationContainer : null,]}>
       <View style={styles.leftContainer}>
         <Icon
           name={{
             uri: imageGroup,
           }}
-          size={60}
+          size={50}
           color={null}
-          style={[styles.avatarImage, { borderColor: randomGenerateColor() }]}
+          style={[styles.avatarImage, { borderColor: 'black' randomGenerateColor() }]}
         />
         <View style={styles.textContainer}>
           <Text
@@ -91,17 +91,27 @@ export default function TabYourGroupsItems(props) {
           </Text>
         </View>
       </View>
-      {/* <TouchableOpacity onPress={handleLeaveGroup} style={styles.menuIcon}>
+      {<TouchableOpacity onPress={handleLeaveGroup} style={styles.menuIcon}>
       <Icon
         name={icons.exportIcon}
         size={36}
         color={colors.RedLightBackground}
-      /></TouchableOpacity> */}
+      /></TouchableOpacity>}
+    </TouchableOpacity>
+  ); */
+  return (    
+    <TouchableOpacity onPress={handlePress} style={styles.container}>
+      <Image source={{uri: imageGroup}} style={styles.avatar} />
+      <View style={styles.messageContent}>
+        <Text style={styles.name}>{nameGroup}</Text>
+        {/* <Text style={styles.messageText}>{message}</Text> */}
+      </View>
+      {/* <Text style={styles.timestamp}>{timestamp}</Text> */}
     </TouchableOpacity>
   );
 }
 
-const styles = StyleSheet.create({
+const styles = StyleSheet.create({/* 
   container: {
     height: 90,
     marginVertical: "2%",
@@ -147,5 +157,36 @@ const styles = StyleSheet.create({
   menuIcon: {
     position: "absolute",
     right: 0,
+  }, */
+  
+  container: {
+    flexDirection: 'row',
+    alignItems: 'center',
+    marginHorizontal: '2%',
+    padding: 10,
+    //borderBottomWidth: 1,
+    //borderBottomColor: colors.GrayBackground,
+  },
+  avatar: {
+    width: 50,
+    height: 50,
+    borderRadius: 25,
+    marginRight: 10,
+  },
+  messageContent: {
+    flex: 1,
+  },
+  name: {
+    fontWeight: 'bold',
+    fontSize: 16,
+    color: 'black',
+  },
+  messageText: {
+    color: colors.GrayBackground,
+    fontSize: 14,
+  },
+  timestamp: {
+    color: colors.GrayBackground,
+    fontSize: 12,
   },
 });

@@ -28,7 +28,7 @@ export default function TabSuggestions(props) {
   const { navigate, goBack } = props.navigation;
 
   useEffect(() => {
-    const fetchData = async () => {
+    /* const fetchData = async () => {
       try {
         setRecommendedGroup(await groupStudying_getAllRecommendedGroup())
         setGroups(await groupStudying_getAllRecommendedGroup())
@@ -42,11 +42,11 @@ export default function TabSuggestions(props) {
     fetchData();
     //const intervalId = setInterval(fetchData, 1000);
     // // Hủy interval khi component bị unmounted
-    //return () => clearInterval(intervalId);
+    //return () => clearInterval(intervalId); */
   }, [props.userName]);
 
   const findGroupByText = async (text) => {
-    if (text.length >= 1) {
+    /* if (text.length >= 1) {
       //console.log(text)
       //const response = await groupStudying_findGroupbyName(text);
       await setGroups(await groupStudying_findGroupbyName(text));
@@ -56,7 +56,7 @@ export default function TabSuggestions(props) {
       await setGroups(recommendedGroup)
       console.log(recommendedGroup)
       setTitle("☆☆☆ Các nhóm phù hợp với bạn ☆☆☆")
-    }
+    } */
   }
 
   return (

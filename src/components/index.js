@@ -1,6 +1,5 @@
 import CommonButton from "./CommonButton";
 import UIHeader from "./UIHeader";
-import EnterMessageBar from "./EnterMessageBar";
 import MessengerItems from "./MessengerItems";
 import DoubleCommonButton from "./DoubleCommonButton";
 
@@ -24,10 +23,18 @@ import Dropdown from "./MyDropdown";
 
 import { LoadingFullScreen } from "./MyLoadingScreen";
 
+///
+import { MiddleSingleMediumButton } from "./Buttons";
+
+//
+import EnterMessageBar from "./EnterMessageBar";
+
+
 export {
+  MiddleSingleMediumButton,
+  //
   CommonButton,
   UIHeader,
-  EnterMessageBar,
   MessengerItems,
   DoubleCommonButton,
   //
@@ -55,4 +62,7 @@ export {
   Dropdown,
   //
   LoadingFullScreen,
+  //
+  //
+  EnterMessageBar,
 };

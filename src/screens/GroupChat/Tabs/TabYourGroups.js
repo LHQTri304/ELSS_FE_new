@@ -24,12 +24,14 @@ import {
   information_getAllTopics,
 } from "../../../api";
 
+import { dataGroups } from "../../../testFE";
+
 export default function TabYourGroups(props) {
   //navigation to/back
   const { navigate, goBack } = props.navigation;
 
   //initialization
-  const [groups, setGroups] = useState([]);
+  const [groups, setGroups] = useState(dataGroups);
   const [searchText, setSearchText] = useState("");
   const [modalVisible, setModalVisible] = useState(false);
 
@@ -42,13 +44,13 @@ export default function TabYourGroups(props) {
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
+      /* try {
         const response = await groupStudying_getAllGroupofUser();
         setGroups(response);
         setListTopics(await information_getAllTopics());
       } catch (error) {
         console.error("Error fetching data:", error);
-      }
+      } */
     };
     fetchData();
     // // Tạo interval --> Hủy interval khi component bị unmounted
@@ -68,9 +70,9 @@ export default function TabYourGroups(props) {
 
   const handleSelectedGroup = async (eachGroup) => {
     try {
-      await AsyncStorage.removeItem("groupID");
+      /* await AsyncStorage.removeItem("groupID");
       await AsyncStorage.setItem("groupID", eachGroup.groupID.toString());
-      await AsyncStorage.setItem("group", "chat");
+      await AsyncStorage.setItem("group", "chat"); */
       navigate("MessengerGroup", { group: eachGroup });
     } catch (error) {
       console.error("Error fetching data:", error);
@@ -78,7 +80,7 @@ export default function TabYourGroups(props) {
   };
 
   const handleCreateGroup = async () => {
-    if (newGroupName.length > 8) {
+    /* if (newGroupName.length > 8) {
       if (newGroupSelectedTopics.length < 4) {
         const response = await groupStudying_createGroup(
           newGroupName,
@@ -96,7 +98,7 @@ export default function TabYourGroups(props) {
       }
     } else {
       alert("Nhập tối thiểu 9 ký tự cho tên nhóm");
-    }
+    } */
   };
 
   //style of ProgressSteps
@@ -138,7 +140,7 @@ export default function TabYourGroups(props) {
 
   //style of Step_2
   const Step_2_Topics = {
-    label: "Chọn topic (chủ đề) học tập",
+    label: "Chọn topic (chủ đề)",
     onSubmit: async () => {
       handleCreateGroup();
     },
@@ -223,7 +225,7 @@ export default function TabYourGroups(props) {
         searchBarOnChangeText={(text) => {
           setSearchText(text);
         }}
-        buttonTitle={"Tạo nhóm học tập"}
+        buttonTitle={"Tạo Nhóm Mới"}
         buttonOnPress={() => {
           setNewGroupName("");
           setNewGroupPassword("");

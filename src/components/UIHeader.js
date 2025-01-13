@@ -20,7 +20,7 @@ function UIHeader(props) {
 
   return (
     <View style={[styles.fullView, mainStyle]}>
-      <View style={styles.safeAreaView} />
+      {/* <View style={styles.safeAreaView} /> */}
 
       <View style={styles.mainView}>
         {leftIconName != undefined ? (
@@ -81,15 +81,15 @@ const styles = StyleSheet.create({
   iconClickable: {
     width: 40,
     height: 40,
-    flexDirection: "row",
     alignItems: "center",
+    justifyContent: 'center',
   },
   iconBlank: {
     width: 40,
     height: 40,
   },
   iconDisplayed: {
-    top: 10,
+    //top: 10,
   },
   textDisplayed: {
     top: 10,

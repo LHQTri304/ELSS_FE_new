@@ -1,3 +1,4 @@
-import App from './src/navigation/App'
+/* import App from './src/navigation/App'
 
 export default App
+ */

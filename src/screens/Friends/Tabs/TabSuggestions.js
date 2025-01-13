@@ -5,19 +5,21 @@ import { images, icons, colors, fontSizes } from "../../../constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { friend_findAllFriendByInputName } from "../../../api";
 
+import { dataFriends } from "../../../testFE";
+
 import TabSuggestAndRequestItems from "./TabSuggestAndRequestItems";
 
 function TabSuggestions(props) {
   const [searchText, setSearchText] = useState("");
   const [username, setUsername] = useState("");
-  const [invitation, setInvitation] = useState([]);
+  const [invitation, setInvitation] = useState(dataFriends.slice(8,24));
 
   //navigation to/back
   const { navigate, goBack } = props.navigation;
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
+      /* try {
         setUsername(await AsyncStorage.getItem("username"));
         if (searchText.length >= 1) {
           const response = await friend_findAllFriendByInputName(searchText);
@@ -27,7 +29,7 @@ function TabSuggestions(props) {
         }
       } catch (error) {
         console.error("Error fetching data:", error);
-      }
+      } */
     };
 
     // Thực hiện fetch dữ liệu sau khi ngừng nhập trong 2 giây
@@ -49,11 +51,11 @@ function TabSuggestions(props) {
 
       <FlatList
         data={invitation.filter((eachInvitation) =>
-          eachInvitation.information.fulName
+          eachInvitation.fulName
             .toLowerCase()
             .includes(searchText.toLowerCase())
         )}
-        keyExtractor={(item) => item.information.infoID.toString()}
+        keyExtractor={(item) => item.ID}
         renderItem={({ item }) => (
           <TabSuggestAndRequestItems
             invitation={item}

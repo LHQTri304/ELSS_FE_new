@@ -9,7 +9,7 @@ import {
 } from "react-native";
 import { images, icons, colors, fontSizes } from "../../../constants";
 import { Icon } from "../../../components";
-import { randomGenerateColor } from "../../../utilities";
+//import { randomGenerateColor } from "../../../utilities";
 import { groupStudying_joinInGroup } from "../../../api";
 
 export default function TabSuggestAndFindItems(props) {
@@ -62,7 +62,7 @@ export default function TabSuggestAndFindItems(props) {
   }; */
 
   const handleJoinGroup = async () => {
-    if (isJoined) {
+    /* if (isJoined) {
       alert("Bạn đã tham gia nhóm này rồi");
     } else {
       if (passWord == "") {
@@ -74,7 +74,7 @@ export default function TabSuggestAndFindItems(props) {
         alert("nhập mật khẩu");
         //showTextInputAlert();
       }
-    }
+    } */
   };
 
   return (
@@ -86,7 +86,7 @@ export default function TabSuggestAndFindItems(props) {
           }}
           size={55}
           color={null}
-          style={[styles.avatarImage, { borderColor: randomGenerateColor() }]}
+          style={[styles.avatarImage, { borderColor: 'black' /* randomGenerateColor() */ }]}
         />
       </TouchableOpacity>
       <View style={{ width: isJoined ? "40%" : "46%" }}>

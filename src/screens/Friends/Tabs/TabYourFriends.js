@@ -5,21 +5,23 @@ import { images, icons, colors, fontSizes } from "../../../constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { friend_getAllFriendList } from "../../../api";
 
+import { dataFriends } from "../../../testFE";
+
 function TabYourFriends(props) {
-  //list of group example = state
-  const [friends, setFriends] = useState([]);
+  //const [friends, setFriends] = useState([]);
+  const [friends, setFriends] = useState(dataFriends);
 
   //navigation to/back
   const { navigate, goBack } = props.navigation;
 
   useEffect(() => {
     const fetchData = async () => {
-      try {
+      /* try {
         const response = await friend_getAllFriendList();
         setFriends(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
-      }
+      } */
     };
 
     fetchData();
@@ -42,11 +44,9 @@ function TabYourFriends(props) {
     <View style={styles.container}>
       <FlatList
         data={friends}
-        numColumns={3}
         renderItem={({ item, index }) => (
           <TabYourFriendsItems
             friend={item}
-            key={item.ID}
             onPress={(myUserName, friendUsername, state) => {
               SelectedFriend(myUserName, friendUsername, state);
             }}

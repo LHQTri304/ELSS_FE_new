@@ -1,13 +1,13 @@
 export default {
-  PrimaryBackground: '#0B57D0',
+  PrimaryBackground: '#d0920b',
   PrimaryObjects: '#FFFFFF',
-  PrimaryContainer: '#D3E3FD',
-  PrimaryOnContainerAndFixed: '#041E49',
+  PrimaryContainer: '#fdf3d3',
+  PrimaryOnContainerAndFixed: '#493104',
 
-  SecondaryBackground: '#00639B',
+  SecondaryBackground: '#9b5800',
   SecondaryObjects: '#FFFFFF',
-  SecondaryContainer: '#C2E7FF',
-  SecondaryOnContainerAndFixed: '#001D35',
+  SecondaryContainer: '#ffe3c2',
+  SecondaryOnContainerAndFixed: '#352200',
 
   TertiaryBackground: '#146C2E',
   TertiaryObjects: '#FFFFFF',
@@ -30,7 +30,7 @@ export default {
   noImportantText: "rgba(145, 160, 160, 0.75)",
 
   inactive: "rgba(182, 205, 212, 0.75)",
-  active: "rgb(88, 155, 238)",
+  active: "rgb(238, 88, 88)",
 
   rating0: 'crimson',
   rating1: 'red',
