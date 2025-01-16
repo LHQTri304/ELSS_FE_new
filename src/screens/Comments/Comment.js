@@ -17,11 +17,12 @@ import { API_BASE_URL } from "../../api/DomainAPI";
 
 import { dataBlogs } from "../../testFE";
 
-const Comment = (props) => {
+export default Comment = (props) => {
+  const { blogID } = props; /* .route.params */
 
-  const { blogID } = props/* .route.params */;
-
-  const [comments, setComments] = useState(dataBlogs.filter(blog => blog.ID === blogID)[0].comments);
+  const [comments, setComments] = useState(
+    dataBlogs.filter((blog) => blog.ID === blogID)[0].comments
+  );
 
   //navigation
   const { navigate, goBack } = props.navigation;
@@ -54,42 +55,22 @@ const Comment = (props) => {
 
   return (
     <View style={styles.container}>
-      {/* <UIHeader
-        title={"Bình luận trên bài đăng"}
-        leftIconName={icons.backIcon}
-        rightIconName={null}
-        onPressLeftIcon={() => {
-          goBack();
-        }}
-        onPressRightIcon={null}
-        textStyle={{fontSize: fontSizes.h4*0.96}}
-      /> */}
-
-      <ScrollView style={styles.listContainer}>
-        {comments.map((eachComment, index) => (
-          <CommentItems
-            comment={eachComment}
-            key={index}
-            onPress={() => {
-              navigate("Reply", { comment: eachComment });
-            }}
-          />
-        ))}
-      </ScrollView>
-
-      <EnterMessageBar blogID={blogID} actionType={'comment'}/>
+      {comments.map((eachComment, index) => (
+        <CommentItems
+          comment={eachComment}
+          key={index}
+          onPress={() => {
+            /* navigate("Reply", { comment: eachComment }); */
+          }}
+          navigation={props.navigation}
+        />
+      ))}
     </View>
   );
 };
-export default Comment;
 
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: colors.backgroundWhite,
-  },
-  listContainer: {
-    flex: 1,
-    marginTop: 10,
   },
 });

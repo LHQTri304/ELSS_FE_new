@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import {Text, View, Image, StyleSheet, Dimensions} from 'react-native';
 import { images, icons, colors, fontSizes } from "../../constants/index";
-import { UIHeader, TextInputMediumIcon, MiddleSingleMediumButton } from "../../components";
+import { UIHeader, TextInputMediumIcon, MiddleSingleMediumButton, QuickBackGround } from "../../components";
 import { user_profile_changePassword } from "../../api";
 
 const ResetPasswordInProfile = (props) => {
@@ -35,16 +35,7 @@ const ResetPasswordInProfile = (props) => {
 
   return (
     <View style={styles.container}>
-      <Image
-        source={images.background}
-        style={[
-          {
-            width: width,
-            height: height,
-          },
-          styles.background,
-        ]}
-      />
+      <QuickBackGround/>
 
       <Text style={styles.titleText}>Đặt lại mật khẩu!</Text>
       <View style={styles.mainView}>

@@ -23,6 +23,7 @@
     "expo-document-picker": "^13.0.2",
     "expo-image-picker": "^16.0.4",
     "expo-status-bar": "~2.0.1",
+    "expo-video": "~2.0.5",
     "react": "18.3.1",
     "react-native": "0.76.6",
     "react-native-animatable": "^1.4.0",
@@ -34,7 +35,9 @@
     "react-native-screens": "^4.5.0",
     "react-native-tab-view": "^4.0.5",
     "react-native-vector-icons": "^10.2.0",
+    "react-native-video": "^6.9.1",
     "react-native-webview": "^13.12.5",
+    "react-native-youtube-iframe": "^2.3.0",
     "rn-pdf-reader-js": "^4.1.1",
     "sockjs-client": "^1.6.1"
   },

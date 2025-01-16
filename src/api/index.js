@@ -209,6 +209,12 @@ import {
   user_getUser,
   user_getAuthenticationCode,
 } from "./ReNewStyle/userController";
+import {
+  game_getAllImageQuestions,
+  game_getSingleImageQuestion,
+  game_getAllListeningQuestions,
+  game_getSingleListeningQuestion,
+} from "./ReNewStyle/gameController";
 
 export {
   user_login,
@@ -373,4 +379,8 @@ export {
   user_getRecoveryCode,
   user_getUser,
   user_getAuthenticationCode,
+  game_getAllImageQuestions,
+  game_getSingleImageQuestion,
+  game_getAllListeningQuestions,
+  game_getSingleListeningQuestion,
 };

@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Text,
   View,
@@ -8,36 +8,36 @@ import {
   ScrollView,
   StyleSheet,
   Alert,
-} from 'react-native';
-import {images, icons, colors, fontSizes} from '../../constants';
-import {UIHeader, SubjectBox, ContentBox} from '../../components';
-import axios from 'axios';
-import AsyncStorage from '@react-native-async-storage/async-storage';
-import {API_BASE_URL} from '../../api/DomainAPI';
+} from "react-native";
+import { images, icons, colors, fontSizes } from "../../constants";
+import { UIHeader, FlexIconButton, EnterMessageBar } from "../../components";
+import axios from "axios";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { API_BASE_URL } from "../../api/DomainAPI";
 //import { FloatingAction } from "react-native-floating-action";
 
-import Comment from '../Comments/Comment';
+import Comment from "../Comments/Comment";
 
 const floatingActions = [
   {
-    text: 'Chỉnh sửa thảo luận',
+    text: "Chỉnh sửa thảo luận",
     icon: icons.pencilIcon,
-    name: 'bt_edit',
+    name: "bt_edit",
     position: 1,
   },
   {
-    text: 'Xóa thảo luận',
+    text: "Xóa thảo luận",
     icon: icons.trashCanIcon,
-    name: 'bt_delete',
+    name: "bt_delete",
     position: 2,
   },
 ];
 
-const ShowPost = props => {
+export default ShowPost = (props) => {
   let {
     /* blogID, content, dateCreated, comments, subject, files */
   } = props.route.params.topic;
-  let {nameSubject, subjectID} = props.route.params;
+  let { nameSubject, subjectID } = props.route.params;
   //let { userName } = props.route.params.topic.userCreated;
   //let { fulName } = props.route.params.topic.userCreated.information;
 
@@ -45,24 +45,24 @@ const ShowPost = props => {
   //
   const files = [];
   const [blogID, setID] = useState(props.route.params.topic.ID);
-  const [subject, setHeader] = useState(props.route.params.topic.header);
+  const [header, setHeader] = useState(props.route.params.topic.header); //subject
   const [content, setContent] = useState(props.route.params.topic.content);
   const [comments, setComments] = useState(props.route.params.topic.comments);
   const [likes, setLikes] = useState(props.route.params.topic.likes);
   const [fulName, setName] = useState(props.route.params.topic.fulName);
   const [avatar, setAvatar] = useState(props.route.params.topic.img);
-  const [sendingTime, setST] = useState('Hôm qua');
+  const [sendingTime, setST] = useState("Hôm qua");
   //
 
   const parts = files.length > 0 ? files[0].url : null;
 
   //navigation
-  const {navigate, goBack, push} = props.navigation;
+  const { navigate, goBack, push } = props.navigation;
 
   const [likeStatus, setLikeStatus] = useState(false);
-  const [username, setUsername] = useState('');
-  const [leaderOfGroup, setLeaderOfGroup] = useState('');
-  const [groupID, setGroupID] = useState('');
+  const [username, setUsername] = useState("");
+  const [leaderOfGroup, setLeaderOfGroup] = useState("");
+  const [groupID, setGroupID] = useState("");
 
   const [shouldReload, setShouldReload] = useState(false);
   /* useEffect(() => {
@@ -168,16 +168,16 @@ const ShowPost = props => {
   const handleLike = async () => {
     //alert(`id: ${blogID}`)
     var form = new FormData();
-    form.append('blogID', blogID);
+    form.append("blogID", blogID);
 
     const likeBlog = await axios.post(
-      API_BASE_URL + '/api/v1/blog/likeBlog',
+      API_BASE_URL + "/api/v1/blog/likeBlog",
       form,
       {
         headers: {
-          Authorization: 'Bearer ' + (await AsyncStorage.getItem('username')),
+          Authorization: "Bearer " + (await AsyncStorage.getItem("username")),
         },
-      },
+      }
     );
 
     /* if (likeBlog.status == 200) {
@@ -203,17 +203,17 @@ const ShowPost = props => {
     console.log(parts);
 
     if (parts == null) {
-      alert('Nội dung này không có ảnh');
+      alert("Nội dung này không có ảnh");
       return;
     }
 
-    navigate('ShowPicture', {files: files});
+    navigate("ShowPicture", { files: files });
   };
 
   return (
     <View style={styles.container}>
       <UIHeader
-        title={'Thảo luận'}
+        title={"Thảo luận"}
         leftIconName={icons.backIcon}
         rightIconName={null}
         onPressLeftIcon={() => {
@@ -223,55 +223,48 @@ const ShowPost = props => {
       />
 
       <ScrollView style={styles.mainView}>
-        {/* <SubjectBox
-          icon={icons.groupIcon}
-          title="Người tạo thảo luận"
-          content={fulName}
-        />
-
-        <SubjectBox
-          icon={icons.clockIcon}
-          title="Thời gian tạo"
-          content={sendingTime}
-        />
-
-        <SubjectBox
-          icon={icons.menuIcon}
-          title="Chủ đề"
-          content={subject.nameSubject}
-        />
-
-        <ContentBox
-          icon={icons.documentBlackIcon}
-          title="Nội dung"
-          content={content}
-          isLikeAble={true}
-          likeStatus={likeStatus}
-          onPressLikeIcon={handleLike}
-        /> */}
-
         <View style={styles.topView}>
-          <View style={styles.leftSideTopView}>
-            <Image style={styles.avatarContainer} source={{uri: avatar}} />
-            <Text style={styles.text} numberOfLines={1}>
-              {fulName}
-            </Text>
-          </View>
+          <Image style={styles.avatarContainer} source={{ uri: avatar }} />
+          <Text style={styles.username}>{fulName}</Text>
         </View>
-        <Text style={styles.header}>{subject}</Text>
+        <Text style={styles.title}>{header}</Text>
         <Text style={styles.content}>{content}</Text>
+        <View style={styles.bottomView}>
+          <FlexIconButton
+            onPress={() => {
+              alert("Like");
+            }}
+            title={likes ? likes : "Like"}
+            icon={icons.inactiveLikeIcon}
+            iconSize={20}
+            iconColor={colors.GrayOnContainerAndFixed}
+            styleContainer={styles.btnContainer}
+            styleText={styles.btnText}
+          />
+          <FlexIconButton
+            onPress={() => {
+              alert("Comment");
+            }}
+            title={comments ? comments.length : "Bình Luận"}
+            icon={icons.activeChatMessageIcon}
+            iconSize={20}
+            iconColor={colors.GrayOnContainerAndFixed}
+            styleContainer={styles.btnContainer}
+            styleText={styles.btnText}
+          />
+        </View>
 
-        <TouchableOpacity onPress={ShowPicture}>
-          {/* <Image
+        {/* <TouchableOpacity onPress={ShowPicture}>
+          {<Image
             source={{ uri: parts }}
             style={styles.image}
-          /> */}
+          />}
           {files.map((eachFile, index) => (
             <View key={index} style={styles.imgView}>
               <Image
-                source={{uri: eachFile.url}}
+                source={{ uri: eachFile.url }}
                 style={[
-                  styles.image /* { width: imageWidth, height: imageHeight, maxWidth: MAXWidth, } */,
+                  styles.image, { width: imageWidth, height: imageHeight, maxWidth: MAXWidth, },
                 ]}
               />
               {files.length == 0 ? (
@@ -279,22 +272,16 @@ const ShowPost = props => {
               ) : (
                 <TouchableOpacity
                   style={styles.redRemoveImg}
-                  onPress={() =>
-                    handleRemoveImageFromList(index)
-                  }></TouchableOpacity>
+                  onPress={() => handleRemoveImageFromList(index)}
+                ></TouchableOpacity>
               )}
             </View>
           ))}
-        </TouchableOpacity>
-        {/* <TouchableOpacity
-          style={styles.commentBar}
-          onPress={() => {
-            navigate('Comment', {blogID: blogID});
-          }}>
-          <Text style={styles.commentBarText}>Xem bình luận</Text>
         </TouchableOpacity> */}
-        <Comment blogID={blogID} navigation={props.navigation}/>
+        <Comment blogID={blogID} navigation={props.navigation} />
       </ScrollView>
+
+      <EnterMessageBar blogID={blogID} actionType={"comment"} />
 
       {/* <FloatingAction
         actions={floatingActions}
@@ -306,7 +293,6 @@ const ShowPost = props => {
     </View>
   );
 };
-export default ShowPost;
 
 const styles = StyleSheet.create({
   container: {
@@ -315,139 +301,84 @@ const styles = StyleSheet.create({
   },
   mainView: {
     padding: 15,
-    //marginTop: 20,
-    marginBottom: 50,
   },
-  icon: {
-    width: 25,
-    height: 25,
-    marginTop: 5,
-    marginRight: 10,
-  },
-  title: {
-    color: 'black',
-    fontSize: fontSizes.h5,
-    fontWeight: '500',
-  },
-  SubjectBoxView: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    paddingStart: 15,
-    padding: 10,
-    borderColor: colors.inactive,
-    borderBottomWidth: 1,
-  },
-  SubjectBoxContent: {
-    marginTop: 2,
-    color: colors.noImportantText,
-    fontSize: fontSizes.h5 * 0.9,
-    fontWeight: '700',
-  },
-  ContentBoxView: {
-    flexDirection: 'column',
-    paddingStart: 15,
-    padding: 10,
-  },
-  ContentBoxTopView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
-  },
-  leftSideTopView: {flexDirection: 'row'},
-  rightSideIconView: {},
-  rightSideIcon: {
-    width: 30,
-    height: 30,
-    marginTop: 5,
-    marginRight: 10,
-  },
-  ContentBoxContent: {
-    padding: 15,
-    marginTop: 5,
-    color: 'black',
-    fontSize: fontSizes.h6,
-  },
-  commentBar: {
-    height: 'auto',
+  /*commentBar: {
+    height: "auto",
     minHeight: 50,
     //position: "absolute",
     //bottom: 0,
     //left: 0,
     //right: 0,
-    flexDirection: 'row',
-    justifyContent: 'center',
-    alignItems: 'center',
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center",
     backgroundColor: colors.SecondaryBackground,
     //
     borderRadius: 30,
     marginTop: 10,
   },
   commentBarText: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: fontSizes.h5,
-    textAlign: 'center',
-    alignSelf: 'center',
+    textAlign: "center",
+    alignSelf: "center",
     color: colors.PrimaryObjects,
   },
   image: {
     width: 350,
     height: 350,
-    resizeMode: 'cover',
+    resizeMode: "cover",
     margin: 15,
     borderRadius: 5,
-    borderColor: 'white',
+    borderColor: "white",
     borderWidth: 5,
-    alignSelf: 'center',
-  },
-  //
+    alignSelf: "center",
+  }, */
   //
   topView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "flex-start",
   },
-  leftSideTopView: {flexDirection: 'row'},
-  text: {
-    width: 190,
-    marginTop: 5,
-    marginLeft: 5,
-    color: 'black',
-    fontSize: fontSizes.h5,
+  bottomView: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
   },
-  header: {
-    width: '100%',
-    marginTop: 5,
-    marginLeft: 5,
-    color: 'black',
+  //
+  avatarContainer: {
+    width: 33,
+    height: 33,
+    resizeMode: "cover",
+    borderRadius: 180,
+    borderColor: colors.GrayBackground,
+  },
+  username: {
+    maxWidth: "80%",
+    marginLeft: 10,
+    color: "black",
+    fontSize: fontSizes.h7,
+    fontWeight: "bold",
+  },
+  title: {
+    maxWidth: "95%",
+    marginVertical: 10,
+    color: "black",
     fontSize: fontSizes.h4,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
   content: {
-    marginLeft: 7,
     marginRight: 10,
-    color: 'black',
+    color: "black",
     fontSize: fontSizes.h6,
   },
-  rightSideView: {
-    flexDirection: 'column',
+  //
+  btnContainer: {
+    backgroundColor: null,
+    marginVertical: 10,
+    marginLeft: 0,
   },
-  rightSideText: {
-    width: 120,
-    padding: 10,
-    paddingLeft: 0,
-    color: 'black',
-    fontSize: fontSizes.h8,
-    fontWeight: '500',
-    alignSelf: 'center',
-    textAlign: 'right',
-    color: colors.active,
-    marginTop: -15,
-  },
-  avatarContainer: {
-    width: 30,
-    height: 30,
-    resizeMode: 'cover',
-    borderRadius: 30,
-    borderColor: colors.GrayBackground,
-    //marginTop: 9,
+  btnText: {
+    padding: 1,
+    fontSize: fontSizes.h7,
+    color: colors.GrayOnContainerAndFixed,
   },
 });

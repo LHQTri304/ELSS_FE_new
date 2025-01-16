@@ -36,12 +36,12 @@ const TabArr = [
     icon: icons.review5,
     component: GameTab,
   },
-  {
+  /* {
     route: "AllNotification",
     label: "Thông Báo",
     icon: icons.activeBellAlarm,
     component: AllNotification,
-  },
+  }, */
   {
     route: "Account",
     label: "Hồ Sơ",
@@ -65,10 +65,10 @@ const TabButton = (props) => {
       <View style={[styles.btn, focused ? styles.btnFocused : null]}>
         <Icon
           name={item.icon}
-          size={focused ? 25 : 20}
+          size={focused ? 22 : 20}
           color={
             focused
-              ? colors.SecondaryContainer
+              ? colors.PrimaryContainer
               : colors.PrimaryOnContainerAndFixed
           }
         />
@@ -78,10 +78,12 @@ const TabButton = (props) => {
   );
 };
 
-export default function MainBottomTab() {
+export default function MainBottomTab(props) {
+  const { tabName } = props;
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Tab.Navigator
+        initialRouteName={!tabName ? "Game" : tabName}
         screenOptions={{
           headerShown: false,
           tabBarStyle: styles.barContainer,

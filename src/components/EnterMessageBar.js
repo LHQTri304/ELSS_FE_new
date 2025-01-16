@@ -31,7 +31,7 @@ export default EnterMessageBar = (props) => {
   const { commentID } = props;
   const { blogID } = props;
   //use for all
-  //actionType: friend (0) - group (1) - comment (2) - reply (3) - chatbot (4)
+  //actionType: friend (0) - group (1) - comment (2) - reply (3)
   const { stompClient, actionType } = props;
 
   const [typedText, setTypedText] = useState("");
@@ -71,6 +71,13 @@ export default EnterMessageBar = (props) => {
   const handleTagMembers = async () => {
     isTagAble ? setModalVisible(true) : alert("Chức năng không khả dụng");
   }; */
+
+  const getPlaceHolder = () => {
+    if (actionType == 0 || actionType == "friend")
+      return "Nhắn tin"
+    if (actionType == 1 || actionType == "comment")
+      return "Bình luận"
+  }
 
   return (
     <View style={styles.container}>
@@ -140,8 +147,8 @@ export default EnterMessageBar = (props) => {
         </ScrollView>
       )} */}
       <View style={styles.mainBar}>
-        <View style={styles.tools_container}>
-          <TouchableOpacity /* onPress={handleUploadImages} */>
+        {/* <View style={styles.tools_container}>
+          <TouchableOpacity onPress={handleUploadImages}>
             <Icon
               name={icons.priceTagIcon}
               size={25}
@@ -149,7 +156,7 @@ export default EnterMessageBar = (props) => {
             />
           </TouchableOpacity>
           {isTagAble ? (
-            <TouchableOpacity /* onPress={handleTagMembers} */>
+            <TouchableOpacity onPress={handleTagMembers}>
               <Icon
                 name={icons.atSignIcon}
                 size={25}
@@ -159,7 +166,7 @@ export default EnterMessageBar = (props) => {
           ) : (
             <View />
           )}
-        </View>
+        </View> */}
         <TextInput
           multiline={true}
           style={styles.textInput}
@@ -167,7 +174,7 @@ export default EnterMessageBar = (props) => {
             setTypedText(typedText);
           }}
           value={typedText}
-          placeholder="Nhắn tin"
+          placeholder={getPlaceHolder()}
           placeholderTextColor={colors.placeholder}
         />
         <TouchableOpacity /* onPress={handleSendMessage} */>
@@ -189,9 +196,11 @@ const styles = StyleSheet.create({
     right: 0,
     backgroundColor: colors.transparentWhite,
     //
-    borderColor: colors.PrimaryBackground,
+    borderColor: colors.GrayOnContainerAndFixed,
     borderWidth: 1,
     borderRadius: 30,
+    //
+    marginHorizontal: 10,
   },
   imgBar: {
     paddingTop: 5,
@@ -208,20 +217,11 @@ const styles = StyleSheet.create({
     flexDirection: "row",
     justifyContent: "space-between",
     alignItems: "center",
-    backgroundColor: colors.transparentWhite,
   },
   textInput: {
     flex: 1,
     color: "black",
     paddingStart: 10,
-  },
-  sendIcon: {
-    width: 25,
-    height: 25,
-    resizeMode: "stretch",
-    padding: 10,
-    marginHorizontal: 10,
-    tintColor: colors.PrimaryBackground,
   },
   image: {
     resizeMode: "contain",

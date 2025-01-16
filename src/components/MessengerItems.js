@@ -76,7 +76,7 @@ export default function MessengerItems(props) {
       setSender(checkSenderResponseData); */
       setAvatar(props.item.image);
       setSentUsername(props.item.fulName);
-      setSender(Math.random() < 0.5);
+      setSender(/* Math.random() < 0.5 */ props.item.sender);
       //
       setIsLoading(false);
     } catch (error) {

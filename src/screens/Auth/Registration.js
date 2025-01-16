@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   View,
   Text,
@@ -8,11 +8,21 @@ import {
   StyleSheet,
 } from "react-native";
 import { images, icons, colors, fontSizes } from "../../constants";
-import { UIHeader, TextInputTransparent } from "../../components";
-//
+import {
+  UIHeader,
+  TextInputTransparent,
+  QuickBackGround,
+} from "../../components";
+import {
+  user_register,
+  user_createAccountData,
+  information_initialize,
+  user_checkInfo,
+} from "../../api";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+
 import axios from "axios";
-import { EnterMessageBar } from "../../components";
-const URL = "http://192.168.132.41:3000";
+import { API_BASE_URL } from "../../api/DomainAPI";
 
 export default Registration = (props) => {
   const { navigate, goBack } = props.navigation;
@@ -27,112 +37,120 @@ export default Registration = (props) => {
   const [stepOTP, setStepOTP] = useState(false);
 
   const handleRegister = async () => {
-    /* if (!username || !email || !password || !confirmPassword)
-      return alert('error');
-    if (password !== confirmPassword) return alert('Passwords do not match');
+    if (!username || !email || !password || !confirmPassword)
+      return alert("error");
+    if (password !== confirmPassword) return alert("Passwords do not match");
     try {
-      console.log('http://192.168.132.41:3000/register', {
-        username,
-        email,
-        password,
-      });
-      await axios.post('http://192.168.132.41:3000/register', {
-        username,
-        email,
-        password,
-      });
       setStepOTP(true);
     } catch (error) {
-      alert('Error during registration');
+      alert("Error during registration");
       console.log(error);
-    } */
-    setStepOTP(true);
+    }
   };
 
   const handleVerifyOtp = async () => {
-    /* try {
-      await axios.post("http://192.168.132.41:3000/verify-otp", {
-        username,
-        otp,
-      });
+    try {
+      await axios.post(
+        API_BASE_URL +
+          "/api/v1/user/CreateAccount?userName=" +
+          username +
+          "&passWord=" +
+          password +
+          "&email=" +
+          email +
+          "&image=" +
+          images.blankAvatarForRegistration
+      );
       goBack();
     } catch (error) {
       alert("Invalid OTP");
-    } */
-    goBack();
+    }
+  };
+
+  const renderContentStep1 = () => {
+    return (
+      <View style={styles.mainView}>
+        <TextInputTransparent
+          inputMode={"text"}
+          icon={icons.personIcon}
+          placeholder={"Username"}
+          onChangeText={setUsername}
+          value={username}
+        />
+        <TextInputTransparent
+          inputMode={"email"}
+          icon={icons.emailIcon}
+          placeholder={"Email"}
+          onChangeText={setEmail}
+          value={email}
+        />
+        <TextInputTransparent
+          inputMode={"text"}
+          icon={icons.keyIcon}
+          placeholder={"Password"}
+          isPassword={true}
+          onChangeText={setPassword}
+          value={password}
+        />
+        <TextInputTransparent
+          inputMode={"text"}
+          icon={icons.addKeyIcon}
+          placeholder={"Re-enter Password"}
+          isPassword={true}
+          onChangeText={setConfirmPassword}
+          value={confirmPassword}
+        />
+        <View style={styles.handleStepRow}>
+          <View />
+          <TouchableOpacity
+            onPress={() => {
+              handleRegister();
+            }}
+          >
+            <Text style={[styles.handleStepButtonText, styles.redText]}>
+              Đăng Ký
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  };
+
+  const renderContentStep2 = () => {
+    return (
+      <View style={styles.mainView}>
+        <TextInputTransparent
+          inputMode={"numeric"}
+          icon={icons.addKeyIcon}
+          placeholder={"Enter OTP"}
+          isPassword={true}
+          onChangeText={setOtp}
+          value={otp}
+        />
+        <View style={styles.handleStepRow}>
+          <View />
+          <TouchableOpacity
+            onPress={() => {
+              handleVerifyOtp();
+            }}
+          >
+            <Text style={[styles.handleStepButtonText, styles.redText]}>
+              Xác thực OTP
+            </Text>
+          </TouchableOpacity>
+        </View>
+      </View>
+    );
+  };
+
+  const renderContentStep3 = () => {
+    return <View />;
   };
 
   return (
     <View style={styles.container}>
-      {!stepOTP ? (
-        <View style={styles.mainView}>
-          <TextInputTransparent
-            inputMode={"text"}
-            icon={icons.personIcon}
-            placeholder={"Username"}
-            onChangeText={setUsername}
-            value={username}
-          />
-          <TextInputTransparent
-            inputMode={"email"}
-            icon={icons.emailIcon}
-            placeholder={"Email"}
-            onChangeText={setEmail}
-            value={email}
-          />
-          <TextInputTransparent
-            inputMode={"text"}
-            icon={icons.keyIcon}
-            placeholder={"Password"}
-            isPassword={true}
-            onChangeText={setPassword}
-            value={password}
-          />
-          <TextInputTransparent
-            inputMode={"text"}
-            icon={icons.addKeyIcon}
-            placeholder={"Re-enter Password"}
-            isPassword={true}
-            onChangeText={setConfirmPassword}
-            value={confirmPassword}
-          />
-          <View style={styles.handleStepRow}>
-            <View />
-            <TouchableOpacity
-              onPress={() => {
-                handleRegister();
-              }}
-            >
-              <Text style={[styles.handleStepButtonText, styles.redText]}>
-                Đăng Ký
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      ) : (
-        <View style={styles.mainView}>
-          <TextInputTransparent
-            inputMode={"numeric"}
-            icon={icons.addKeyIcon}
-            placeholder={"Enter OTP"}
-            isPassword={true}
-            onChangeText={setOtp}
-            value={otp}
-          />
-          <View style={styles.handleStepRow}>
-            <View />
-            <TouchableOpacity
-              onPress={() => {
-                handleVerifyOtp();
-              }}
-            >
-              <Text style={[styles.handleStepButtonText, styles.redText]}>
-                Xác thực OTP
-              </Text>
-            </TouchableOpacity>
-          </View>
-        </View>
-      )}
+      <QuickBackGround />
+      {!stepOTP ? renderContentStep1() : renderContentStep2()}
 
       <UIHeader
         title={null}

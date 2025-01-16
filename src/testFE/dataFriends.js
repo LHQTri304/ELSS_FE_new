@@ -17,7 +17,7 @@ export default dataFriends = [
     userName: 'lethib234',
     fulName: 'Le Thi B',
     image: randomImg(),
-    latestMessage: 'Em ăn cơm chưa?',
+    latestMessage: 'Em học bài chưa?',
     timeSend: '10 giờ trước',
   },
   {

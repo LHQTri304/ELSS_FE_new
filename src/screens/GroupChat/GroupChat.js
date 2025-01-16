@@ -75,25 +75,25 @@ const styles = StyleSheet.create({
 });
  */
 
-import React, {useRef, memo} from 'react';
+import React, { useRef, memo } from "react";
 import {
   SafeAreaView,
   StyleSheet,
   Text,
   TouchableOpacity,
   View,
-} from 'react-native';
-import {images, icons, colors, fontSizes} from '../../constants';
-import {UIHeader, Icon} from '../../components';
-import * as Animatable from 'react-native-animatable';
-import {createMaterialTopTabNavigator} from '@react-navigation/material-top-tabs';
+} from "react-native";
+import { images, icons, colors, fontSizes } from "../../constants";
+import { UIHeader, Icon } from "../../components";
+import * as Animatable from "react-native-animatable";
+import { createMaterialTopTabNavigator } from "@react-navigation/material-top-tabs";
 
 import TabYourGroups from "./Tabs/TabYourGroups";
 
 const TabArr = [
   {
-    route: 'YourGroups',
-    label: 'Đã Tham Gia',
+    route: "YourGroups",
+    label: "Đã Tham Gia",
     icon: icons.groupIcon,
     component: TabYourGroups,
     color: colors.RedContainer,
@@ -103,7 +103,7 @@ const TabArr = [
 
 const Tab = createMaterialTopTabNavigator();
 
-const TabButton = memo(({item, onPress, accessibilityState}) => {
+const TabButton = memo(({ item, onPress, accessibilityState }) => {
   const viewRef = useRef(null);
   const focused = accessibilityState.selected;
 
@@ -114,13 +114,14 @@ const TabButton = memo(({item, onPress, accessibilityState}) => {
     <TouchableOpacity
       onPress={onPress}
       activeOpacity={1}
-      style={[styles.tabButtonContainer, {flex: focused ? 1 : 0.15}]}>
+      style={[styles.tabButtonContainer, { flex: focused ? 1 : 0.15 }]}
+    >
       <View>
         <Animatable.View
           ref={viewRef}
           style={[
             StyleSheet.absoluteFill,
-            {backgroundColor: item.color, borderRadius: 8},
+            { backgroundColor: item.color, borderRadius: 8 },
           ]}
         />
         <View
@@ -129,9 +130,10 @@ const TabButton = memo(({item, onPress, accessibilityState}) => {
             {
               borderColor: item.alphaClr,
               backgroundColor: focused ? null : item.alphaClr,
-              paddingHorizontal: focused ? '20%' : null,
+              paddingHorizontal: focused ? "20%" : null,
             },
-          ]}>
+          ]}
+        >
           <Icon name={item.icon} size={iconSize} color={iconColor} />
           {focused && <Text style={styles.focusedLabel}>{item.label}</Text>}
         </View>
@@ -140,13 +142,13 @@ const TabButton = memo(({item, onPress, accessibilityState}) => {
   );
 });
 
-const CustomTabBar = memo(({state, descriptors, navigation}) => (
+const CustomTabBar = memo(({ state, descriptors, navigation }) => (
   <View style={styles.tabContainer}>
     {state.routes.map((route, index) => {
       const isFocused = state.index === index;
       const onPress = () => {
         const event = navigation.emit({
-          type: 'tabPress',
+          type: "tabPress",
           target: route.key,
           canPreventDefault: true,
         });
@@ -158,7 +160,7 @@ const CustomTabBar = memo(({state, descriptors, navigation}) => (
           key={index}
           item={TabArr[index]}
           onPress={onPress}
-          accessibilityState={{selected: isFocused}}
+          accessibilityState={{ selected: isFocused }}
         />
       );
     })}
@@ -171,8 +173,9 @@ export default function GroupChat() {
       <UIHeader title="Hội Nhóm" />
       <View style={styles.displayView}>
         <Tab.Navigator
-          tabBar={props => <CustomTabBar {...props} />}
-          screenOptions={{headerShown: false}}>
+          tabBar={(props) => <CustomTabBar {...props} />}
+          screenOptions={{ headerShown: false }}
+        >
           {TabArr.map((item, index) => (
             <Tab.Screen
               key={index}
@@ -187,24 +190,24 @@ export default function GroupChat() {
 }
 
 const styles = StyleSheet.create({
-  container: {flex: 1},
-  displayView: {flex: 1, backgroundColor: colors.GrayBackground},
+  container: { flex: 1 },
+  displayView: { flex: 1, backgroundColor: colors.GrayBackground },
   tabContainer: {
-    flexDirection: 'row',
+    flexDirection: "row",
     height: 60,
-    paddingHorizontal:8,
-    backgroundColor: colors.SecondaryContainer,
-    justifyContent: 'space-around',
+    paddingHorizontal: 8,
+    backgroundColor: colors.PrimaryContainer,
+    justifyContent: "space-around",
   },
   tabButtonContainer: {
-    justifyContent: 'center',
-    alignItems: 'center',
-    height: '99%',
+    justifyContent: "center",
+    alignItems: "center",
+    height: "99%",
   },
-  focusedLabel: {color: colors.GrayOnContainerAndFixed, paddingHorizontal: 8},
+  focusedLabel: { color: colors.GrayOnContainerAndFixed, paddingHorizontal: 8 },
   btn: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    flexDirection: "row",
+    alignItems: "center",
     paddingVertical: 8,
     borderRadius: 8,
     borderWidth: 1,

@@ -38,7 +38,7 @@ export default TabYourFriendsItems = (props) => {
   };
 
   return (
-    <TouchableOpacity onPress={ToMessage} style={styles.container}>
+    <TouchableOpacity /* onPress={ToMessage} */ onPress={onPress} style={styles.container}>
       <Image source={{uri: avatar}} style={styles.avatar} />
       <View style={styles.messageContent}>
         <Text style={styles.name}>{name}</Text>

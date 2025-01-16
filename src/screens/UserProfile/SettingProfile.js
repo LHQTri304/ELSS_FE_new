@@ -91,7 +91,7 @@ export default function SettingProfile(props) {
             placeholder={'Nhập mô tả của bạn'}
             onChangeText={p => setNewDescription(p)}
           />
-          <TextInputMediumIcon
+          {/* <TextInputMediumIcon
             inputMode="numeric"
             name={'Số điện thoại'}
             icon={icons.phoneRingCircleIcon}
@@ -122,7 +122,7 @@ export default function SettingProfile(props) {
             value={gender}
             placeholder={'Nhập giới tính của bạn'}
             onChangeText={p => setGender(p)}
-          />
+          /> */}
 
           <MiddleSingleMediumButton
             onPress={handleSettings}

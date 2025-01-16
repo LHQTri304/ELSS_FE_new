@@ -36,6 +36,20 @@ export default GameTab = props => {
         'https://vcdn1-vnexpress.vnecdn.net/2022/09/25/-4526-1664080160.jpg?w=460&h=0&q=100&dpr=2&fit=crop&s=kOuOtxAMJS27kgrR81l-wg',
       gameScreen: 'GameWordSort',
     },
+    {
+      id: 3,
+      name: 'Luyện Nghe',
+      imageURL:
+        'https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcRyZVUbn-mA57CU1kuamnmpB99Eq-unWdonSA&s',
+      gameScreen: 'GameListening',
+    },
+    {
+      id: 4,
+      name: 'Đuổi Hình Bắt Chữ 2',
+      imageURL:
+        'https://cdn2.fptshop.com.vn/unsafe/1920x0/filters:quality(100)/2024_4_21_638493174114055954_dap-an-duoi-hinh-bat-chu-zalo.png',
+      gameScreen: 'GamePicWord2',
+    },
   ]);
 
   return (

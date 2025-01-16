@@ -1,9 +1,12 @@
-import React, {useState, useEffect} from 'react';
-import {Text, View, Image, TouchableOpacity, StyleSheet} from 'react-native';
-import {images, icons, colors, fontSizes} from '../../constants';
+import React, { useState, useEffect } from "react";
+import { Text, View, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { images, icons, colors, fontSizes } from "../../constants";
+import { FlexIconButton } from "../../components";
+
+import ReplyItems from "./ReplyItems";
 
 export default function CommentItems(props) {
-  const {onPress} = props;
+  const { onPress } = props;
   /* const { commentID, dateComment, userComment, content, replies, files } =
     props.comment; */
 
@@ -33,80 +36,107 @@ export default function CommentItems(props) {
   }; */
 
   return (
-    <TouchableOpacity onPress={onPress} style={styles.container}>
-      <Image
-        style={styles.img}
-        source={{
-          uri: /* userComment.information.image */ img,
-        }}
-      />
-      <View style={styles.textView}>
-        <Text style={styles.titleText} numberOfLines={1}>
-          {/* userComment.information.fulName */ name}
-        </Text>
-        <Text style={styles.contentText} numberOfLines={4}>
-          {content}
-        </Text>
-        <View>
-          {replyImages.map((image, index) => (
-            <Image key={index} source={{uri: image}} style={styles.image} />
-          ))}
+    <View style={styles.container}>
+      {/* replyImages.map((image, index) => (
+        <Image key={index} source={{ uri: image }} style={styles.image} />
+      )) */}
+      <TouchableOpacity onPress={onPress}>
+        <Image
+          style={styles.avatarContainer}
+          source={{
+            uri: /* userComment.information.image */ img,
+          }}
+        />
+      </TouchableOpacity>
+      <View style={styles.leftViewContainer}>
+        <View style={styles.contentContainer}>
+          <Text style={[styles.text, styles.username]}>
+            {/* userComment.information.fulName */ name}
+          </Text>
+          <Text style={[styles.text, styles.content]}>{content}</Text>
         </View>
+        <View style={styles.bottomViewContainer}>
+          {/* <Text style={styles.time}>{getTime() dateComment}</Text> */}
+          <FlexIconButton
+            onPress={() => {
+              alert("Reply");
+            }}
+            title={"Phản Hồi"}
+            icon={icons.activeChatMessageIcon}
+            iconSize={20}
+            iconColor={colors.GrayOnContainerAndFixed}
+            styleContainer={styles.btnContainer}
+            styleText={styles.btnText}
+          />
+        </View>
+        {replies.map((eachReply, index) => (
+          <ReplyItems
+            reply={eachReply}
+            key={index}
+            navigate={props.navigation.navigate}
+          />
+        ))}
       </View>
-      <View style={styles.rightSideView}>
-        <Text style={styles.rightSideText}>{/* getTime() */ dateComment}</Text>
-        <Text style={styles.rightSideText}>{replies.length} phản hồi</Text>
-      </View>
-    </TouchableOpacity>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     minHeight: 65,
-    //maxHeight: 150,
     marginBottom: 15,
-    flexDirection: 'row',
+    flexDirection: "row",
   },
-  img: {
-    width: 55,
-    height: 55,
-    resizeMode: 'stretch',
-    borderRadius: 15,
-    marginTop: 11,
-    marginHorizontal: 10,
-  },
-  textView: {
+  //
+  leftViewContainer: {
     flex: 1,
-    marginRight: 10,
-    marginTop: 15,
+    marginLeft: 5,
   },
-  titleText: {
-    color: colors.active,
-    fontSize: fontSizes.h6,
-    fontWeight: '400',
+  bottomViewContainer: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
   },
-  contentText: {
-    color: 'black',
+  contentContainer: {
+    borderRadius: 12,
+    backgroundColor: colors.transparentBlack15,
+  },
+  //
+  avatarContainer: {
+    width: 40,
+    height: 40,
+    resizeMode: "cover",
+    borderRadius: 180,
+    borderColor: colors.GrayBackground,
+  },
+  text: {
+    marginHorizontal: 10,
+    marginVertical: 5,
+    color: "black",
     fontSize: fontSizes.h7,
-    fontWeight: '300',
   },
-  rightSideView: {
-    flexDirection: 'column',
-    paddingTop: 10,
+  username: {
+    fontWeight: "bold",
   },
-  rightSideText: {
-    width: 100,
-    padding: 10,
-    paddingLeft: 0,
-    color: 'black',
-    fontSize: fontSizes.h8,
-    fontWeight: '500',
-    alignSelf: 'center',
-    textAlign: 'right',
-    color: colors.inactive,
-    marginTop: -10,
+  content: {},
+  time: {
+    marginTop: 10,
+    marginRight: 5,
+    fontWeight: "bold",
+    fontSize: fontSizes.h6,
   },
+  //
+  btnContainer: {
+    backgroundColor: null,
+    marginVertical: 10,
+    marginLeft: 0,
+  },
+  btnText: {
+    padding: 1,
+    fontSize: fontSizes.h7,
+    color: colors.GrayOnContainerAndFixed,
+  },
+  //
+  /*
   image: {
     width: 100,
     height: 100,
@@ -115,5 +145,5 @@ const styles = StyleSheet.create({
     borderRadius: 5,
     //borderWidth: 3,
     //borderColor: colors.PrimaryBackground,
-  },
+  }, */
 });

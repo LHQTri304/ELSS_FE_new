@@ -13,6 +13,7 @@ import {
   Friends,
   GroupChat,
   AllNotification,
+  Messenger,
   MessengerGroup,
   ShowPost,
   Comment,
@@ -21,6 +22,8 @@ import {
   GameTab,
   GamePicWord,
   GameWordSort,
+  GameListening,
+  GamePicWord2,
 } from '../screens';
 import MainBottomTab from './MainBottomTab';
 
@@ -52,6 +55,7 @@ export default function StackNavigator() {
         <Stack.Screen name="Friends" component={Friends} />
         <Stack.Screen name="GroupChat" component={GroupChat} />
         <Stack.Screen name="AllNotification" component={AllNotification} />
+        <Stack.Screen name="Messenger" component={Messenger} />
 
         <Stack.Screen name="MessengerGroup" component={MessengerGroup} />
         <Stack.Screen name="ShowPost" component={ShowPost} />
@@ -63,6 +67,8 @@ export default function StackNavigator() {
         <Stack.Screen name="GameTab" component={GameTab} />
         <Stack.Screen name="GamePicWord" component={GamePicWord} />
         <Stack.Screen name="GameWordSort" component={GameWordSort} />
+        <Stack.Screen name="GameListening" component={GameListening} />
+        <Stack.Screen name="GamePicWord2" component={GamePicWord2} />
       </Stack.Navigator>
     </NavigationContainer>
   );

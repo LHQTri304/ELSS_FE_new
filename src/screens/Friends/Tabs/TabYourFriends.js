@@ -47,8 +47,11 @@ function TabYourFriends(props) {
         renderItem={({ item, index }) => (
           <TabYourFriendsItems
             friend={item}
-            onPress={(myUserName, friendUsername, state) => {
-              SelectedFriend(myUserName, friendUsername, state);
+            onPress={() => {
+              navigate("Messenger", {
+                myUsername: "myUsername",
+                friendUsername: "friendUsername",
+              });
             }}
           />
         )}

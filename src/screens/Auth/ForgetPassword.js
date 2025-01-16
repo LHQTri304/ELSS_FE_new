@@ -1,19 +1,20 @@
-import React, {useState} from 'react';
-import {Text, View, Image, StyleSheet, Dimensions} from 'react-native';
-import {images, icons, colors, fontSizes} from '../../constants/index';
+import React, { useState } from "react";
+import { Text, View, Image, StyleSheet, Dimensions } from "react-native";
+import { images, icons, colors, fontSizes } from "../../constants/index";
 import {
   UIHeader,
   MiddleSingleMediumButton,
   TextInputMediumIcon,
-} from '../../components';
-import {auth_getRecoveryCode} from '../../api';
+  QuickBackGround,
+} from "../../components";
+import { auth_getRecoveryCode } from "../../api";
 
-export default ForgetPassword = props => {
-  const {navigate, goBack} = props.navigation;
-  const {width, height} = Dimensions.get('window');
+export default ForgetPassword = (props) => {
+  const { navigate, goBack } = props.navigation;
+  const { width, height } = Dimensions.get("window");
 
   //use for api
-  const [username, setUsername] = useState('.');
+  const [username, setUsername] = useState(".");
   const handleForgetPassword = async () => {
     /* 
     try {
@@ -27,38 +28,29 @@ export default ForgetPassword = props => {
     } catch (Error) {
       console.error(Error.message);
     } */
-    navigate('Verification', {
+    navigate("Verification", {
       api: null,
       userName: null,
-      actionType: 'ForgetPassword',
+      actionType: "ForgetPassword",
     });
   };
 
   return (
     <View style={styles.container}>
-      <Image
-        source={images.background}
-        style={[
-          {
-            width: width,
-            height: height,
-          },
-          styles.background,
-        ]}
-      />
+      <QuickBackGround />
 
       <Text style={styles.titleText}>Quên mật khẩu?</Text>
       <View style={styles.mainView}>
         <TextInputMediumIcon
-          inputMode={'text'}
+          inputMode={"text"}
           icon={icons.personIcon}
-          placeholder={'Nhập tên đăng nhập của bạn'}
+          placeholder={"Nhập tên đăng nhập của bạn"}
           isPassword={false}
-          onChangeText={text => setUsername(text)}
+          onChangeText={(text) => setUsername(text)}
         />
         <MiddleSingleMediumButton
           onPress={handleForgetPassword}
-          title={'tiếp tục'.toUpperCase()}
+          title={"tiếp tục".toUpperCase()}
         />
       </View>
 
@@ -81,36 +73,36 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.backgroundWhite,
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   background: {
-    position: 'absolute',
+    position: "absolute",
   },
   UIHeaderMainStyle: {
     top: 0,
     left: 0,
     right: 0,
-    position: 'absolute',
+    position: "absolute",
     backgroundColor: null,
   },
-  UIHeaderIconStyle: {tintColor: colors.inactive},
+  UIHeaderIconStyle: { tintColor: colors.inactive },
   titleText: {
     marginVertical: 10,
     color: colors.PrimaryOnContainerAndFixed,
     fontSize: fontSizes.h1,
-    fontWeight: 'bold',
-    alignSelf: 'center',
+    fontWeight: "bold",
+    alignSelf: "center",
   },
   mainView: {
-    width: '90%',
+    width: "90%",
     padding: 15,
     backgroundColor: colors.transparentWhite,
     borderColor: colors.PrimaryOnContainerAndFixed,
     borderWidth: 2,
     borderRadius: 50,
-    alignSelf: 'center',
-    justifyContent: 'center',
-    alignItems: 'center',
+    alignSelf: "center",
+    justifyContent: "center",
+    alignItems: "center",
   },
 });

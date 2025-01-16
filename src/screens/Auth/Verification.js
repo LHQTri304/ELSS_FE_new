@@ -11,6 +11,7 @@ import {
   UIHeader,
   MiddleSingleMediumButton,
   TextInputMediumIcon,
+  QuickBackGround,
 } from '../../components';
 import {auth_getAuthOTP, user_createAccountData} from '../../api';
 
@@ -82,16 +83,7 @@ export default Verification = props => {
 
   return (
     <View style={styles.container}>
-      <Image
-        source={images.background}
-        style={[
-          {
-            width: width,
-            height: height,
-          },
-          styles.background,
-        ]}
-      />
+      <QuickBackGround/>
 
       <Text style={styles.titleText}>Xác thực email</Text>
       <View style={styles.mainView}>

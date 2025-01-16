@@ -81,4 +81,4 @@ To learn more about React Native, take a look at the following resources:
 
 yarn add @react-navigation/native @react-navigation/native-stack @react-native-async-storage/async-storage react-native-screens @joaosousa/react-native-progress-steps react-native-progress-steps axios @react-navigation/material-top-tabs react-native-tab-view @react-navigation/bottom-tabs @react-navigation/material-bottom-tabs @react-navigation/material-bottom-tabs react-native-paper react-native-vector-icons react-native-safe-area-context @react-native-masked-view/masked-view @react-navigation/elements react-native-animatable react-native-pager-view
 
-yarn add sockjs-client expo-image-picker react-native-floating-action rn-pdf-reader-js expo-document-picker react-native-webview
+yarn add sockjs-client expo-image-picker react-native-floating-action rn-pdf-reader-js expo-document-picker react-native-webview react-native-youtube-iframe react-native-video

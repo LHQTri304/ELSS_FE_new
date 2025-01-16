@@ -14,30 +14,27 @@ import {
   RowSectionTitle,
   RowSectionDisplay,
   RowSectionNavigate,
+  SubInfoVertical,
 } from "../../components";
-//import { randomGenerateColor } from "../../utilities";
 import AsyncStorage from "@react-native-async-storage/async-storage";
-//import * as ImagePicker from "expo-image-picker";
+import * as ImagePicker from "expo-image-picker";
 import {
   profile_getUser,
   profile_getAvatar,
   profile_uploadImage,
   user_getUser,
-  information_getAllFavoriteTopics,
 } from "../../api";
 
 export default function UserProfile(props) {
   const [username, setUsername] = useState(null);
-  const [fulname, setFulName] = useState('Nguyễn Văn A');
+  const [fulname, setFulName] = useState("Nguyễn Văn A");
   const [image, setImage] = useState(null);
 
-  const [phoneNumber, setPhoneNumber] = useState('0908850624');
-  const [email, setEmail] = useState('21522704@gm.uit.edu.vn');
-  const [description, setDescription] = useState('Sinh viên năm 4');
-  const [yearOfBirth, setYearOfBirth] = useState('2003');
-  const [gender, setGender] = useState('Nam');
-
-  const [topics, setTopics] = useState([]);
+  const [phoneNumber, setPhoneNumber] = useState("0908850624");
+  const [email, setEmail] = useState("21522704@gm.uit.edu.vn");
+  const [description, setDescription] = useState("Sinh viên năm 4");
+  const [yearOfBirth, setYearOfBirth] = useState("2003");
+  const [gender, setGender] = useState("Nam");
 
   const setEverything = (
     username,
@@ -47,11 +44,9 @@ export default function UserProfile(props) {
     description,
     yearOfBirth,
     gender,
-    topics
   ) => {
     setUsername(username);
     setFulName(fulname);
-    setTopics(topics);
 
     description == null
       ? setDescription("Chưa cập nhật")
@@ -70,43 +65,36 @@ export default function UserProfile(props) {
     gender == null ? setGender("Chưa cập nhật") : setGender(gender);
   };
 
-  useEffect(() => {/* 
-    const fetchData = async () => {
-      try {
-        const username = await AsyncStorage.getItem("username");
-        const responseUser = await user_getUser();
-        const responseFavTopics = await information_getAllFavoriteTopics(
-          responseUser.information.infoID
-        );
+  const fetchData = async () => {
+    try {
+      const username = await AsyncStorage.getItem("username");
+      const responseUser = await user_getUser();
 
-        let topicNames = responseFavTopics.map((item) => item.topicName);
-        //console.log(topicNames);
+      setFulName(responseUser.information.fulName)
+      /* setEverything(
+        username,
+        responseUser.information.fulName,
+        responseUser.email,
+        responseUser.information.phoneNumber,
+        responseUser.information.description,
+        responseUser.information.yearOfBirth,
+        responseUser.information.gender,
+      ); */
 
-        setEverything(
-          username,
-          responseUser.information.fulName,
-          responseUser.email,
-          responseUser.information.phoneNumber,
-          responseUser.information.description,
-          responseUser.information.yearOfBirth,
-          responseUser.information.gender,
-          topicNames
-        );
-
-        const responseAvatar = await profile_getAvatar(username);
-        if (responseAvatar.data != null) {
-          setImage(responseAvatar.data.toString());
-        }
-        //console.log(image);
-      } catch (error) {
-        console.error("Error fetching data:", error);
+      const responseAvatar = await profile_getAvatar(username);
+      if (responseAvatar.data != null) {
+        setImage(responseAvatar.data.toString());
       }
-    };
+      //console.log(image);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
-
     const intervalId = setInterval(fetchData, 3000);
-    return () => clearInterval(intervalId); */
+    return () => clearInterval(intervalId);
   }, [props.userName]);
 
   /* useEffect(() => {
@@ -128,7 +116,7 @@ export default function UserProfile(props) {
     }
   };
 
-  const selectImage = async () => {/* 
+  /* const selectImage = async () => {    
     let result = await ImagePicker.launchImageLibraryAsync({
       mediaTypes: ImagePicker.MediaTypeOptions.All,
       allowsEditing: true,
@@ -145,8 +133,8 @@ export default function UserProfile(props) {
       } catch (error) {
         console.error("Error uploading image:", error);
       }
-    } */
-  };
+    }
+  }; */
 
   /* const ShowPicture = () => {
     navigate("ShowPicture", { file: image });
@@ -161,36 +149,26 @@ export default function UserProfile(props) {
 
       <ScrollView>
         <View style={styles.profileView}>
-        <Image source={images.background} style={styles.profileImage} />
-        <Text style={styles.profileUsername}>{fulname}</Text>
-            <Text style={styles.profileDescription} numberOfLines={4}>
-              {description}
-            </Text>
+          <Image source={{uri: image}} style={styles.profileImage} />
+          <Text style={styles.profileUsername}>{fulname}</Text>
+          {/* <Text style={styles.profileDescription} numberOfLines={4}>
+            {description}
+          </Text> */}
         </View>
 
-        {/* <RowSectionTitle text={"Chủ đề yêu thích"} styles={{ marginTop: 20 }} /> */}
-
-        {/* <View style={styles.topics_container}>
-          {topics.map((topicName, index) => (
-            <View
-              style={[
-                styles.eachTopicBox,
-                { borderColor: 'black' },
-              ]}
-              key={index}
-            >
-              <Text style={styles.eachTopicBoxText}>{topicName}</Text>
-            </View>
-          ))}
+        {/* <View style={styles.profileSubInfo}>
+          <SubInfoVertical icon={icons.personCircleIcon} text={"Bạn bè giao lưu"} />
+          <SubInfoVertical icon={icons.groupIcon} text={"Tổng nhóm tham gia"} />
+          <SubInfoVertical icon={icons.clockIcon} text={"Thời gian hoạt động"} />
         </View> */}
 
-        <RowSectionTitle
+        {/* <RowSectionTitle
           text={"Thông tin tài khoản"}
           styles={{ marginTop: 20 }}
         />
 
         <RowSectionDisplay icon={icons.phoneIcon} text={phoneNumber} />
-        <RowSectionDisplay icon={icons.emailIcon} text={email} />
+        <RowSectionDisplay icon={icons.emailIcon} text={email} /> */}
 
         <RowSectionTitle text={"Tùy chỉnh tài khoản"} />
 
@@ -242,10 +220,15 @@ const styles = StyleSheet.create({
     fontWeight: "900",
   },
   profileDescription: {
-    height: 70,
+    maxHeight: 75,
     maxWidth: 220,
     color: "gray",
     fontSize: fontSizes.h7,
+  },
+  profileSubInfo: {
+    flexDirection: "row",
+    justifyContent: "space-evenly",
+    padding: 3,
   },
   button: {
     backgroundColor: colors.PrimaryBackground,
@@ -258,26 +241,5 @@ const styles = StyleSheet.create({
   buttonText: {
     color: "white",
     fontSize: fontSizes.h8,
-  },
-  //
-  topics_container: {
-    flexDirection: "row",
-    flexWrap: "wrap",
-    justifyContent: "space-around",
-  },
-  eachTopicBox: {
-    paddingVertical: 5,
-    paddingHorizontal: 10,
-    marginBottom: 5,
-    marginHorizontal: 2,
-    borderRadius: 12,
-    borderWidth: 3,
-    borderColor: colors.GrayContainer,
-    backgroundColor: colors.GrayObjects,
-  },
-  eachTopicBoxText: {
-    color: colors.GrayOnContainerAndFixed,
-    textAlign: "center",
-    fontSize: fontSizes.h7,
   },
 });

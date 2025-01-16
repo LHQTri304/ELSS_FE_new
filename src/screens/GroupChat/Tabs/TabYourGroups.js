@@ -16,7 +16,6 @@ import {
 } from "../../../components";
 import { images, icons, colors, fontSizes } from "../../../constants";
 import { Icon } from "../../../components";
-import { ProgressSteps, ProgressStep } from "react-native-progress-steps";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import {
   groupStudying_getAllGroupofUser,
@@ -38,9 +37,6 @@ export default function TabYourGroups(props) {
   const [newGroupName, setNewGroupName] = useState("");
   const [newGroupPassword, setNewGroupPassword] = useState("");
   const [newGroupSelectedTopics, setNewGroupSelectedTopics] = useState([]);
-
-  const [activeStep, setActiveStep] = useState(0);
-  const [listTopics, setListTopics] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
@@ -101,114 +97,27 @@ export default function TabYourGroups(props) {
     } */
   };
 
-  //style of ProgressSteps
-  const ProgressStepsStyle = {
-    borderWidth: 9,
-    activeStepIconBorderColor: colors.PrimaryBackground,
-    activeStepIconColor: colors.PrimaryContainer,
-    activeStepNumColor: colors.PrimaryOnContainerAndFixed,
-
-    completedProgressBarColor: colors.PrimaryBackground,
-    progressBarColor: colors.PrimaryContainer,
-
-    completedStepIconColor: colors.PrimaryBackground,
-    completedCheckColor: "white",
-
-    disabledStepIconColor: colors.PrimaryContainer,
-    disabledStepNumColor: colors.PrimaryContainer,
-
-    labelColor: null,
-    labelFontSize: 0,
-    activeLabelColor: null,
-    activeLabelFontSize: 0,
-
-    activeStep: activeStep,
-    //activeStep: 0,
-
-    topOffset: 10,
-    marginBottom: 15,
-  };
-
-  //style of Step_1
-  const Step_1_BasicInfo = {
-    nextBtnText: "Tiếp theo",
-    previousBtnText: null,
-    nextBtnStyle: styles.nextBtn,
-    nextBtnTextStyle: styles.nextBtnText,
-    previousBtnDisabled: true,
-  };
-
-  //style of Step_2
-  const Step_2_Topics = {
-    label: "Chọn topic (chủ đề)",
-    onSubmit: async () => {
-      handleCreateGroup();
-    },
-    previousBtnText: "Quay Lại",
-    finishBtnText: "Xong",
-    nextBtnStyle: styles.nextBtn,
-    nextBtnTextStyle: styles.nextBtnText,
-    previousBtnStyle: styles.previousBtn,
-    previousBtnTextStyle: styles.previousBtnText,
-  };
-
   const renderContentCreateGroup = () => {
     return (
-      <ProgressSteps {...ProgressStepsStyle}>
-        <ProgressStep {...Step_1_BasicInfo}>
-          <View style={styles.stepAdditionalInfoView}>
-            <TextInputMediumIcon
-              inputMode={"text"}
-              name={"Tên nhóm"}
-              icon={icons.personCircleIcon}
-              placeholder={"Nhập tên nhóm mới"}
-              isPassword={false}
-              onChangeText={(text) => setNewGroupName(text)}
-            />
-            <TextInputMediumIcon
-              inputMode={"text"}
-              name={"Mật khẩu gia nhập nhóm"}
-              icon={icons.phoneRingCircleIcon}
-              placeholder={"Nhập mật khẩu mới"}
-              isPassword={true}
-              onChangeText={(text) => setNewGroupPassword(text)}
-            />
-          </View>
-        </ProgressStep>
-        <ProgressStep {...Step_2_Topics}>
-          <Text style={styles.stepAdditionalInfoTitle}>
-            Bạn quan tâm đến những gì?
-          </Text>
-          <View style={styles.listTopicsView}>
-            {listTopics.map((topic) => (
-              <TouchableOpacity
-                key={topic.topicID}
-                style={styles.eachTopicsView}
-                onPress={() => handlePressTopic(topic.topicID)}
-              >
-                <Image
-                  source={{ uri: topic.image }}
-                  style={styles.eachTopicsImage}
-                />
-
-                {newGroupSelectedTopics.includes(topic.topicID) && (
-                  <View style={styles.eachTopicsSelected} />
-                )}
-
-                <Text style={styles.eachTopicsText}>{topic.topicName}</Text>
-                {newGroupSelectedTopics.includes(topic.topicID) && (
-                  <Icon
-                    name={icons.checkMarkIcon}
-                    size={24}
-                    color={colors.PrimaryContainer}
-                    style={styles.eachTopicsSelectedIcon}
-                  />
-                )}
-              </TouchableOpacity>
-            ))}
-          </View>
-        </ProgressStep>
-      </ProgressSteps>
+      <View style={styles.stepAdditionalInfoView}>
+        <TextInputMediumIcon
+          inputMode={"text"}
+          name={"Tên nhóm"}
+          icon={icons.personCircleIcon}
+          placeholder={"Nhập tên nhóm mới"}
+          isPassword={false}
+          onChangeText={(text) => setNewGroupName(text)}
+        />
+        <TextInputMediumIcon
+          inputMode={"text"}
+          name={"Mật khẩu gia nhập nhóm"}
+          icon={icons.phoneRingCircleIcon}
+          placeholder={"Nhập mật khẩu mới"}
+          isPassword={true}
+          onChangeText={(text) => setNewGroupPassword(text)}
+        />
+        <CommonButton onPress={handleCreateGroup()} title={"Hoàn tất"}/>
+      </View>
     );
   };
 

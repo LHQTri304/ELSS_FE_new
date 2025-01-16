@@ -3,6 +3,7 @@ import dataGroups from './dataGroups';
 import dataNotifications from './dataNotifications';
 import dataBlogs from './dataBlogs';
 import dataNounVocabulary from './dataNounVocabulary';
+import dataChat from './dataChat';
 
 export {
   dataFriends,
@@ -10,4 +11,5 @@ export {
   dataNotifications,
   dataBlogs,
   dataNounVocabulary,
+  dataChat,
 };

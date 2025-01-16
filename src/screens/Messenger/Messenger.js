@@ -21,15 +21,16 @@ import {
 import { API_BASE_URL } from "../../api/DomainAPI";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 //import SockJS from "sockjs-client";
-import { over } from "stompjs";
 import { messenger_getFriendID, messenger_loadMessageforUser } from "../../api";
+
+import { dataChat } from "../../testFE";
 
 export default function Messenger(props) {
   const { navigate, goBack } = props.navigation;
   const { myUsername, friendUsername, state } = props.route.params;
 
-  const [isLoading, setIsLoading] = useState(true);
-  const [chatHistory, setChatHistory] = useState([]);
+  const [isLoading, setIsLoading] = useState(false);
+  const [chatHistory, setChatHistory] = useState(dataChat.reverse());
   const [friendID, setFriendID] = useState(null);
   //const [socket, setSocket] = useState(new SockJS(API_BASE_URL + "/ws"));
 
@@ -61,7 +62,7 @@ export default function Messenger(props) {
     );
   }; */
 
-  const onError = async () => {
+  /* const onError = async () => {
     alert("Error");
   };
   const onReceivedMessage = async (message) => {
@@ -81,7 +82,7 @@ export default function Messenger(props) {
   const goBackToFriendList = async () => {
     await AsyncStorage.setItem("friend", "list");
     goBack();
-  };
+  }; */
 
   if (isLoading) {
     return <LoadingFullScreen />;
@@ -93,20 +94,18 @@ export default function Messenger(props) {
         title={friendUsername}
         leftIconName={icons.backIcon}
         rightIconName={null}
-        onPressLeftIcon={() => {
-          goBackToFriendList();
-        }}
-        onPressRightIcon={null}
-        onPressTitle={() => LoadUserInformation()}
+        //onPressLeftIcon={() => {          goBackToFriendList();        }}
+        //onPressRightIcon={null}
+        //onPressTitle={() => LoadUserInformation()}
       />
 
       <View style={styles.displayView}>
         <FlatList
           data={chatHistory}
-          keyExtractor={(item) => item.id}
+          keyExtractor={(item) => item.ID}
           inverted
           renderItem={({ item }) => (
-            <MessengerItems item={item} files={item.files} />
+            <MessengerItems item={item} /* files={item.files} */ />
           )}
         />
 

@@ -2,9 +2,12 @@ import React, { Component } from "react";
 import { Text, TouchableOpacity, StyleSheet } from "react-native";
 import { images, icons, colors, fontSizes } from "../constants/index";
 
-export default function CommonButton(props) {
-  const { onPress, title, styleContainer, styleText } = props;
-
+export default function CommonButton({
+  onPress,
+  title,
+  styleContainer,
+  styleText,
+}) {
   let fontSizeTitle = fontSizes.h4;
   if (title.length > 10) {
     fontSizeTitle = fontSizes.h6;

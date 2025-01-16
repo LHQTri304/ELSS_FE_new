@@ -1,13 +1,14 @@
-import React, {useState, useEffect} from 'react';
-import {Text, View, Image, TouchableOpacity, StyleSheet} from 'react-native';
-import {images, icons, colors, fontSizes} from '../../../constants';
-import {Icon} from '../../../components';
-import AsyncStorage from '@react-native-async-storage/async-storage';
+import React, { useState, useEffect } from "react";
+import { Text, View, Image, TouchableOpacity, StyleSheet } from "react-native";
+import { images, icons, colors, fontSizes } from "../../../constants";
+import { Icon, FlexIconButton } from "../../../components";
+import AsyncStorage from "@react-native-async-storage/async-storage";
+import { user_authenticate } from "../../../api";
 
 function TabDiscussionItems(props) {
   //const {content, comments, likes} = props.topic;
   //const {fulName} = props.topic.userCreated.information;
-  const {onPress} = props;
+  const { onPress } = props;
 
   //
   const [content, setContent] = useState(props.topic.content);
@@ -18,7 +19,7 @@ function TabDiscussionItems(props) {
   const [header, setHeader] = useState(props.topic.header);
   //
 
-  const [username, setUserName] = useState('');
+  const [username, setUserName] = useState("");
 
   /* useEffect(() => {
     const fetchData = async () => {
@@ -30,25 +31,39 @@ function TabDiscussionItems(props) {
   return (
     <TouchableOpacity onPress={onPress} style={styles.container}>
       <View style={styles.topView}>
-        <View style={styles.leftSideTopView}>
-          {/* <Icon
-            name={icons.activeChatMessageIcon}
-            size={30}
-            color={colors.PrimaryBackground}
-          /> */}
-          <Image style={styles.avatarContainer} source={{uri: avatar}} />
-          <Text style={styles.text} numberOfLines={1}>{header/* fulName */}</Text>
-        </View>
-        <View style={styles.rightSideView}>
-          <Text style={styles.rightSideText}>
-            Số lượt tương tác: {likes/* .length */}
-          </Text>
-          <Text style={styles.rightSideText}>bình luận: {comments.length}</Text>
-        </View>
+        <Image style={styles.avatarContainer} source={{ uri: avatar }} />
+        <Text style={styles.username} numberOfLines={1}>
+          {fulName}
+        </Text>
       </View>
-      <Text style={styles.content} numberOfLines={5}>
-        Nội dung: {content}
+      <Text style={styles.title}>{header}</Text>
+      <Text style={styles.content} numberOfLines={3}>
+        {content}
       </Text>
+      <View style={styles.bottomView}>
+        <FlexIconButton
+          onPress={() => {
+            alert("Like");
+          }}
+          title={likes ? likes : "Like"}
+          icon={icons.inactiveLikeIcon}
+          iconSize={20}
+          iconColor={colors.GrayOnContainerAndFixed}
+          styleContainer={styles.btnContainer}
+          styleText={styles.btnText}
+        />
+        <FlexIconButton
+          onPress={() => {
+            alert("Comment");
+          }}
+          title={comments ? comments.length : "Bình Luận"}
+          icon={icons.activeChatMessageIcon}
+          iconSize={20}
+          iconColor={colors.GrayOnContainerAndFixed}
+          styleContainer={styles.btnContainer}
+          styleText={styles.btnText}
+        />
+      </View>
     </TouchableOpacity>
   );
 }
@@ -56,55 +71,56 @@ export default TabDiscussionItems;
 
 const styles = StyleSheet.create({
   container: {
-    height: 160,
-    margin: 10,
     paddingTop: 15,
     paddingStart: 10,
-    flexDirection: 'column',
-    borderRadius: 10,
-    borderColor: 'black',
-    borderWidth: 1,
+    flexDirection: "column",
+    borderColor: colors.transparentBlack15,
+    borderBottomWidth: 3,
   },
   topView: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
+    flexDirection: "row",
+    justifyContent: "flex-start",
   },
-  leftSideTopView: {flexDirection: 'row'},
-  text: {
-    width: 190,
-    marginTop: 5,
-    marginLeft: 5,
-    color: 'black',
-    fontSize: fontSizes.h5,
-  },
-  content: {
-    marginLeft: 7,
-    marginRight: 10,
-    color: 'black',
-    fontSize: fontSizes.h7,
-  },
-  rightSideView: {
-    flexDirection: 'column',
-  },
-  rightSideText: {
-    width: 120,
-    padding: 10,
-    paddingLeft: 0,
-    color: 'black',
-    fontSize: fontSizes.h8,
-    fontWeight: '500',
-    alignSelf: 'center',
-    textAlign: 'right',
-    color: colors.active,
-    marginTop: -15,
+  bottomView: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
   },
   //
   avatarContainer: {
-    width: 30,
-    height: 30,
-    resizeMode: 'cover',
-    borderRadius: 30,
+    width: 22,
+    height: 22,
+    resizeMode: "cover",
+    borderRadius: 180,
     borderColor: colors.GrayBackground,
-    //marginTop: 9,
+  },
+  username: {
+    maxWidth: "80%",
+    marginLeft: 10,
+    color: "black",
+    fontSize: fontSizes.h7,
+    fontWeight: "bold",
+  },
+  title: {
+    maxWidth: "95%",
+    marginVertical: 10,
+    color: "black",
+    fontSize: fontSizes.h6,
+    fontWeight: "bold",
+  },
+  content: {
+    marginRight: 10,
+    color: "black",
+    fontSize: fontSizes.h7,
+  },
+  //
+  btnContainer: {
+    backgroundColor: null,
+    marginVertical: 10,
+    marginLeft: 0,
+  },
+  btnText: {
+    padding: 1,
+    fontSize: fontSizes.h7,
+    color: colors.GrayOnContainerAndFixed,
   },
 });

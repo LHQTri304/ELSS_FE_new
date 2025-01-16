@@ -1,4 +1,4 @@
-import React, {useEffect, useState} from 'react';
+import React, { useEffect, useState } from "react";
 import {
   Text,
   View,
@@ -8,31 +8,32 @@ import {
   StyleSheet,
   ScrollView,
   Alert,
-} from 'react-native';
-import {images, icons, colors, fontSizes} from '../../constants/index';
-import {MiddleSingleMediumButton, TextInputTransparent} from '../../components';
-import {user_login} from '../../api';
-import axios from 'axios';
+} from "react-native";
+import { images, icons, colors, fontSizes } from "../../constants/index";
+import {
+  MiddleSingleMediumButton,
+  TextInputTransparent,
+} from "../../components";
+import { user_login } from "../../api";
+import axios from "axios";
 
-export default Login = props => {
-  const {navigate, goBack, push} = props.navigation;
+export default Login = (props) => {
+  const { navigate, goBack, push } = props.navigation;
 
   //Login component and function, use for api
-  const [username, setUsername] = useState('');
-  const [password, setPassword] = useState('');
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
   const handleLogin = async () => {
-    //if (!username || !password) return alert('Hãy nhập Tài Khoản và Mật Khẩu');
-    push('MainBottomTab');
-    /*  user_login(username, password, () =>
-      push("MainBottomTab", { tabName: "UserProfile" })
-    ); */
-    /* try {
-      await axios.post('http://192.168.132.41:3000/login', {username, password});
-      push('GameTab');
+    if (!username || !password) return alert("Hãy nhập Tài Khoản và Mật Khẩu");
+    try {
+      user_login(username, password, () =>
+        push("MainBottomTab", { tabName: "Game" })
+      );
     } catch (error) {
-      console.log(error)
-      alert('Invalid username or password');
-    } */
+      console.log(error);
+      alert("Lỗi trong lúc login");
+    }
+    //push("MainBottomTab", { tabName: "Game" });
   };
 
   return (
@@ -41,20 +42,20 @@ export default Login = props => {
 
       <View style={styles.mainView}>
         <TextInputTransparent
-          inputMode={'text'}
+          inputMode={"text"}
           icon={icons.personIcon}
-          placeholder={'Username'}
+          placeholder={"Username"}
           isPassword={false}
-          onChangeText={text => {
+          onChangeText={(text) => {
             setUsername(text);
           }}
         />
         <TextInputTransparent
-          inputMode={'text'}
+          inputMode={"text"}
           icon={icons.keyIcon}
-          placeholder={'Password'}
+          placeholder={"Password"}
           isPassword={true}
-          onChangeText={text => {
+          onChangeText={(text) => {
             setPassword(text);
           }}
         />
@@ -62,23 +63,25 @@ export default Login = props => {
         <View style={styles.navigateTextView}>
           <TouchableOpacity
             onPress={() => {
-              navigate('ForgetPassword');
+              navigate("ForgetPassword");
             }}
-            style={styles.forgetPassword}>
+            style={styles.forgetPassword}
+          >
             <Text style={styles.navigateTextText}>Quên mật khẩu?</Text>
           </TouchableOpacity>
           <TouchableOpacity
             onPress={() => {
-              navigate('Registration');
+              navigate("Registration");
             }}
-            style={styles.register}>
+            style={styles.register}
+          >
             <Text style={styles.navigateTextText}>Đăng ký</Text>
           </TouchableOpacity>
         </View>
 
         <MiddleSingleMediumButton
           onPress={handleLogin}
-          title={'Đăng nhập'.toUpperCase()}
+          title={"Đăng nhập".toUpperCase()}
         />
       </View>
     </View>
@@ -93,15 +96,15 @@ const styles = StyleSheet.create({
   imgLogo: {
     width: 200,
     height: 200,
-    top: '10%',
-    position: 'absolute',
-    alignSelf: 'center',
+    top: "10%",
+    position: "absolute",
+    alignSelf: "center",
   },
   mainView: {
     flex: 1,
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
-    top: '33%',
+    top: "33%",
     left: 1,
     right: 1,
     paddingTop: 40,
@@ -112,12 +115,12 @@ const styles = StyleSheet.create({
     backgroundColor: colors.transparentWhite,
   },
   textInputView: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginLeft: 20,
     marginRight: 10,
     marginBottom: 10,
     borderRadius: 40,
-    alignItems: 'center',
+    alignItems: "center",
   },
   textInputTypingArea: {
     width: 300,
@@ -125,29 +128,29 @@ const styles = StyleSheet.create({
   },
   blackLine: {
     height: 1,
-    backgroundColor: 'black',
+    backgroundColor: "black",
   },
   navigateTextView: {
-    flexDirection: 'column',
-    justifyContent: 'flex-end',
+    flexDirection: "column",
+    justifyContent: "flex-end",
     paddingEnd: 10,
   },
   navigateTextText: {
     padding: 1,
     fontSize: fontSizes.h6,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: colors.PrimaryBackground,
   },
   forgetPassword: {
     marginHorizontal: 5,
     marginBottom: 15,
-    justifyContent: 'center',
-    alignItems: 'flex-end',
+    justifyContent: "center",
+    alignItems: "flex-end",
   },
   register: {
     marginHorizontal: 5,
     marginBottom: 15,
-    justifyContent: 'center',
-    alignItems: 'flex-end',
+    justifyContent: "center",
+    alignItems: "flex-end",
   },
 });

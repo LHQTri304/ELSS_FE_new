@@ -5,6 +5,7 @@ import {
   UIHeader,
   MiddleSingleMediumButton,
   TextInputMediumIcon,
+  QuickBackGround,
 } from '../../components';
 import { auth_changePasswordAfterOTP } from "../../api";
 
@@ -40,16 +41,7 @@ export default ResetPassword = (props) => {
 
   return (
     <View style={styles.container}>
-      <Image
-        source={images.background}
-        style={[
-          {
-            width: width,
-            height: height,
-          },
-          styles.background,
-        ]}
-      />
+      <QuickBackGround/>
 
       <Text style={styles.titleText}>Đặt lại mật khẩu!</Text>
       <View style={styles.mainView}>

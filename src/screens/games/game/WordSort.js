@@ -1,4 +1,4 @@
-import React, {useState, useEffect} from 'react';
+import React, { useState, useEffect } from "react";
 import {
   Text,
   Image,
@@ -8,25 +8,26 @@ import {
   Button,
   Alert,
   Dimensions,
-} from 'react-native';
-import {images, icons, colors, fontSizes} from '../../../constants';
-import {UIHeader, Icon, MiddleSingleMediumButton} from '../../../components';
+} from "react-native";
+import { images, icons, colors, fontSizes } from "../../../constants";
+import { UIHeader, Icon, MiddleSingleMediumButton } from "../../../components";
+import SharedLayout from "../SharedLayout";
 
-export default GameWordSort = props => {
-  const {navigate, goBack} = props.navigation;
-  const {width, height} = Dimensions.get('window');
+export default GameWordSort = (props) => {
+  const { navigate, goBack } = props.navigation;
+  const { width, height } = Dimensions.get("window");
 
   // State
   const [difficulty, setDifficulty] = useState(null); // Độ khó
   const [availableItems, setAvailableItems] = useState([]); // Danh sách chữ cái
-  const [targetLetter, setTargetLetter] = useState(''); // Mục tiêu hiện tại
+  const [targetLetter, setTargetLetter] = useState(""); // Mục tiêu hiện tại
   const [targetProgress, setTargetProgress] = useState(30); // Mục tiêu tiến độ
   const [progress, setProgress] = useState(0); // Thanh tiến độ
   const [sortingMatrix, setSortingMatrix] = useState(
-    Array(6).fill(Array(4).fill(null)),
+    Array(6).fill(Array(4).fill(null))
   ); // Ma trận Sorting
   const [waitingMatrix, setWaitingMatrix] = useState(
-    Array(1).fill(Array(3).fill(null)),
+    Array(1).fill(Array(3).fill(null))
   ); // Ma trận Waiting
   const [choosingCell, setChoosingCell] = useState([0, 0]); // Ô đang được chọn [Row, Col]
   const [isWaitingChosen, setIsWaitingChosen] = useState(false); // Ô được chọn trước đó là của Sorting hay Waiting
@@ -34,12 +35,12 @@ export default GameWordSort = props => {
   //#region ** Cần đẩy xuống Back End **
 
   // Chọn độ khó
-  const handleDifficultySelection = level => {
+  const handleDifficultySelection = (level) => {
     let items;
-    if (level === 'easy') items = ['A', 'E', 'X'];
-    else if (level === 'medium') items = ['A', 'B', 'E', 'G', 'M', 'X', 'Z'];
-    else if (level === 'hard')
-      items = ['A', 'B', 'C', 'D', 'E', 'F', 'G', 'H', 'K', 'M'];
+    if (level === "easy") items = ["A", "E", "X"];
+    else if (level === "medium") items = ["A", "B", "E", "G", "M", "X", "Z"];
+    else if (level === "hard")
+      items = ["A", "B", "C", "D", "E", "F", "G", "H", "K", "M"];
 
     setDifficulty(level);
     setAvailableItems(items);
@@ -48,7 +49,7 @@ export default GameWordSort = props => {
   };
 
   // Khởi tạo ma trận Sorting và Waiting
-  const initializeMatrices = items => {
+  const initializeMatrices = (items) => {
     // Tạo ngẫu nhiên Sorting
     const newSorting = Array(6)
       .fill(null)
@@ -56,8 +57,8 @@ export default GameWordSort = props => {
         Array(4)
           .fill(null)
           .map(() =>
-            Math.random() < 0.3 ? generateRandomLetters(items, 1, 5) : null,
-          ),
+            Math.random() < 0.3 ? generateRandomLetters(items, 1, 5) : null
+          )
       );
 
     // Tạo Waiting
@@ -66,7 +67,7 @@ export default GameWordSort = props => {
       .map(() =>
         Array(3)
           .fill(null)
-          .map(() => generateRandomLetters(items, 1, 4)),
+          .map(() => generateRandomLetters(items, 1, 4))
       );
 
     setSortingMatrix(newSorting);
@@ -113,7 +114,7 @@ export default GameWordSort = props => {
       row.forEach((cell, colIndex) => {
         if (cell && cell.length === 6 && new Set(cell).size === 1) {
           if (cell[0] === targetLetter) {
-            setProgress(prev => prev + 6);
+            setProgress((prev) => prev + 6);
           }
 
           // Xóa ô hoàn thiện
@@ -138,7 +139,7 @@ export default GameWordSort = props => {
       .map(([dr, dc]) => [rowIndex + dr, colIndex + dc])
       .filter(
         ([r, c]) =>
-          r >= 0 && c >= 0 && r < matrix.length && c < matrix[0].length,
+          r >= 0 && c >= 0 && r < matrix.length && c < matrix[0].length
       );
   };
 
@@ -173,7 +174,7 @@ export default GameWordSort = props => {
         const adjacentCells = getAdjacentCells(
           rowIndex,
           colIndex,
-          sortingMatrix,
+          sortingMatrix
         );
         let found = false;
         for (const [adjRow, adjCol] of adjacentCells) {
@@ -203,12 +204,12 @@ export default GameWordSort = props => {
     const adjacentCells = getAdjacentCells(rowIndex, colIndex, sortingMatrix);
 
     let targetAdjacentCell = adjacentCells.find(
-      ([adjRow, adjCol]) => sortingMatrix[adjRow][adjCol],
+      ([adjRow, adjCol]) => sortingMatrix[adjRow][adjCol]
     );
 
     if (!targetAdjacentCell) {
       targetAdjacentCell = adjacentCells.find(
-        ([adjRow, adjCol]) => !sortingMatrix[adjRow][adjCol],
+        ([adjRow, adjCol]) => !sortingMatrix[adjRow][adjCol]
       );
     }
 
@@ -234,7 +235,7 @@ export default GameWordSort = props => {
   };
 
   // Tìm chữ cái phổ biến nhất
-  const findMostCommonLetter = cell => {
+  const findMostCommonLetter = (cell) => {
     if (!cell || cell.length === 0) return null; // Xử lý trường hợp mảng rỗng
     const count = cell.reduce((acc, letter) => {
       acc[letter] = (acc[letter] || 0) + 1;
@@ -244,7 +245,7 @@ export default GameWordSort = props => {
   };
 
   // Tìm chữ cái ít phổ biến nhất
-  const findLeastCommonLetter = cell => {
+  const findLeastCommonLetter = (cell) => {
     if (!cell || cell.length === 0) return null; // Xử lý trường hợp mảng rỗng
     const count = cell.reduce((acc, letter) => {
       acc[letter] = (acc[letter] || 0) + 1;
@@ -255,8 +256,8 @@ export default GameWordSort = props => {
 
   // Quét và đặt cell = null nếu cell.length === 0
   const cleanEmptyCells = () => {
-    const newSortingMatrix = sortingMatrix.map(row =>
-      row.map(cell => (cell && cell.length === 0 ? null : cell)),
+    const newSortingMatrix = sortingMatrix.map((row) =>
+      row.map((cell) => (cell && cell.length === 0 ? null : cell))
     );
     setSortingMatrix(newSortingMatrix);
   };
@@ -276,14 +277,14 @@ export default GameWordSort = props => {
 
   // Bổ sung lại các cell ở Waiting khi cần thiết
   const refillWaitingMatrix = () => {
-    const allCellsUsed = waitingMatrix[0].every(cell => cell === null);
+    const allCellsUsed = waitingMatrix[0].every((cell) => cell === null);
     if (allCellsUsed) {
       const newWaiting = Array(1)
         .fill(null)
         .map(() =>
           Array(3)
             .fill(null)
-            .map(() => generateRandomLetters(availableItems, 1, 4)),
+            .map(() => generateRandomLetters(availableItems, 1, 4))
         );
       setWaitingMatrix(newWaiting);
     }
@@ -295,7 +296,7 @@ export default GameWordSort = props => {
   const resetGame = () => {
     setDifficulty(null);
     setAvailableItems([]);
-    setTargetLetter('');
+    setTargetLetter("");
     setProgress(0);
     setSortingMatrix(Array(6).fill(Array(4).fill(null)));
     setWaitingMatrix(Array(1).fill(Array(3).fill(null)));
@@ -304,15 +305,15 @@ export default GameWordSort = props => {
   // Hiển thị thông báo chiến thắng
   useEffect(() => {
     if (progress >= targetProgress) {
-      Alert.alert('Chúc mừng!', 'Bạn đã chiến thắng!', [
-        {text: 'OK', onPress: () => resetGame()},
+      Alert.alert("Chúc mừng!", "Bạn đã chiến thắng!", [
+        { text: "OK", onPress: () => resetGame() },
       ]);
     }
   }, [progress]);
 
   // Sử dụng useEffect để kiểm tra và bổ sung lại các cell ở Waiting khi cần thiết
   useEffect(() => {
-    const allCellsUsed = waitingMatrix[0].every(cell => cell === null);
+    const allCellsUsed = waitingMatrix[0].every((cell) => cell === null);
     if (allCellsUsed) {
       refillWaitingMatrix();
     }
@@ -328,86 +329,82 @@ export default GameWordSort = props => {
     return () => clearInterval(interval);
   }, [sortingMatrix]);
 
-  return (
-    <View style={styles.container}>
-      <Image
-        source={{
-          uri: 'https://png.pngtree.com/element_our/sm/20180408/sm_5ac9b8967574d.jpg',
-        }}
-        style={[
-          {
-            width: width,
-            height: height,
-          },
-          styles.background,
-        ]}
-      />
-      {!difficulty ? (
-        <View style={styles.mainView}>
-          <Text style={styles.title}>Chọn độ khó:</Text>
-          <MiddleSingleMediumButton
-            onPress={() => handleDifficultySelection('easy')}
-            title={'Dễ'}
+  const renderContentDifficulty = () => {
+    return (
+      <View style={styles.mainView}>
+        <Text style={styles.title}>Chọn độ khó:</Text>
+        <MiddleSingleMediumButton
+          onPress={() => handleDifficultySelection("easy")}
+          title={"Dễ"}
+        />
+        <MiddleSingleMediumButton
+          onPress={() => handleDifficultySelection("medium")}
+          title={"Nâng Cao"}
+        />
+        <MiddleSingleMediumButton
+          onPress={() => handleDifficultySelection("hard")}
+          title={"Khó"}
+        />
+      </View>
+    );
+  };
+  const renderContentGame = () => {
+    return (
+      <View style={styles.mainView}>
+        <Text style={styles.title}>Mục tiêu thu thập: {targetLetter}</Text>
+        <View style={styles.progressBar}>
+          <View
+            style={{
+              ...styles.progressFill,
+              width: `${(progress / targetProgress) * 100}%`,
+            }}
           />
-          <MiddleSingleMediumButton
-            onPress={() => handleDifficultySelection('medium')}
-            title={'Nâng Cao'}
-          />
-          <MiddleSingleMediumButton
-            onPress={() => handleDifficultySelection('hard')}
-            title={'Khó'}
-          />
+          <Text style={styles.progressTitle}>
+            Tiến độ: {progress}/{targetProgress}
+          </Text>
         </View>
-      ) : (
-        <View style={styles.mainView}>
-          <Text style={styles.title}>Mục tiêu thu thập: {targetLetter}</Text>
-          <View style={styles.progressBar}>
-            <View
-              style={{
-                ...styles.progressFill,
-                width: `${(progress / targetProgress) * 100}%`,
-              }}
-            />
-            <Text style={styles.progressTitle}>
-              Tiến độ: {progress}/{targetProgress}
-            </Text>
-          </View>
-          {sortingMatrix.map((row, rowIndex) => (
-            <View key={`row-${rowIndex}`} style={styles.row}>
-              {row.map((cell, colIndex) => {
-                return (
-                  <TouchableOpacity
-                    key={`cell-${rowIndex}-${colIndex}`}
-                    style={[
-                      styles.cell,
-                      cell ? styles.sortingCell : styles.emptyCell,
-                    ]}
-                    onPress={() => handlePressSorting(rowIndex, colIndex)}>
-                    <Text style={styles.cellText}>
-                      {cell ? cell.join('') : ''}
-                    </Text>
-                  </TouchableOpacity>
-                );
-              })}
-            </View>
-          ))}
-          {waitingMatrix.map((row, rowIndex) => (
-            <View key={`waiting-row-${rowIndex}`} style={styles.row}>
-              {row.map((cell, colIndex) => (
+        {sortingMatrix.map((row, rowIndex) => (
+          <View key={`row-${rowIndex}`} style={styles.row}>
+            {row.map((cell, colIndex) => {
+              return (
                 <TouchableOpacity
-                  key={`waiting-cell-${rowIndex}-${colIndex}`}
-                  style={[styles.cell, styles.waitingCell]}
-                  onPress={() => handlePressWaiting(rowIndex, colIndex)}>
+                  key={`cell-${rowIndex}-${colIndex}`}
+                  style={[
+                    styles.cell,
+                    cell ? styles.sortingCell : styles.emptyCell,
+                  ]}
+                  onPress={() => handlePressSorting(rowIndex, colIndex)}
+                >
                   <Text style={styles.cellText}>
-                    {cell ? cell.join('') : ''}
+                    {cell ? cell.join("") : ""}
                   </Text>
                 </TouchableOpacity>
-              ))}
-            </View>
-          ))}
-        </View>
-      )}
-    </View>
+              );
+            })}
+          </View>
+        ))}
+        {waitingMatrix.map((row, rowIndex) => (
+          <View key={`waiting-row-${rowIndex}`} style={styles.row}>
+            {row.map((cell, colIndex) => (
+              <TouchableOpacity
+                key={`waiting-cell-${rowIndex}-${colIndex}`}
+                style={[styles.cell, styles.waitingCell]}
+                onPress={() => handlePressWaiting(rowIndex, colIndex)}
+              >
+                <Text style={styles.cellText}>{cell ? cell.join("") : ""}</Text>
+              </TouchableOpacity>
+            ))}
+          </View>
+        ))}
+      </View>
+    );
+  };
+
+  return (
+    <SharedLayout
+      navigation={props.navigation}
+      renderContent={!difficulty ? renderContentDifficulty : renderContentGame}
+    />
   );
 };
 
@@ -415,87 +412,85 @@ const styles = StyleSheet.create({
   container: {
     backgroundColor: colors.backgroundWhite,
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   background: {
-    position: 'absolute',
+    position: "absolute",
   },
   //
   UIHeaderMainStyle: {
     top: 0,
     left: 0,
     right: 0,
-    position: 'absolute',
+    position: "absolute",
     backgroundColor: null,
   },
-  UIHeaderIconStyle: {tintColor: colors.inactive},
+  UIHeaderIconStyle: { tintColor: colors.inactive },
   //
   mainView: {
-    width: '90%',
     padding: 15,
     backgroundColor: colors.transparentWhite,
     borderColor: colors.PrimaryOnContainerAndFixed,
     borderWidth: 2,
     borderRadius: 50,
-    alignSelf: 'center',
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
   },
   title: {
     fontSize: fontSizes.h3,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     marginVertical: 3,
     color: colors.GrayOnContainerAndFixed,
   },
   progressTitle: {
     left: 0,
     right: 0,
-    position: 'absolute',
+    position: "absolute",
     fontSize: fontSizes.h4,
-    fontWeight: 'bold',
+    fontWeight: "bold",
     color: colors.RedContainer,
-    textAlign: 'center',
+    textAlign: "center",
   },
   progressBar: {
     height: 30,
-    width: '90%',
+    width: "90%",
     backgroundColor: colors.GrayOnContainerAndFixed,
     borderRadius: 10,
-    overflow: 'hidden',
+    overflow: "hidden",
     marginBottom: 20,
   },
   progressFill: {
-    height: '100%',
-    backgroundColor: '#76c7c0',
+    height: "100%",
+    backgroundColor: "#76c7c0",
   },
   row: {
-    flexDirection: 'row',
+    flexDirection: "row",
     marginBottom: 8,
   },
   cell: {
     width: 50,
     height: 50,
     margin: 4,
-    justifyContent: 'center',
-    alignItems: 'center',
+    justifyContent: "center",
+    alignItems: "center",
     borderWidth: 1,
     borderRadius: 100,
-    borderColor: '#000',
+    borderColor: "#000",
   },
   sortingCell: {
-    backgroundColor: '#ffeb99',
+    backgroundColor: "#ffeb99",
   },
   waitingCell: {
-    backgroundColor: '#76c7c0',
+    backgroundColor: "#76c7c0",
   },
   emptyCell: {
-    backgroundColor: '#d3d3d3',
+    backgroundColor: "#d3d3d3",
   },
   cellText: {
     fontSize: fontSizes.h7,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center",
     margin: 3,
     color: colors.GrayOnContainerAndFixed,
   },

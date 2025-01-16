@@ -20,6 +20,7 @@ import GroupChat from './GroupChat/GroupChat';
 import AllNotification from './AllNotification/AllNotification';
 
 //MessengerGroup
+import Messenger from './Messenger/Messenger';
 import MessengerGroup from './MessengerGroup/MessengerGroup';
 
 //ShowPost
@@ -31,6 +32,8 @@ import Reply from './Comments/Reply';
 import GameTab from './games/GameTab';
 import GamePicWord from './games/game/PicWord';
 import GameWordSort from './games/game/WordSort';
+import GameListening from './games/game/Listening';
+import GamePicWord2 from './games/game/PicWord2';
 
 export {
   Login,
@@ -49,6 +52,7 @@ export {
   //
   AllNotification,
   //
+  Messenger,
   MessengerGroup,
   //
   ShowPost,
@@ -58,4 +62,6 @@ export {
   GameTab,
   GamePicWord,
   GameWordSort,
+  GameListening,
+  GamePicWord2,
 };

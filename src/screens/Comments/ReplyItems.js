@@ -13,16 +13,17 @@ export default function ReplyItems(props) {
   const [content, setCD] = useState(props.reply.content);
   const [files, setFF] = useState([]);
   //
-  console.log(props.reply)
+  //console.log(props.reply);
 
   const MAXWidth = 245;
   const getWidth = (baseWidth) => {
-    return baseWidth > MAXWidth ? MAXWidth : baseWidth
-  }
+    return baseWidth > MAXWidth ? MAXWidth : baseWidth;
+  };
   const getHeight = (baseWidth, baseHeight) => {
-    return baseWidth > MAXWidth ? baseHeight / (baseWidth / MAXWidth) : baseHeight
-
-  }
+    return baseWidth > MAXWidth
+      ? baseHeight / (baseWidth / MAXWidth)
+      : baseHeight;
+  };
 
   /* const getTime = () => {
     const date = new Date(dateReplied);
@@ -40,95 +41,91 @@ export default function ReplyItems(props) {
   }; */
 
   return (
-    <TouchableOpacity style={styles.container} /* onPress={ShowProfile} */>
-      <Image
-        style={styles.img}
-        source={{
-          uri: /* userReplied.information.image */ img,
-        }}
-      />
-      <View style={styles.textView}>
-        <Text style={styles.titleText} numberOfLines={1}>
-          {/* userReplied.information.fulName */ name}
-        </Text>
-        <Text style={styles.contentText}>{content}</Text>
-        <View>
-          {files.map((eachImage, index) => (
-                <TouchableOpacity key={index} onPress={() => handleShowPicture()}>
-                  <Image
-                    source={{ uri: eachImage.url }}
-                    style={[
-                      styles.image,
-                      {
-                        width: getWidth(eachImage.width),
-                        height: getHeight(eachImage.width, eachImage.height),
-                      }
-                    ]}
-                  />
-                </TouchableOpacity>
-          ))}
+      <View style={styles.container}>
+        {/* replyImages.map((image, index) => (
+          <Image key={index} source={{ uri: image }} style={styles.image} />
+        )) */}
+        <TouchableOpacity /* onPress={ShowProfile} */>
+          <Image
+            style={styles.avatarContainer}
+            source={{
+              uri: /* userComment.information.image */ img,
+            }}
+          />
+        </TouchableOpacity>
+      <View style={styles.leftViewContainer}>
+        <View style={styles.contentContainer}>
+          <Text style={[styles.text, styles.username]}>
+            {/* userComment.information.fulName */ name}
+          </Text>
+          <Text style={[styles.text, styles.content]}>{content}</Text>
         </View>
       </View>
-      <View style={styles.rightSideView}>
-        <Text style={styles.rightSideText}>{/* getTime() */dateReply}</Text>
-      </View>
-    </TouchableOpacity>
+    </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
     minHeight: 65,
-    marginLeft: 33,
     marginBottom: 15,
     flexDirection: "row",
   },
-  img: {
-    width: 55,
-    height: 55,
-    resizeMode: "stretch",
-    borderRadius: 15,
-    marginTop: 11,
-    marginHorizontal: 10,
-  },
-  textView: {
+  //
+  leftViewContainer: {
     flex: 1,
-    marginRight: 10,
-    marginTop: 10,
+    marginLeft: 5,
   },
-  titleText: {
-    color: colors.active,
-    fontSize: fontSizes.h6,
-    fontWeight: "400",
+  bottomViewContainer: {
+    flexDirection: "row",
+    justifyContent: "flex-start",
   },
-  contentText: {
+  contentContainer: {
+    borderRadius: 12,
+    backgroundColor: colors.transparentBlack15,
+  },
+  //
+  avatarContainer: {
+    width: 40,
+    height: 40,
+    resizeMode: "cover",
+    borderRadius: 180,
+    borderColor: colors.GrayBackground,
+  },
+  text: {
+    marginHorizontal: 10,
+    marginVertical: 5,
     color: "black",
     fontSize: fontSizes.h7,
-    fontWeight: "300",
   },
-  rightSideView: {
-    flexDirection: "column",
-    paddingTop: 10,
+  username: {
+    fontWeight: "bold",
+  },
+  content: {},
+  time: {
     marginTop: 10,
+    marginRight: 5,
+    fontWeight: "bold",
+    fontSize: fontSizes.h6,
   },
-  rightSideText: {
-    width: 70,
-    padding: 10,
-    paddingLeft: 0,
-    color: "black",
-    fontSize: fontSizes.h8,
-    fontWeight: "500",
-    alignSelf: "center",
-    textAlign: "right",
-    color: colors.inactive,
-    marginTop: -15,
+  //
+  btnContainer: {
+    backgroundColor: null,
+    marginVertical: 10,
+    marginLeft: 0,
   },
-  image: {
+  btnText: {
+    padding: 1,
+    fontSize: fontSizes.h7,
+    color: colors.GrayOnContainerAndFixed,
+  },
+  //
+  /* image: {
     maxWidth: 245,
     resizeMode: "contain",
-    marginVertical:2,
+    marginVertical: 2,
     borderRadius: 5,
     //borderWidth: 3,
     //borderColor: colors.GrayBackground,
-  },
+  }, */
 });

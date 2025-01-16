@@ -26,8 +26,8 @@ const styles = StyleSheet.create({
   verticalContainer: {
     minWidth: 60,
     maxWidth: 100,
-    paddingVertical: 5,
-    paddingHorizontal: 3,
+    paddingVertical: 7,
+    paddingHorizontal: 5,
     marginRight: 5,
     alignItems: "center",
     borderWidth: 1,

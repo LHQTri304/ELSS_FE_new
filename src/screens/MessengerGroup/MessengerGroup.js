@@ -77,7 +77,7 @@ function MessengerGroup(props) {
   }, [props.userName]);
 
   const ShowGroupInfo = async () => {
-    navigate("GroupInfo", {id: await AsyncStorage.getItem('groupID')});
+    navigate("GroupInfo", { id: await AsyncStorage.getItem("groupID") });
   };
 
   const goBackToGroupList = async () => {
@@ -99,15 +99,16 @@ function MessengerGroup(props) {
       />
 
       <View style={styles.displayView}>
-        <Tab.Navigator
+        {/* <Tab.Navigator
           //initialRouteName="TabMessenger"
           screenOptions={ScreenOptions}
-        >
-          {/* <Tab.Screen name="TabMessenger" component={TabMessenger} /> */}
-          <Tab.Screen name="TabDiscussion" component={TabDiscussion} />
-          {/* <Tab.Screen name="TabSubject" component={TabSubject} /> */}
-          {/* <Tab.Screen name="TabNotification" component={TabNotification} /> */}
-        </Tab.Navigator>
+        > */}
+        {/* <Tab.Screen name="TabMessenger" component={TabMessenger} /> */}
+        {/* <Tab.Screen name="TabDiscussion" component={TabDiscussion} /> */}
+        {/* <Tab.Screen name="TabSubject" component={TabSubject} /> */}
+        {/* <Tab.Screen name="TabNotification" component={TabNotification} /> */}
+        {/* </Tab.Navigator> */}
+        <TabDiscussion navigation={props.navigation} />
       </View>
     </View>
   );
