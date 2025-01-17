@@ -34,6 +34,15 @@ import GamePicWord from './games/game/PicWord';
 import GameWordSort from './games/game/WordSort';
 import GameListening from './games/game/Listening';
 import GamePicWord2 from './games/game/PicWord2';
+import GameColors1 from './games/game/Colors1'
+import GameColors2 from './games/game/Colors2'
+import GameFindDifferentColors2x2 from './games/game/FindDifferentColors2x2'
+import GameFindDifferentColors3x3 from './games/game/FindDifferentColors3x3'
+import GameFindDifferentColors4x4 from './games/game/FindDifferentColors4x4'
+import GameFindDifferentColors5x5 from './games/game/FindDifferentColors5x5'
+import GameFindDifferentColors6x6 from './games/game/FindDifferentColors6x6'
+import GameFindDifferentColors7x7 from './games/game/FindDifferentColors7x7'
+import GameWordle from './games/game/Wordle'
 
 export {
   Login,
@@ -64,4 +73,13 @@ export {
   GameWordSort,
   GameListening,
   GamePicWord2,
+  GameColors1,
+  GameColors2,
+  GameFindDifferentColors2x2,
+  GameFindDifferentColors3x3,
+  GameFindDifferentColors4x4,
+  GameFindDifferentColors5x5,
+  GameFindDifferentColors6x6,
+  GameFindDifferentColors7x7,
+  GameWordle,
 };

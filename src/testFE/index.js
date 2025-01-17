@@ -4,6 +4,7 @@ import dataNotifications from './dataNotifications';
 import dataBlogs from './dataBlogs';
 import dataNounVocabulary from './dataNounVocabulary';
 import dataChat from './dataChat';
+import dataEnglishVocabulary from './dataEnglishVocabulary'
 
 export {
   dataFriends,
@@ -12,4 +13,5 @@ export {
   dataBlogs,
   dataNounVocabulary,
   dataChat,
+  dataEnglishVocabulary,
 };

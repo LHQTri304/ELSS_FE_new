@@ -45,6 +45,7 @@ export const TextInputTransparent = ({
   onChangeText,
   value,
   style,
+  maxLength,
 }) => (
   <View style={styles.container}>
     <Icon name={icon} size={33} color={colors.PrimaryBackground}/>
@@ -56,6 +57,7 @@ export const TextInputTransparent = ({
       placeholderTextColor={colors.noImportantText}
       onChangeText={onChangeText}
       value={value}
+      maxLength={maxLength}
     />
   </View>
 );
