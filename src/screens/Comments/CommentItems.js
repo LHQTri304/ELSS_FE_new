@@ -6,19 +6,10 @@ import { FlexIconButton } from "../../components";
 import ReplyItems from "./ReplyItems";
 
 export default function CommentItems(props) {
-  const { onPress } = props;
-  /* const { commentID, dateComment, userComment, content, replies, files } =
-    props.comment; */
-
-  //
-  const [dateComment, setD] = useState(props.comment.dateComment);
-  const [img, setI] = useState(props.comment.img);
-  const [name, setN] = useState(props.comment.userName);
-  const [content, setCD] = useState(props.comment.content);
-  const [replies, setRr] = useState(props.comment.replies);
-  const [files, setFF] = useState([]);
-  //
-  //console.log(props.comment)
+  const { onPress, isReplying, setIsReplying } = props;
+  const { commentID, dateComment, userComment, content, replies, files } =
+    props.comment;
+  const { fulName, image: avatar } = userComment.information;
 
   const replyImages = [];
 
@@ -28,12 +19,12 @@ export default function CommentItems(props) {
     }
   }
 
-  /* const getTime = () => {
+  const getTime = () => {
     const date = new Date(dateComment);
     return `${date.getHours()}:${date.getMinutes()} ${date.getDate()}/${
       date.getMonth() + 1
     }`;
-  }; */
+  };
 
   return (
     <View style={styles.container}>
@@ -44,22 +35,20 @@ export default function CommentItems(props) {
         <Image
           style={styles.avatarContainer}
           source={{
-            uri: /* userComment.information.image */ img,
+            uri: avatar,
           }}
         />
       </TouchableOpacity>
       <View style={styles.leftViewContainer}>
         <View style={styles.contentContainer}>
-          <Text style={[styles.text, styles.username]}>
-            {/* userComment.information.fulName */ name}
-          </Text>
+          <Text style={[styles.text, styles.username]}>{fulName}</Text>
           <Text style={[styles.text, styles.content]}>{content}</Text>
         </View>
         <View style={styles.bottomViewContainer}>
-          {/* <Text style={styles.time}>{getTime() dateComment}</Text> */}
+          <Text style={styles.time}>{getTime()}</Text>
           <FlexIconButton
             onPress={() => {
-              alert("Reply");
+              setIsReplying(!isReplying);
             }}
             title={"Phản Hồi"}
             icon={icons.activeChatMessageIcon}
@@ -69,6 +58,11 @@ export default function CommentItems(props) {
             styleText={styles.btnText}
           />
         </View>
+        {isReplying ? (
+          <EnterMessageBar commentID={commentID} actionType={"reply"} />
+        ) : (
+          <View />
+        )}
         {replies.map((eachReply, index) => (
           <ReplyItems
             reply={eachReply}

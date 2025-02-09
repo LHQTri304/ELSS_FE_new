@@ -15,6 +15,7 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_BASE_URL } from "../../api/DomainAPI";
 //import { FloatingAction } from "react-native-floating-action";
+import { blog_likeBlog } from "../../api";
 
 import Comment from "../Comments/Comment";
 
@@ -34,24 +35,15 @@ const floatingActions = [
 ];
 
 export default ShowPost = (props) => {
-  let {
-    /* blogID, content, dateCreated, comments, subject, files */
-  } = props.route.params.topic;
+  let { blogID, content, dateCreated, comments, subject, files, likes } =
+    props.route.params.topic;
   let { nameSubject, subjectID } = props.route.params;
-  //let { userName } = props.route.params.topic.userCreated;
-  //let { fulName } = props.route.params.topic.userCreated.information;
+  let { userName } = props.route.params.topic.userCreated;
+  let { fulName, image: avatar } =
+    props.route.params.topic.userCreated.information;
 
-  //console.log(files.length)
   //
-  const files = [];
-  const [blogID, setID] = useState(props.route.params.topic.ID);
-  const [header, setHeader] = useState(props.route.params.topic.header); //subject
-  const [content, setContent] = useState(props.route.params.topic.content);
-  const [comments, setComments] = useState(props.route.params.topic.comments);
-  const [likes, setLikes] = useState(props.route.params.topic.likes);
-  const [fulName, setName] = useState(props.route.params.topic.fulName);
-  const [avatar, setAvatar] = useState(props.route.params.topic.img);
-  const [sendingTime, setST] = useState("Hôm qua");
+  const [header, setHeader] = useState("props.route.params.topic.header");
   //
 
   const parts = files.length > 0 ? files[0].url : null;
@@ -65,7 +57,10 @@ export default ShowPost = (props) => {
   const [groupID, setGroupID] = useState("");
 
   const [shouldReload, setShouldReload] = useState(false);
-  /* useEffect(() => {
+
+  const [isReplying, setIsReplying] = useState(false);
+
+  useEffect(() => {
     const fetchData = async () => {
       const extractToken = await axios.get(
         API_BASE_URL + "/api/v1/information/ExtractBearerToken",
@@ -115,16 +110,16 @@ export default ShowPost = (props) => {
     fetchData();
     const intervalId = setInterval(fetchData, 3000);
     return () => clearInterval(intervalId);
-  }, [props.userName, username, shouldReload]); */
+  }, [shouldReload]);
 
-  /* const date = new Date(dateCreated);
+  const date = new Date(dateCreated);
   const hour = date.getHours();
   const minute = date.getMinutes();
   const day = date.getDate();
   const month = date.getMonth() + 1;
-  const sendingTime = `${hour}:${minute} ${day}/${month}`; */
+  const sendingTime = `${hour}:${minute} ${day}/${month}`;
 
-  /* const deletePost = () => {
+  const deletePost = () => {
     if (username != leaderOfGroup && username != userName) {
       alert("Bạn không phải nhóm trưởng hoặc người tạo");
     } else {
@@ -162,31 +157,26 @@ export default ShowPost = (props) => {
         { cancelable: false }
       );
     }
-  }; */
+  };
 
   //Xu li like
   const handleLike = async () => {
-    //alert(`id: ${blogID}`)
-    var form = new FormData();
-    form.append("blogID", blogID);
-
     const likeBlog = await axios.post(
-      API_BASE_URL + "/api/v1/blog/likeBlog",
-      form,
+      API_BASE_URL + `/api/v1/blog/likeBlog?blogID=${blogID}`,
+      null,
       {
         headers: {
           Authorization: "Bearer " + (await AsyncStorage.getItem("username")),
         },
       }
     );
-
-    /* if (likeBlog.status == 200) {
+    if (likeBlog.status === 200) {
       setShouldReload(true);
-    } */
+    }
   };
 
   const updatePost = async () => {
-    /* if (username != leaderOfGroup && username != userName) {
+    if (username != leaderOfGroup && username != userName) {
       alert("Bạn không phải nhóm trưởng hoặc người tạo");
     } else {
       navigate("EditPost", {
@@ -196,7 +186,7 @@ export default ShowPost = (props) => {
         nameSubject: subject.nameSubject,
         subjectID: subject.subjectID,
       });
-    } */
+    }
   };
 
   const ShowPicture = () => {
@@ -227,14 +217,14 @@ export default ShowPost = (props) => {
           <Image style={styles.avatarContainer} source={{ uri: avatar }} />
           <Text style={styles.username}>{fulName}</Text>
         </View>
-        <Text style={styles.title}>{header}</Text>
+        {/* <Text style={styles.title}>{header}</Text> */}
         <Text style={styles.content}>{content}</Text>
         <View style={styles.bottomView}>
           <FlexIconButton
             onPress={() => {
-              alert("Like");
+              handleLike();
             }}
-            title={likes ? likes : "Like"}
+            title={likes ? likes.length : "Like"}
             icon={icons.inactiveLikeIcon}
             iconSize={20}
             iconColor={colors.GrayOnContainerAndFixed}
@@ -278,10 +268,14 @@ export default ShowPost = (props) => {
             </View>
           ))}
         </TouchableOpacity> */}
-        <Comment blogID={blogID} navigation={props.navigation} />
+        <Comment blogID={blogID} navigation={props.navigation} isReplying={isReplying} setIsReplying={setIsReplying} />
       </ScrollView>
 
-      <EnterMessageBar blogID={blogID} actionType={"comment"} />
+      {isReplying ? (
+        <View />
+      ) : (
+        <EnterMessageBar blogID={blogID} actionType={"comment"} />
+      )}
 
       {/* <FloatingAction
         actions={floatingActions}
@@ -366,6 +360,7 @@ const styles = StyleSheet.create({
     fontWeight: "bold",
   },
   content: {
+    marginVertical: 10,
     marginRight: 10,
     color: "black",
     fontSize: fontSizes.h6,

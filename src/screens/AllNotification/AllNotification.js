@@ -10,21 +10,19 @@ import { UIHeader, Icon, SearchBarTransparent } from "../../components";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { notifications_getAllByUserName } from "../../api";
 
-import { dataNotifications } from "../../testFE";
-
 export default function AllNotification(props) {
   const { navigate, goBack } = props.navigation;
-  const [notifications, setNotifications] = useState(dataNotifications);
+  const [notifications, setNotifications] = useState([]);
 
   useEffect(() => {
     const fetchData = async () => {
-      /* try {
+      try {
         const userName = await AsyncStorage.getItem("username");
         const response = await notifications_getAllByUserName(userName);
         setNotifications(response.data);
       } catch (error) {
         console.error("Error fetching data:", error);
-      } */
+      }
     };
 
     fetchData();
@@ -56,7 +54,7 @@ export default function AllNotification(props) {
           .map((eachNotification) => (
             <NotificationItems
               group={eachNotification}
-              key={eachNotification.ID}
+              key={eachNotification.notifycationID}
               onPress={() => {
                 /* navigate("ShowNotificationOfUser", {
                   notification: eachNotification,

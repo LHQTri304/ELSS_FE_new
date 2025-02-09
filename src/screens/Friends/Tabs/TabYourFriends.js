@@ -5,29 +5,24 @@ import { images, icons, colors, fontSizes } from "../../../constants";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { friend_getAllFriendList } from "../../../api";
 
-import { dataFriends } from "../../../testFE";
-
-function TabYourFriends(props) {
-  //const [friends, setFriends] = useState([]);
-  const [friends, setFriends] = useState(dataFriends);
+export default function TabYourFriends(props) {
+  const [friends, setFriends] = useState([]);
 
   //navigation to/back
   const { navigate, goBack } = props.navigation;
 
-  useEffect(() => {
-    const fetchData = async () => {
-      /* try {
-        const response = await friend_getAllFriendList();
-        setFriends(response.data);
-      } catch (error) {
-        console.error("Error fetching data:", error);
-      } */
-    };
+  const fetchData = async () => {
+    try {
+      const response = await friend_getAllFriendList();
+      setFriends(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+    }
+  };
 
+  useEffect(() => {
     fetchData();
-    //Sử dụng setInterval để gọi lại fetchData mỗi giây
     const intervalId = setInterval(fetchData, 1000);
-    // // Hủy interval khi component bị unmounted
     return () => clearInterval(intervalId);
   }, [props.userName]);
 
@@ -47,11 +42,9 @@ function TabYourFriends(props) {
         renderItem={({ item, index }) => (
           <TabYourFriendsItems
             friend={item}
-            onPress={() => {
-              navigate("Messenger", {
-                myUsername: "myUsername",
-                friendUsername: "friendUsername",
-              });
+            key={item.ID}
+            onPress={(myUserName, friendUsername, state) => {
+              SelectedFriend(myUserName, friendUsername, state);
             }}
           />
         )}
@@ -59,7 +52,6 @@ function TabYourFriends(props) {
     </View>
   );
 }
-export default TabYourFriends;
 
 const styles = StyleSheet.create({
   container: {

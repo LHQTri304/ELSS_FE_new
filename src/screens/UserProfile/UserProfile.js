@@ -26,15 +26,16 @@ import {
 } from "../../api";
 
 export default function UserProfile(props) {
+  const notUpdate = "Chưa cập nhật"
   const [username, setUsername] = useState(null);
-  const [fulname, setFulName] = useState("Nguyễn Văn A");
+  const [fulname, setFulName] = useState(notUpdate);
   const [image, setImage] = useState(null);
 
-  const [phoneNumber, setPhoneNumber] = useState("0908850624");
-  const [email, setEmail] = useState("21522704@gm.uit.edu.vn");
-  const [description, setDescription] = useState("Sinh viên năm 4");
-  const [yearOfBirth, setYearOfBirth] = useState("2003");
-  const [gender, setGender] = useState("Nam");
+  const [phoneNumber, setPhoneNumber] = useState(notUpdate);
+  const [email, setEmail] = useState(notUpdate);
+  const [description, setDescription] = useState(notUpdate);
+  const [yearOfBirth, setYearOfBirth] = useState(notUpdate);
+  const [gender, setGender] = useState(notUpdate);
 
   const setEverything = (
     username,
@@ -43,35 +44,25 @@ export default function UserProfile(props) {
     phoneNumber,
     description,
     yearOfBirth,
-    gender,
+    gender
   ) => {
     setUsername(username);
     setFulName(fulname);
-
-    description == null
-      ? setDescription("Chưa cập nhật")
-      : setDescription(description);
-
-    phoneNumber == 0
-      ? setPhoneNumber("Chưa cập nhật")
-      : setPhoneNumber("0" + phoneNumber);
-
-    email == null ? setEmail("Chưa cập nhật") : setEmail(email);
-
-    yearOfBirth <= 1900
-      ? setYearOfBirth("Chưa cập nhật")
-      : setYearOfBirth(yearOfBirth);
-
-    gender == null ? setGender("Chưa cập nhật") : setGender(gender);
+    setDescription(description);
+    setPhoneNumber("0" + phoneNumber);
+    setEmail(email);
+    setYearOfBirth(yearOfBirth);
+    setGender(gender);
   };
 
   const fetchData = async () => {
     try {
       const username = await AsyncStorage.getItem("username");
       const responseUser = await user_getUser();
+      //console.log(responseUser)
 
       setFulName(responseUser.information.fulName)
-      /* setEverything(
+      setEverything(
         username,
         responseUser.information.fulName,
         responseUser.email,
@@ -79,13 +70,12 @@ export default function UserProfile(props) {
         responseUser.information.description,
         responseUser.information.yearOfBirth,
         responseUser.information.gender,
-      ); */
+      );
 
       const responseAvatar = await profile_getAvatar(username);
       if (responseAvatar.data != null) {
         setImage(responseAvatar.data.toString());
       }
-      //console.log(image);
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -151,9 +141,9 @@ export default function UserProfile(props) {
         <View style={styles.profileView}>
           <Image source={{uri: image}} style={styles.profileImage} />
           <Text style={styles.profileUsername}>{fulname}</Text>
-          {/* <Text style={styles.profileDescription} numberOfLines={4}>
+          <Text style={styles.profileDescription} numberOfLines={4}>
             {description}
-          </Text> */}
+          </Text>
         </View>
 
         {/* <View style={styles.profileSubInfo}>
@@ -162,13 +152,15 @@ export default function UserProfile(props) {
           <SubInfoVertical icon={icons.clockIcon} text={"Thời gian hoạt động"} />
         </View> */}
 
-        {/* <RowSectionTitle
+        <RowSectionTitle
           text={"Thông tin tài khoản"}
           styles={{ marginTop: 20 }}
         />
 
         <RowSectionDisplay icon={icons.phoneIcon} text={phoneNumber} />
-        <RowSectionDisplay icon={icons.emailIcon} text={email} /> */}
+        <RowSectionDisplay icon={icons.emailIcon} text={email} />
+        <RowSectionDisplay icon={icons.genderEqualityIcon} text={gender} />
+        <RowSectionDisplay icon={icons.birthdayCakeIcon} text={yearOfBirth} />
 
         <RowSectionTitle text={"Tùy chỉnh tài khoản"} />
 

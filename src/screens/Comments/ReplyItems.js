@@ -4,16 +4,13 @@ import { images, icons, colors, fontSizes } from "../../constants";
 
 export default function ReplyItems(props) {
   const { navigate } = props;
-  //const { userReplied, dateReplied, content, files } = props.reply;
+  const { userReplied, dateReplied, content, files } = props.reply;
+  const { fulName, image: avatar } = userReplied.information;
 
   //
-  const [dateReply, setD] = useState(props.reply.dateComment);
   const [img, setI] = useState(props.reply.img);
   const [name, setN] = useState(props.reply.userName);
-  const [content, setCD] = useState(props.reply.content);
-  const [files, setFF] = useState([]);
   //
-  //console.log(props.reply);
 
   const MAXWidth = 245;
   const getWidth = (baseWidth) => {
@@ -25,12 +22,12 @@ export default function ReplyItems(props) {
       : baseHeight;
   };
 
-  /* const getTime = () => {
+  const getTime = () => {
     const date = new Date(dateReplied);
     return `${date.getHours()}:${date.getMinutes()} \n ${date.getDate()}/${
       date.getMonth() + 1
     }`;
-  }; */
+  };
 
   /* const ShowProfile = async () => {
     navigate("ShowProfile", { userReplied: userReplied });
@@ -49,14 +46,14 @@ export default function ReplyItems(props) {
           <Image
             style={styles.avatarContainer}
             source={{
-              uri: /* userComment.information.image */ img,
+              uri: avatar,
             }}
           />
         </TouchableOpacity>
       <View style={styles.leftViewContainer}>
         <View style={styles.contentContainer}>
           <Text style={[styles.text, styles.username]}>
-            {/* userComment.information.fulName */ name}
+            {fulName}
           </Text>
           <Text style={[styles.text, styles.content]}>{content}</Text>
         </View>

@@ -16,7 +16,6 @@ import {
   FloatingButtonSingle,
   FloatingButtonDouble,
 } from "../../../components";
-import { randomGenerateColor } from "../../../utilities";
 import {friendship_addFriend
 } from "../../../api";
 import AsyncStorage from "@react-native-async-storage/async-storage";
@@ -78,7 +77,7 @@ export default ShowProfileStranger = (props) => {
                 <View
                   style={[
                     styles.eachTopicBox,
-                    { borderColor: randomGenerateColor() },
+                    { borderColor: 'cyan' },
                   ]}
                   key={index}
                 >
@@ -130,7 +129,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     position: "absolute",
-    backgroundColor: randomGenerateColor(),
+    backgroundColor: 'cyan',
   },
   mainView: {
     marginTop: 190,

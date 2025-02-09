@@ -33,8 +33,26 @@ import {
   GameFindDifferentColors6x6,
   GameFindDifferentColors7x7,
   GameWordle,
+  //
+  CreatePost,
+  EditPost,
+  CreateNotification,
+  ShowNotification,
+  ShowNotificationOfUser,
+  ShowPicture,
+  ShowProfile,
+  ShowDocument,
+  ShowProfileFriend,
+  ShowProfileStranger,
+  GroupInfo,
+  GroupInformationDetail,
+  ShowProfileMember,
+  MembersInGroup,
+  AddMember,
 } from "../screens";
 import MainBottomTab from "./MainBottomTab";
+
+import screenTestAPI from "../testFE/screenTestAPI";
 
 const Stack = createNativeStackNavigator();
 
@@ -47,6 +65,8 @@ export default function StackNavigator() {
           headerShown: false,
         }}
       >
+        <Stack.Screen name="screenTestAPI" component={screenTestAPI} />
+
         <Stack.Screen name="MainBottomTab" component={MainBottomTab} />
 
         <Stack.Screen name="Login" component={Login} />
@@ -71,6 +91,34 @@ export default function StackNavigator() {
         <Stack.Screen name="ShowPost" component={ShowPost} />
         <Stack.Screen name="Comment" component={Comment} />
         <Stack.Screen name="Reply" component={Reply} />
+
+        <Stack.Screen name="CreatePost" component={CreatePost} />
+        <Stack.Screen name="EditPost" component={EditPost} />
+        <Stack.Screen
+          name="CreateNotification"
+          component={CreateNotification}
+        />
+        <Stack.Screen name="ShowNotification" component={ShowNotification} />
+        <Stack.Screen
+          name="ShowNotificationOfUser"
+          component={ShowNotificationOfUser}
+        />
+        <Stack.Screen name="ShowPicture" component={ShowPicture} />
+        <Stack.Screen name="ShowProfile" component={ShowProfile} />
+        <Stack.Screen name="ShowDocument" component={ShowDocument} />
+        <Stack.Screen name="ShowProfileFriend" component={ShowProfileFriend} />
+        <Stack.Screen
+          name="ShowProfileStranger"
+          component={ShowProfileStranger}
+        />
+        <Stack.Screen name="GroupInfo" component={GroupInfo} />
+        <Stack.Screen
+          name="GroupInformationDetail"
+          component={GroupInformationDetail}
+        />
+        <Stack.Screen name="ShowProfileMember" component={ShowProfileMember} />
+        <Stack.Screen name="MembersInGroup" component={MembersInGroup} />
+        <Stack.Screen name="AddMember" component={AddMember} />
 
         <Stack.Screen name="GameTab" component={GameTab} />
         <Stack.Screen name="GamePicWord" component={GamePicWord} />

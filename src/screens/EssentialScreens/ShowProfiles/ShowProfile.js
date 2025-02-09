@@ -16,7 +16,6 @@ import {
   FloatingButtonSingle,
   FloatingButtonDouble,
 } from "../../../components";
-import { randomGenerateColor } from "../../../utilities";
 
 export default ShowProfile = (props) => {
   const { navigate, goBack } = props.navigation;
@@ -73,7 +72,7 @@ export default ShowProfile = (props) => {
                 <View
                   style={[
                     styles.eachTopicBox,
-                    { borderColor: randomGenerateColor() },
+                    { borderColor: 'black' },
                   ]}
                   key={index}
                 >
@@ -125,7 +124,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     position: "absolute",
-    backgroundColor: randomGenerateColor(),
+    backgroundColor: 'cyan',
   },
   mainView: {
     marginTop: 190,

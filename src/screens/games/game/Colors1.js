@@ -18,6 +18,9 @@ export default GameColors1 = (props) => {
   const [options, setOptions] = useState([]);
   const [correctAnswer, setCorrectAnswer] = useState("");
 
+  const [TongCauTraLoi, setTongCauTraLoi] = useState(0);
+  const [SoLanDung, setSoLanDung] = useState(0);
+
   const fetchData = async () => {
     try {
       const shuffledOptions = colors.listStringSimpleColors
@@ -42,9 +45,11 @@ export default GameColors1 = (props) => {
     if (options[index] === correctAnswer) {
       alert("Correct!\nYou chose the right answer.");
       fetchData();
+      setSoLanDung(SoLanDung + 1)
     } else {
       alert("Wrong!\nTry again.");
     }
+    setTongCauTraLoi(TongCauTraLoi + 1)
   };
 
   const renderContent = () => {
@@ -57,6 +62,7 @@ export default GameColors1 = (props) => {
           },
         ]}
       >
+        <Text style={styles.questionText}>Đáp án đúng {SoLanDung}/{TongCauTraLoi}</Text>
         <Text style={styles.questionText}>Find the color: {correctAnswer}</Text>
 
         <View style={styles.optionsContainer}>

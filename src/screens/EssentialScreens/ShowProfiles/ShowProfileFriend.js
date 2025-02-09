@@ -16,7 +16,6 @@ import {
   FloatingButtonSingle,
   FloatingButtonDouble,
 } from "../../../components";
-import { randomGenerateColor } from "../../../utilities";
 import { information_GetUser, friendship_deleteFriend } from "../../../api";
 
 export default ShowProfileFriend = (props) => {
@@ -101,7 +100,7 @@ export default ShowProfileFriend = (props) => {
                 <View
                   style={[
                     styles.eachTopicBox,
-                    { borderColor: randomGenerateColor() },
+                    { borderColor: 'black' },
                   ]}
                   key={index}
                 >
@@ -153,7 +152,7 @@ const styles = StyleSheet.create({
     left: 0,
     right: 0,
     position: "absolute",
-    backgroundColor: randomGenerateColor(),
+    backgroundColor: 'cyan',
   },
   mainView: {
     marginTop: 190,

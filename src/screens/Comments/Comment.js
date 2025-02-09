@@ -15,43 +15,37 @@ import axios from "axios";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { API_BASE_URL } from "../../api/DomainAPI";
 
-import { dataBlogs } from "../../testFE";
-
 export default Comment = (props) => {
-  const { blogID } = props; /* .route.params */
+  const { blogID, isReplying, setIsReplying } = props;
 
-  const [comments, setComments] = useState(
-    dataBlogs.filter((blog) => blog.ID === blogID)[0].comments
-  );
+  const [comments, setComments] = useState([]);
 
   //navigation
   const { navigate, goBack } = props.navigation;
 
-  /* useEffect(() => {
-    const fetchData = async () => {
-      try {
-
-        const response = await axios.get(API_BASE_URL + "/api/v1/blog/getAllCommentInBlog?blogID=" + blogID, {
+  const fetchData = async () => {
+    try {
+      const response = await axios.get(
+        API_BASE_URL + "/api/v1/blog/getAllCommentInBlog?blogID=" + blogID,
+        {
           headers: {
-            'Content-Type': 'application/json', 
-            'Authorization': 'Bearer ' + await AsyncStorage.getItem('username'),
+            "Content-Type": "application/json",
+            Authorization: "Bearer " + (await AsyncStorage.getItem("username")),
           },
-        });
-        setComments(response.data)
-                
-      } catch (error) {
-        console.error('Error fetching data:', error);w
-      }
-    };
+        }
+      );
+      setComments(response.data);
+    } catch (error) {
+      console.error("Error fetching data:", error);
+      w;
+    }
+  };
 
+  useEffect(() => {
     fetchData();
-
-    //Sử dụng setInterval để gọi lại fetchData mỗi giây
     const intervalId = setInterval(fetchData, 1000);
-
-    // // Hủy interval khi component bị unmounted
-     return () => clearInterval(intervalId);
-  }, [props.userName]); */
+    return () => clearInterval(intervalId);
+  }, [props.userName]);
 
   return (
     <View style={styles.container}>
@@ -63,6 +57,8 @@ export default Comment = (props) => {
             /* navigate("Reply", { comment: eachComment }); */
           }}
           navigation={props.navigation}
+          isReplying={isReplying}
+          setIsReplying={setIsReplying}
         />
       ))}
     </View>

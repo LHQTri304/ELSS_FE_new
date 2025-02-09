@@ -22,11 +22,12 @@ import {
   groupStudying_getAllUserInGroup,
   blog_createNewBlog,
   blog_insertImageInBlog,
+  group_getAllSubject,
 } from "../../api";
 
 export default CreatePost = (props) => {
   const { navigate, goBack } = props.navigation;
-  const { subjectID } = props.route.params;
+  const [subjectID, setSubjectID] = useState();
 
   const [blankContent, setBlankContent] = useState(true);
   const [contentText, setContentText] = useState("");
@@ -39,6 +40,8 @@ export default CreatePost = (props) => {
       await AsyncStorage.getItem("groupID")
     );
     setListMembersNotTagged(responsesData);
+    const responseAllSubject = await group_getAllSubject();
+    setSubjectID(responseAllSubject.data[0].subjectID)
   };
 
   useEffect(() => {

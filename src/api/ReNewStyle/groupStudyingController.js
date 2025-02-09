@@ -73,13 +73,12 @@ export const groupStudying_findGroupbyName = async (nameGroup) => {
 export const groupStudying_createGroup = async (
   nameGroup,
   passWord,
-  topics
 ) => {
   var form = new FormData();
   form.append("nameGroup", nameGroup);
   form.append("passWord", passWord);
   form.append("image", images.blankAvatarForNewGroup);
-  form.append("topics", topics);
+  form.append("topics", []);
   const response = await axios.post(
     `${API_BASE_URL}/api/v1/groupStudying/createGroup`,
     form,

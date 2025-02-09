@@ -59,56 +59,56 @@ export default GameTab = (props) => {
     },
     {
       id: 6,
-      name: "Học Về Màu Sắc 1",
+      name: "Chọn Màu Sắc 1",
       imageURL:
         "https://isfdn.org/core/files/isfdn/uploads/images/Primary%20and%20Secondary%20Colors.png",
       gameScreen: "GameColors1",
     },
     {
       id: 7,
-      name: "Học Về Màu Sắc 2",
+      name: "Chọn Màu Sắc 2",
       imageURL:
         "https://upload.wikimedia.org/wikipedia/commons/thumb/5/51/Color_circle_%28hue-sat%29.png/310px-Color_circle_%28hue-sat%29.png",
       gameScreen: "GameColors2",
     },
     {
       id: 8,
-      name: "Tìm Màu Khác Biệt 2x2",
+      name: "Tìm Màu Sắc 2x2",
       imageURL:
         "https://i.pinimg.com/236x/19/24/78/19247860d0f28241904f81c842a7902b.jpg",
       gameScreen: "GameFindDifferentColors2x2",
     },
     {
       id: 9,
-      name: "Tìm Màu Khác Biệt 3x3",
+      name: "Tìm Màu Sắc 3x3",
       imageURL:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcR4PrNOjYjVQZt1ARR9DJ1GNtA5eLEwQRZIVw&s",
       gameScreen: "GameFindDifferentColors3x3",
     },
     {
       id: 10,
-      name: "Tìm Màu Khác Biệt 4x4",
+      name: "Tìm Màu Sắc 4x4",
       imageURL:
         "https://i.pinimg.com/736x/cf/a3/04/cfa30440ae125b300723161f20f6899a.jpg",
       gameScreen: "GameFindDifferentColors4x4",
     },
     {
       id: 11,
-      name: "Tìm Màu Khác Biệt 5x5",
+      name: "Tìm Màu Sắc 5x5",
       imageURL:
         "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcSdjsTBnH0CKxxSMTgSAHNEWUXaq1yT32SFGw&s",
       gameScreen: "GameFindDifferentColors5x5",
     },
     {
       id: 12,
-      name: "Tìm Màu Khác Biệt 6x6",
+      name: "Tìm Màu Sắc 6x6",
       imageURL:
         "https://hips.hearstapps.com/hmg-prod/images/pantone-colour-of-the-year-coty-6751d69547950.jpg?crop=0.502xw:1.00xh;0,0&resize=640:*",
       gameScreen: "GameFindDifferentColors6x6",
     },
     {
       id: 13,
-      name: "Tìm Màu Khác Biệt 7x7",
+      name: "Tìm Màu Sắc 7x7",
       imageURL:
         "https://i.pinimg.com/474x/c4/d8/a7/c4d8a71be0a1ebfa21237f39b30541eb.jpg",
       gameScreen: "GameFindDifferentColors7x7",

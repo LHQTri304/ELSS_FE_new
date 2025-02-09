@@ -9,7 +9,6 @@ import {
 } from "react-native";
 import { images, icons, colors, fontSizes } from "../../../constants";
 import { Icon } from "../../../components";
-//import { randomGenerateColor } from "../../../utilities";
 import { groupStudying_joinInGroup } from "../../../api";
 
 export default function TabSuggestAndFindItems(props) {
@@ -86,7 +85,7 @@ export default function TabSuggestAndFindItems(props) {
           }}
           size={55}
           color={null}
-          style={[styles.avatarImage, { borderColor: 'black' /* randomGenerateColor() */ }]}
+          style={[styles.avatarImage, { borderColor: 'black'}]}
         />
       </TouchableOpacity>
       <View style={{ width: isJoined ? "40%" : "46%" }}>

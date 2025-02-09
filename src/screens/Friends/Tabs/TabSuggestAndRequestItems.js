@@ -9,13 +9,13 @@ import {
 } from '../../../api';
 
 export default function TabSuggestAndRequestItems(props) {
-  //let { image, fulName } = props.invitation.information;
-  //let { userName } = props.invitation;
+  let { image, fulName } = props.invitation.information;
+  let { userName } = props.invitation;
   const {kind, onPress} = props;
   //kind: requested | sent | suggest
 
-  const avatar = props.invitation.image;
-  const name = props.invitation.fulName;
+  const avatar = image;
+  const name = fulName;
 
   if (avatar == null) {
     avatar = images.blankAvatarForRegistration;
@@ -23,24 +23,32 @@ export default function TabSuggestAndRequestItems(props) {
 
   const [isAlreadyAddedFriend, setIsAlreadyAddedFriend] = useState(false);
   const handleAddFriend = async () => {
-    /* if (isAlreadyAddedFriend) {
+    if (isAlreadyAddedFriend) {
       alert("Đã gửi lời mời kết bạn");
     } else {
       const response = await friendship_addFriend(userName);
       setIsAlreadyAddedFriend(true);
-    } */
+      console.log(response)
+      console.log(response.data)
+    }
   };
 
   const handleUndoInvitationFriend = async () => {
-    //const response = await friend_undoInvitationFriend(userName);
+    const response = await friend_undoInvitationFriend(userName);
+    console.log(response)
+    console.log(response.data)
   };
 
   const handleAcceptInvitation = async () => {
-    //const response = await friend_acceptInvitation(userName);
+    const response = await friend_acceptInvitation(userName);
+    console.log(response)
+    console.log(response.data)
   };
 
   const handleRefuseInvitation = async () => {
-    //const response = await friend_refuseInvitation(userName);
+    const response = await friend_refuseInvitation(userName);
+    console.log(response)
+    console.log(response.data)
   };
 
   return (

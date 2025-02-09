@@ -17,17 +17,17 @@ export default GamePicWord2 = (props) => {
 
   const [targetWord, setTargetWord] = useState(""); // Từ cần xếp
   const [images, setImages] = useState([]); // 2 hình gợi ý
-  const [answer, setAnswer] = useState()
+  const [answer, setAnswer] = useState("");
   const [selectedLetters, setSelectedLetters] = useState(
     Array(targetWord.length).fill(null)
   ); // Dòng trên
-  
 
   const fetchData = async () => {
     try {
       const response = await game_getSingleImageQuestion();
       setTargetWord(response.answer);
       setImages([response.image1, response.image2]);
+      setAnswer("")
     } catch (error) {
       console.error("Error fetching data:", error);
     }
@@ -38,8 +38,8 @@ export default GamePicWord2 = (props) => {
   }, []);
 
   const checkWin = () => {
-    answer === targetWord
-      ? (alert(`You Win!`), fetchData(), setAnswer(""))
+    answer.toLowerCase() === targetWord.toLowerCase()
+      ? (alert(`You Win!`), fetchData())
       : alert(`Not Yet!`);
   };
 
@@ -75,9 +75,10 @@ export default GamePicWord2 = (props) => {
           onChangeText={(text) => {
             setAnswer(text);
           }}
+          value={answer}
         />
 
-        <CommonButton onPress={()=>checkWin()} title={"Check Answer"}/>
+        <CommonButton onPress={() => checkWin()} title={"Check Answer"} />
       </View>
     );
   };

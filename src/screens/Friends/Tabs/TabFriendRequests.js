@@ -8,8 +8,6 @@ import {
   friend_getAllSentInvitationList,
 } from "../../../api";
 
-import { dataFriends } from "../../../testFE";
-
 import TabSuggestAndRequestItems from "./TabSuggestAndRequestItems";
 
 export default function TabSuggestions(props) {
@@ -17,18 +15,18 @@ export default function TabSuggestions(props) {
 
   const [searchText, setSearchText] = useState("");
   const [username, setUsername] = useState("");
-  const [othersInvitation, setOthersInvitation] = useState(dataFriends.slice(13, 18));
-  const [mySentInvitation, setMySentInvitation] = useState(dataFriends.slice(11, 15));
+  const [othersInvitation, setOthersInvitation] = useState([]);
+  const [mySentInvitation, setMySentInvitation] = useState([]);
 
   const fetchData = async () => {
-    /* try {
+    try {
       const username = await AsyncStorage.getItem("username");
       setUsername(username);
       setOthersInvitation((await friend_getAllInvitationFriendList()).data);
       setMySentInvitation((await friend_getAllSentInvitationList()).data);
     } catch (error) {
       console.error("Error fetching data:", error);
-    } */
+    }
   };
 
   useEffect(() => {
@@ -51,11 +49,11 @@ export default function TabSuggestions(props) {
           style={styles.rowSectionTitle}
         />
         {othersInvitation
-          /* .filter((eachInvitation) =>
+          .filter((eachInvitation) =>
             eachInvitation.information.fulName
               .toLowerCase()
               .includes(searchText.toLowerCase())
-          ) */
+          )
           .map((eachInvitation, index) => (
             <TabSuggestAndRequestItems
               key={index}
@@ -75,11 +73,11 @@ export default function TabSuggestions(props) {
         />
 
         {mySentInvitation
-          /* .filter((eachInvitation) =>
+          .filter((eachInvitation) =>
             eachInvitation.information.fulName
               .toLowerCase()
               .includes(searchText.toLowerCase())
-          ) */
+          )
           .map((eachInvitation, index) => (
             <TabSuggestAndRequestItems
               key={index}

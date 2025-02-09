@@ -78,7 +78,7 @@ export default GameWordle = (props) => {
       );
       fetchData();
       setGuesses([]);
-    } else if (guesses.length === 5) {
+    } else if (guesses.length === 4) {
       alert(`Game Over\nThe correct word was: ${targetWord}`);
       setGuesses([]);
     }

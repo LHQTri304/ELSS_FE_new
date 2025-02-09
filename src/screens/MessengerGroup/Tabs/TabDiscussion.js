@@ -1,22 +1,20 @@
 import React, { useState, useEffect } from "react";
 import { View, ScrollView, StyleSheet } from "react-native";
 import { images, icons, colors, fontSizes } from "../../../constants";
-import { SearchBarTransparent } from "../../../components";
+import { SearchBarAndButton } from "../../../components";
 import TabDiscussionItems from "./TabDiscussionItems";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { group_getAllBlog } from "../../../api";
 
-import { dataBlogs } from "../../../testFE";
-
 export default function TabDiscussion(props) {
-  const [topics, setTopics] = useState(dataBlogs);
+  const [topics, setTopics] = useState([]);
   const [searchText, setSearchText] = useState("");
   const [username, setUsername] = useState("");
 
   //navigation
   const { navigate, goBack } = props.navigation;
 
-  /* useEffect(() => {
+  useEffect(() => {
     const fetchData = async () => {
       setUsername(AsyncStorage.getItem("username").toString());
 
@@ -27,25 +25,32 @@ export default function TabDiscussion(props) {
     fetchData();
     const intervalId = setInterval(fetchData, 3000);
     return () => clearInterval(intervalId);
-  }, [props.userName, username]); */
+  }, [props.userName, username]);
 
   return (
     <View style={styles.container}>
-      <SearchBarTransparent
+      <SearchBarAndButton
         searchBarOnChangeText={(text) => {
           setSearchText(text);
         }}
+        buttonTitle={"Tạo bài đăng"}
+        buttonOnPress={() => {
+          navigate("CreatePost");
+        }}
+        buttonLength={"100%"}
       />
 
       <ScrollView style={styles.listContainer}>
         {topics
-          .filter((eachTopic) =>
-            eachTopic/* .content */.header.toLowerCase().includes(searchText.toLowerCase())
-          )
+//          .filter((eachTopic) =>
+//            eachTopic /* .content */.header
+//              .toLowerCase()
+//              .includes(searchText.toLowerCase())
+//          )
           .map((eachTopic) => (
             <TabDiscussionItems
               topic={eachTopic}
-              key={eachTopic.ID}
+              key={eachTopic.blogID}
               onPress={() => {
                 navigate("ShowPost", { topic: eachTopic });
               }}

@@ -36,12 +36,12 @@ const TabArr = [
     icon: icons.review5,
     component: GameTab,
   },
-  /* {
+  {
     route: "AllNotification",
     label: "Thông Báo",
     icon: icons.activeBellAlarm,
     component: AllNotification,
-  }, */
+  },
   {
     route: "Account",
     label: "Hồ Sơ",
@@ -83,7 +83,7 @@ export default function MainBottomTab(props) {
   return (
     <SafeAreaView style={{ flex: 1 }}>
       <Tab.Navigator
-        initialRouteName={!tabName ? "Game" : tabName}
+        initialRouteName={!tabName ? "Chat" : tabName}
         screenOptions={{
           headerShown: false,
           tabBarStyle: styles.barContainer,
